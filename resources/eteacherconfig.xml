@@ -5,15 +5,15 @@
     <settings id="custom">
         <item>
             <const>CS_PORTAL_NAME</const>
-            <value>Amplify</value>
+            <value>cAmpus</value>
         </item>
         <item>
             <const>CS_VERSION_NO</const>
-            <value>12.06</value>
+            <value>12.07</value>
         </item>
         <item>
             <const>CS_SUPPORT_EMAIL</const>
-            <value>support@train.fitness</value>
+            <value>support@campus-learning.com</value>
         </item>
         <item>
             <const>CS_SITE_URL</const>
@@ -26,7 +26,7 @@
 
         <item>
             <const>CS_SITE_URL_BASE</const>
-            <value>http://test.mobilestudentdesktop.eteacher.pro/</value>
+            <value>https://mobilestudentdesktop.eteacher.pro/</value>
         </item>
         <item>
             <const>CS_APP_LANGUAGE</const>
@@ -396,7 +396,7 @@
         <item>
             <const>CS_ABOUT_TXT</const>
             <value>&lt;div style="text-align:center; margin-top:-5%"&gt;
-                &lt;h2&gt;Train Fitness&lt;/h2&gt;
+                &lt;h2&gt;cAmpus&lt;/h2&gt;
                 
                 To contact us please email our team &lt;a href="mailto:support@train.fitness"&gt;support@train.fitness&lt;/a&gt;
                 &lt;br/&gt;

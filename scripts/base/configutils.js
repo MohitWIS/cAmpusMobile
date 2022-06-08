@@ -346,7 +346,7 @@ init: function(requireslogin, username, pwdHash, userId, remember, savedPosition
         this.existPlaylists = new Array();
         return this;
     } catch (e) {
-        errorHandler("User.init", e);
+        //errorHandler("User.init", e);
     }
 },
 saveFilesList: function(filesList, mediaType, saveExisting, returnFunction) {

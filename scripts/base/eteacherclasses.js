@@ -17,7 +17,7 @@ init: function() {
         this.courses = new Array();
         this.loadCourses();
     } catch (e) {
-        errorHandler("Courses.init", e);
+        //errorHandler("Courses.init", e);
     }
 },
 loadCourses: function() {
@@ -195,7 +195,7 @@ save: function(course) {
 },
 count: function() {
     try {
-        return this.courses.length;
+        //return this.courses.length;
     } catch (e) {
         errorHandler("Courses.count", e);
         return 0;

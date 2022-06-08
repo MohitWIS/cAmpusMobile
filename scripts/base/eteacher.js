@@ -1317,12 +1317,7 @@ function goToPage(page, trans, back, navi) {
                 showLoginPage();
             }
         }
-        $("body").pagecontainer("change", htmlPage, {
-            transition: trans,
-            allowSamePageTransition: false,
-            showLoadMsg: false,
-            reloadPage: false
-        });
+        
         prevPage = pageLoad;
         pageLoad = page;
         if (pageLoad === "#coursepage") {
@@ -1335,6 +1330,12 @@ function goToPage(page, trans, back, navi) {
             showLoginPage();
 
         }
+        $("body").pagecontainer("change", htmlPage, {
+            transition: trans,
+            allowSamePageTransition: false,
+            showLoadMsg: false,
+            reloadPage: false
+        });
         firstLoad = false;
     } catch (e) {
         errorHandler("goToPage", e);
@@ -5505,8 +5506,8 @@ function setCoursesListView() {
 
             
            
-            $(".assessmentPackagelist").off("click");
-            $(".assessmentPackagelist").on("click", function (event) {
+            $(".assessmentPackagelist").off("touchstart click");
+            $(".assessmentPackagelist").on("touchstart click", function (event) {
                 try {
                     
                     var id = $(event.currentTarget).attr("id");
@@ -8866,7 +8867,8 @@ function setSCOContent(content, guideLines, summary) {
                         url = url.replace('openWebView("', "");
                         url = url.replace('");', "");
                         if (url.substring(url.lastIndexOf(".")) === ".pdf") {
-                            openPDFLink(url);
+                            openWebView(url);
+                            //openPDFLink(url);
                         } else {
                             openWebView(url);
                         }
@@ -13572,7 +13574,7 @@ function setModulesValues() {
                                                             $("#addbutton").empty();
                                                             $("#boxTitle").html(msgTitle);
                                                             $("#box-string").html(msgStr);
-                                                            $("#addbutton").html("<div id='isLiveOTA474Live' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>Live</div><div id='isLiveOTA474Practice' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Practice</div><div id='isLiveOTA474Cancel' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
+                                                            $("#addbutton").html("<div id='isLiveOTA474Practice' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Practice</div><div id='isLiveOTA474Cancel' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
 
                                                             modal.style.display = "block";
                                                             $(document).off("vclick", "#isLiveOTA474Live");
@@ -13999,7 +14001,7 @@ function setModulesValues() {
                                                                 $("#addbutton").empty();
                                                                 $("#boxTitle").html(msgTitle);
                                                                 $("#box-string").html(msgStr);
-                                                                $("#addbutton").html("<div id='isLiveOTA901Live' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>Live</div><div id='isLiveOTA901Practice' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Practice</div><div id='isLiveOTA901Cancel' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
+                                                                $("#addbutton").html("<div id='isLiveOTA901Practice' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Practice</div><div id='isLiveOTA901Cancel' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
 
                                                                 modal.style.display = "block";
                                                                 $(document).off("vclick", "#isLiveOTA901Live");
