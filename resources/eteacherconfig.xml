@@ -9,7 +9,7 @@
         </item>
         <item>
             <const>CS_VERSION_NO</const>
-            <value>12.07</value>
+            <value>12.08</value>
         </item>
         <item>
             <const>CS_SUPPORT_EMAIL</const>
@@ -47,6 +47,10 @@
         <item>
             <const>CS_SITE_URL_LOGIN</const>
                 <value>UserService.svc/PortalUserAuthenticate</value>
+        </item>
+        <item>
+            <const>CS_SITE_URL_SSOLOGIN</const>
+                <value>UserService.svc/MSDPortalUserAuthenticate</value>
         </item>
         <item>
             <const>CS_SITE_URL_LOGOUT</const>

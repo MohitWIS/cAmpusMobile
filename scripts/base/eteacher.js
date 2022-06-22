@@ -1528,9 +1528,11 @@ function mlogoutUser() {
             pageLoad = "";
             courseListContent = "";
             loadFirstSave = true;
-
+            window.localStorage.removeItem("encData");
             // initStart();
-            goToPage("#mainhomepage");
+            var homePage = window.location.href.split("#")[0];
+            window.open(homePage, "_self")
+            //goToPage("#mainhomepage");
         });
         /*if (alert(text) == true) {
             hidePleaseWait();
@@ -3743,6 +3745,9 @@ function loginUser() {
     hidePleaseWait();
 }
 //mayauser = "";
+function SSOloginUser() {
+    coController.coSSOLogin(true, encData, loginCallback);
+}
 function loginCallback(ret) {
     //alert(ret);
     try {
@@ -3833,7 +3838,7 @@ function loginCallback(ret) {
                         $("#addbutton").empty();
                         $("#boxTitle").html(resources.devicelimitexceeded);
                         $("#box-string").html(msgStr);
-                        $("#addbutton").html("<div id='devicelimitexceededYes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 19%;display: inline-block;' data-dismiss='modal'>" + resources.logoutyes + "</div><div id='devicelimitexceededNo' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 17%;margin-right: 30%;float: right;' data-dismiss='modal'>" + resources.logoutno + "</div>");
+                        $("#addbutton").html("<div id='devicelimitexceededYes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 23%;display: inline-block;' data-dismiss='modal'>" + resources.logoutyes + "</div><div id='devicelimitexceededNo' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 17%;margin-right: 23%;float: right;' data-dismiss='modal'>" + resources.logoutno + "</div>");
 
                         modal.style.display = "block";
                         $(document).off("vclick", "#devicelimitexceededYes");
@@ -5660,6 +5665,38 @@ function setCoursesListView() {
                 event.preventDefault();
                 var modal = document.getElementById("TAPS_Model");
                 modal.style.display = "none";
+                //var modal = document.getElementById("TAPS_T&C_Model");
+                //modal.style.display = "block";
+            });
+
+            $(document).off("vclick", ".closeTNC");
+            //$(".payNowTPAs").off("vclick");
+            $(document).on("vclick", ".closeTNC", function (event) {
+                //$(".payNowTPAs").on("vclick", function(event) {
+                event.preventDefault();
+                //var modal = document.getElementById("TAPS_Model");
+                //modal.style.display = "none";
+                var modal = document.getElementById("TAPS_T&C_Model");
+                modal.style.display = "none";
+            });
+
+            $(document).off("vclick", ".nextTNC");
+            //$(".payNowTPAs").off("vclick");
+            $(document).on("vclick", ".nextTNC", function (event) {
+                //$(".payNowTPAs").on("vclick", function(event) {
+                event.preventDefault();
+                //var modal = document.getElementById("TAPS_Model");
+                //modal.style.display = "none";
+                var agreeChecked = $('#TermCond').is(":checked");
+                if (agreeChecked) {
+                    var modal = document.getElementById("TAPS_T&C_Model");
+                    modal.style.display = "none";
+                    var TAPS_Model = document.getElementById("TAPS_Model");
+                    TAPS_Model.style.display = "block";
+                } else {
+                    alert("Please accept accept the Privacy Policy and Cookie Policy and the statement.")
+                }
+                
             });
 
             $(document).off("vclick", ".close");

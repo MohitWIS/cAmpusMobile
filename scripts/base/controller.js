@@ -217,6 +217,18 @@ coFirstTimeLogin: function(autoLogin, returnFunction) {
     } catch (e) {
         errorHandler("coLogin", e);
     }
+ },
+coSSOLogin: function (autoLogin,encData, returnFunction) {
+    try {
+        getSSOLoginData(false, encData, function(ret) {
+                                                  returnFunction(ret);
+                                                  });
+                                     
+                                     
+    } catch (e) {
+        console.log(e);
+        errorHandler("coLogin", e);
+    }
 },
 coGetCourses: function(returnFunction) {
     try {

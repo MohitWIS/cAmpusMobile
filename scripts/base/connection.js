@@ -226,6 +226,186 @@ urlMethod = getBaseUrl();
     } catch (e) {}
 }
 
+function getSSOLoginData(getLocal, encData, returnFunction) {
+    try {
+        if (debug == true) {
+            getLocal = true;
+        }
+
+        setupLocalData(function (ret) { });
+        if (getLocal) {
+            getLocalData("UserAuthenticate", "", function (returnStr) {
+                if (returnStr === undefined || returnStr.length === 0) {
+                    returnFunction(0);
+                } else {
+                    authObj = JSON.parse(returnStr);
+                    if (authObj != undefined && authObj.UserAuthenticateSecureQSResult.IsAuthenticated == true) {
+                        var userObj = authObj.UserAuthenticateSecureQSResult;
+                        returnFunction(userObj.Data);
+                    } else {
+                        returnFunction(0);
+                    }
+                }
+            });
+        } else {
+            var urlMethod = getBaseUrl();
+            urlMethod += configs.getCustom("CS_SITE_URL_SSOLOGIN");
+            var authKey = getAuthKeyUnencrypt();
+            var portalKey = getPortalKeyUnencrypt();
+            var params = "?auth=" + JSON.stringify(authKey) + "&key=" + JSON.stringify(portalKey);
+            urlMethod += params;
+            var logindata = "";
+            //console.log(urlMethod);
+            $.ajax({
+                beforeSend: function () { $("#popupcontainer").append(mloadingGif); },
+                complete: function () { $("#mloader").remove(); },
+                url: urlMethod,
+                dataType: "json",
+                type: "GET",
+                async: true,
+                success: function (data, textStatus, jqXHR) {
+                    logindata = data;
+                    activeUser.username = data.MSDPortalUserAuthenticateResult.Username;
+                    //alert(logindata);
+                    //if(data.PortalUserAuthenticateResult.Success != false && activeUser.requireslogin == true) use before go live
+                    //for testing
+                    if (data.MSDPortalUserAuthenticateResult.Success == false && activeUser.requireslogin == true) {
+                        returnFunction(-1);
+                    }
+                    else {
+
+                        authObj = data;
+
+                        if (authObj == undefined || authObj == null || authObj.MSDPortalUserAuthenticateResult.Success == false) {
+
+                            msgStr = resources.noNetworkLimited;
+                            msgTitle = resources.connError;
+                            msgBtnValue = resources.btnOk;
+                            var modal = document.getElementById("Confirm_Model");
+                            $("#boxTitle").empty();
+                            $("#box-string").empty();
+                            $("#addbutton").empty();
+                            $("#boxTitle").html(msgTitle);
+                            $("#box-string").html(msgStr);
+                            $("#addbutton").html("<div id='getFirstLoginData292' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+
+                            modal.style.display = "block";
+                            $(document).off("vclick", "#getFirstLoginData292");
+                            $(document).on("vclick", "#getFirstLoginData292", function (event) {
+                                modal.style.display = "none";
+                            });
+                            //navigator.notification.confirm(msgStr, function() {}, msgTitle, msgBtnValue);
+                            getLocalData("UserAuthenticate", "", function (returnStr) {
+                                if (returnStr === undefined || returnStr.length === 0) {
+                                    returnFunction(0);
+                                } else {
+                                    authObj = JSON.parse(returnStr);
+                                    if (authObj != undefined && authObj.MSDPortalUserAuthenticateResult.IsAuthenticated == true) {
+                                        var userObj = authObj.MSDPortalUserAuthenticateResult;
+                                        returnFunction(userObj.Data);
+                                    } else {
+                                        returnFunction(0);
+                                    }
+                                }
+                            });
+
+                        }
+                        else {
+                            var uids = JSON.stringify(data.MSDPortalUserAuthenticateResult.Data.UserId)
+                            var urlMethod1 = getBaseUrl();
+
+                            urlMethod1 += configs.getCustom("CS_SITE_URL_COURSES");
+                            var authKey1 = getAuthKeyUnencrypt();
+                            var portalKey1 = getPortalKeyUnencrypt();
+                            var params1 = "?auth=" + JSON.stringify(authKey1) + '&key={"studentid":' + uids + ',"portalid":40,"appversion":"12.08"}';
+                            urlMethod1 += params1;
+                            var encd = window.localStorage.getItem("encData");
+                            
+                            $.ajax({
+                                url: urlMethod1,
+                                dataType: "json",
+                                type: "GET",
+                                async: true,
+                                success: function (data, textStatus, jqXHR) {
+                                    var coursesResponseObj = data;
+                                    if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
+                                        saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function (ret) { });
+                                    } else {
+                                        //returnFunction(0);
+                                    }
+                                },
+                                error: function (msg) {
+                                    //returnFunction(-1);
+                                }
+                            });
+
+                            saveLocalDataStore("UserAuthenticate", "", JSON.stringify(authObj), function (ret) { });
+                            if (authObj != undefined && authObj.MSDPortalUserAuthenticateResult.IsAuthenticated == true) {
+                                if (authObj.MSDPortalUserAuthenticateResult.IsMultiSession == true) {
+                                    var userObj = authObj.MSDPortalUserAuthenticateResult;
+                                    mayaval = userObj.Data;
+                                    returnFunction(-3);
+                                }
+                                else {
+                                    if (authObj.MSDPortalUserAuthenticateResult.IsUserLogoutByOtherDevice == true) {
+                                        if (activeUser.requireslogin != true) {
+                                            autologoutstring = 1;
+                                            logoutUser();
+
+                                        }
+                                        else {
+
+                                            urlMethod = getBaseUrl();
+                                            urlMethod += configs.getCustom("CS_SITE_URL_LOGOUT");
+                                            var authKey = getAuthKeyUnencrypt();
+                                            var portalKey = getPortalKeyUnencrypt();
+                                            var params = "?auth=" + JSON.stringify(authKey) + "&key=" + JSON.stringify(portalKey);
+                                            urlMethod += params;
+                                            $.ajax({
+                                                url: urlMethod,
+                                                dataType: "json",
+                                                type: "GET",
+                                                async: true,
+
+
+                                            });
+
+
+                                        }
+
+
+                                    }
+                                    else {
+
+                                        var userObj = authObj.MSDPortalUserAuthenticateResult;
+                                        if (authObj.MSDPortalUserAuthenticateResult.UserPosition !== null) {
+                                            console.log("3");
+                                            updateUserPosition(authObj.MSDPortalUserAuthenticateResult.UserPosition, function (retVal) { });
+                                        }
+                                        mtermsagreed = userObj.Data.hasTermsConditionsAgreed;
+
+                                        returnFunction(userObj.Data);
+                                    }
+                                }
+                            } else {
+                                returnFunction(0);
+                            }
+
+
+                        }
+
+
+                    }
+
+                },
+                error: function (msg) {
+                    returnFunction(-1);
+                }
+            });
+        }
+    } catch (e) { }
+
+}
 
 function getFirstLoginData(getLocal, returnFunction) {
     try {
@@ -321,7 +501,9 @@ function getFirstLoginData(getLocal, returnFunction) {
             var authKey1 = getAuthKeyUnencrypt();
             var portalKey1 = getPortalKeyUnencrypt();
             var params1 = "?auth=" + JSON.stringify(authKey1) + '&key={"studentid":'+uids+',"portalid":40,"appversion":"12.03"}';
-            urlMethod1 += params1;
+          urlMethod1 += params1;
+          var encd = window.localStorage.getItem("encData");
+          
             $.ajax({
                    url: urlMethod1,
                    dataType: "json",
@@ -448,6 +630,8 @@ function getCoursesData(getLocal, returnFunction) {
             var portalKey = getPortalKeyUnencrypt();
             var params = "?auth=" + JSON.stringify(authKey) + "&key=" + JSON.stringify(portalKey);
             urlMethod += params;
+            var encd = window.localStorage.getItem("encData");
+            
             $.ajax({
                    url: urlMethod,
                    dataType: "json",
@@ -533,6 +717,8 @@ function getFirstCoursesData(getLocal, returnFunction) {
             var portalKey = getPortalKeyUnencrypt();
             var params = "?auth=" + JSON.stringify(authKey) + "&key=" + JSON.stringify(portalKey);
             urlMethod += params;
+            var encd = window.localStorage.getItem("encData");
+            
             $.ajax({
                    url: urlMethod,
                    dataType: "json",
@@ -846,6 +1032,8 @@ function setCourseStatus(getLocal, courseId, courseStatusId, status, returnFunct
             additionalParams.coursestatus = status;
             var params = "?auth=" + JSON.stringify(authKey) + "&key=" + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
             urlMethod += params;
+            var encd = window.localStorage.getItem("encData");
+            
             $.ajax({
                    url: urlMethod,
                    dataType: "json",
@@ -2652,9 +2840,11 @@ function getAuthKeyUnencrypt() {
         //authKey.password = activeUser.pwdHash;
         authKey.password = encodeURIComponent(activeUser.pwdHash);
 		    //authKey.deviceid = device.uuid;
-        authKey.deviceid = "27c099bfeeaaeb82";
+        authKey.deviceid = "cAmpusweb10";
 		    authKey.firstlogin=activeUser.requireslogin.toString();
-		    authKey.isandroid="true";
+        authKey.isandroid = "true";
+        var encData = window.localStorage.getItem("encData");
+        authKey.encData = encData;
         return authKey;
     } catch (e) {}
 }
