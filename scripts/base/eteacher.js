@@ -10,6 +10,7 @@ var iabRef = null;
 var coController;
 var coControllertest;
 var configs;
+var TerConditionIndex = 0;
 var iosDevice = false;
 var tablet = true;
 var iosToolbarsNotSet = true;
@@ -49,6 +50,7 @@ var moduleType = {
     NA: "Not Applicable"
 };
 var portalCourses;
+var TAPsDetails;
 var activeCourse;
 var activeModuleGroup;
 var activeSection;
@@ -1974,6 +1976,12 @@ var termsParamsObj = {
     PolicyRole: "",
     PolicyRoleLength: ""
 };
+var termsParamsObjNew = {
+    policyVersionID: "",
+    PolicyTypeID: "",
+    PolicyRole: "",
+    PolicyRoleLength: ""
+};
 
 $(document).on("pagecreate", "#termsconditionpage", function (event) {
     try {
@@ -2089,13 +2097,14 @@ function ShowAcceptanceData() {
             $("#addbutton").empty();
             $("#boxTitle").html(resources.termsagree + " " + termsdata.getTermsCondtionsDataResult.Data.PolicyName);
             $("#box-string").html(termsdata.getTermsCondtionsDataResult.Data.PolicyConfirmStatement + "\n" + termsdata.getTermsCondtionsDataResult.Data.PolicyAcceptStatement);
-            $("#addbutton").html("<div id='agree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 19%;display: inline-block;' data-dismiss='modal'>" + resources.termsagree + "</div>< div id = 'disagree1' class= 'closeTAPs' style = 'padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 17%;margin-right: 30%;float: right;' data - dismiss='modal' > " + resources.termsnotagreed + "</div >");
+            $("#addbutton").html("<div id='agree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 19%;display: inline-block;' data-dismiss='modal'>" + resources.termsagree + "</div><div id='disagree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 23%;margin-right: 23%;float: right;' data-dismiss='modal'>" + resources.termsnotagreed + "</div>");
+            
 
             modal.style.display = "block";
             $(document).off("vclick", "#agree1");
             $(document).on("vclick", "#agree1", function (event) {
                 modal.style.display = "none";
-                AgreeTermaAndCondt();
+                AgreeTermaAndCondt(1);
             });
 
             $(document).off("vclick", "#disagree1");
@@ -3780,6 +3789,7 @@ function loginCallback(ret) {
             if (ret == 0) {
                 //alert("0");
                 msgStr = resources.loginDetailFail;
+                window.localStorage.removeItem("encData");
                 var modal = document.getElementById("Confirm_Model");
                 $("#boxTitle").empty();
                 $("#box-string").empty();
@@ -3844,7 +3854,7 @@ function loginCallback(ret) {
                         $(document).off("vclick", "#devicelimitexceededYes");
                         $(document).on("vclick", "#devicelimitexceededYes", function (event) {
                             modal.style.display = "none";
-                            OtherLogout();
+                            OtherLogout(1);
                         });
 
                         $(document).off("vclick", "#devicelimitexceededNo");
@@ -5622,12 +5632,14 @@ function setCoursesListView() {
                     }
                 });
             });
+            
             $(document).off("vclick", ".payNowTPAs");
             //$(".payNowTPAs").off("vclick");
             $(document).on("vclick", ".payNowTPAs", function (event) {
                 //$(".payNowTPAs").on("vclick", function(event) {
                 event.preventDefault();
-                msgTitle = resources.bookbtntxtPayToBook;
+                TAPsDetails = $(this).attr("id");
+                /*msgTitle = resources.bookbtntxtPayToBook;
                 msgBtnValue = resources.btnCancelBookPaynBook;
                 msgStr = "Please log into the website to purchase this package or call us";
                 var modal = document.getElementById("Confirm_Model");
@@ -5649,13 +5661,152 @@ function setCoursesListView() {
                 $(document).off("vclick", "#payNowTPAs27No");
                 $(document).on("vclick", "#payNowTPAs27No", function (event) {
                     modal.style.display = "none";
-                });
+                });*/
                 /*navigator.notification.confirm(msgStr, function (choice) {
                     if (choice === 2) {
                         callToPay("+442037147822");
                     }
 
                 }, msgTitle, msgBtnValue);*/
+                var modal = document.getElementById("TAPS_Model");
+                modal.style.display = "none";
+                
+                var urlMethod = getBaseUrl();
+                urlMethod += configs.getCustom("CS_TERMS_ALL_CONDITION");
+                var authKey = getAuthKeyUnencrypt();
+                var portalKey = getPortalKeyUnencrypt();
+                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                urlMethod += params;
+                $.ajax({
+                    url: urlMethod,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    success: function (data, textStatus, jqXHR) {
+                        var termsdata = data;
+                        var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                        termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                        document.getElementById("iframeforTC").src = termsurl;
+                        console.log(termsdata.getAllTermsCondtionsDataResult.Data.length);
+                        if (termsdata.getAllTermsCondtionsDataResult.Data.length > 0) {
+                            TerConditionIndex = 1;
+                            $(".nextTNC").html("Next");
+                            $(".closeTNC").html("I Disagree");
+                            $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                            $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                            $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                            var modal = document.getElementById("TAPS_T&C_Model");
+                            modal.style.display = "block";
+                        } else {
+                            $(".nextTNC").html("I Agree");
+                            $(".closeTNC").html("I Disagree");
+                            $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                            $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                            $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                            var modal = document.getElementById("TAPS_T&C_Model");
+                            modal.style.display = "block";
+                        }
+                        
+                        /*termsParamsObjNew.policyVersionID = termsdata.getTermsCondtionsDataResult.Data.PolicyVersionID;
+                        termsParamsObjNew.PolicyTypeID = termsdata.getTermsCondtionsDataResult.Data.PolicyTypeID;
+                        termsParamsObjNew.PolicyRole = termsdata.getTermsCondtionsDataResult.Data.PolicyRole;
+                        termsParamsObjNew.PolicyRoleLength = termsdata.getTermsCondtionsDataResult.Data.PolicyRoleLength;*/
+                    },
+                    error: function (msg) {
+
+                    }
+                });
+
+                
+            });
+
+
+            $(document).off("vclick", ".closeTNC");
+            //$(".payNowTPAs").off("vclick");
+            $(document).on("vclick", ".closeTNC", function (event) {
+                //$(".payNowTPAs").on("vclick", function(event) {
+                event.preventDefault();
+                TerConditionIndex = 0;
+                var modal = document.getElementById("TAPS_T&C_Model");
+                modal.style.display = "none";
+            });
+
+            $(document).off("vclick", ".nextTNC");
+            //$(".payNowTPAs").off("vclick");
+            $(document).on("vclick", ".nextTNC", function (event) {
+                //$(".payNowTPAs").on("vclick", function(event) {
+                event.preventDefault();
+                //var modal = document.getElementById("TAPS_Model");
+                //modal.style.display = "none";
+                
+                var agreeChecked = $('#TermCond').is(":checked");
+                if (agreeChecked) {
+                    /*var modal = document.getElementById("TAPS_T&C_Model");
+                    modal.style.display = "none";
+                    var TAPS_Model = document.getElementById("TAPS_Model");
+                    TAPS_Model.style.display = "block";*/
+                    
+                    var urlMethod = getBaseUrl();
+                    urlMethod += configs.getCustom("CS_TERMS_ALL_CONDITION");
+                    var authKey = getAuthKeyUnencrypt();
+                    var portalKey = getPortalKeyUnencrypt();
+                    var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                    urlMethod += params;
+                    $.ajax({
+                        url: urlMethod,
+                        dataType: "json",
+                        type: "GET",
+                        async: true,
+                        success: function (data, textStatus, jqXHR) {
+                            var termsdata = data;
+                            
+                            console.log(termsdata.getAllTermsCondtionsDataResult.Data.length);
+                            if (termsdata.getAllTermsCondtionsDataResult.Data.length == TerConditionIndex + 1) {
+                                var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                                termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                                document.getElementById("iframeforTC").src = termsurl;
+                                document.getElementById("TermCond").checked = false;
+                                $(".nextTNC").html("I Agree");
+                                $(".closeTNC").html("I Disagree");
+                                TerConditionIndex++;
+                                $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyName);
+                                $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyConfirmStatement);
+                                $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyAcceptStatement);
+                                var modal = document.getElementById("TAPS_T&C_McloseTNCodel");
+                                modal.style.display = "block";
+                            } else if (termsdata.getAllTermsCondtionsDataResult.Data.length + 1 > TerConditionIndex + 1) {
+                                var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                                termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                                document.getElementById("iframeforTC").src = termsurl;
+                                document.getElementById("TermCond").checked = false;
+                                $(".nextTNC").html("Next");
+                                $(".closeTNC").html("I Disagree");
+                                TerConditionIndex++;
+                                $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                                $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                                $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                                var modal = document.getElementById("TAPS_T&C_Model");
+                                modal.style.display = "block";
+                            }
+                            else {
+                                var finalSubmit = TerConditionIndex - 1;
+                                termsParamsObjNew.policyVersionID = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyVersionID;
+                                termsParamsObjNew.PolicyTypeID = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyTypeID;
+                                termsParamsObjNew.PolicyRole = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyRole;
+                                termsParamsObjNew.PolicyRoleLength = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyRoleLength;
+                                termsParamsObjNew.studentId = activeUser.userId;
+                                submitTermAndCndition();
+                            }
+                        },
+                        error: function (msg) {
+
+                        }
+                    });
+
+                } else {
+                    alert("Please accept accept the Privacy Policy and Cookie Policy and the statement.")
+                }
+                
             });
 
             $(document).off("vclick", ".closeTAPs");
@@ -5669,35 +5820,7 @@ function setCoursesListView() {
                 //modal.style.display = "block";
             });
 
-            $(document).off("vclick", ".closeTNC");
-            //$(".payNowTPAs").off("vclick");
-            $(document).on("vclick", ".closeTNC", function (event) {
-                //$(".payNowTPAs").on("vclick", function(event) {
-                event.preventDefault();
-                //var modal = document.getElementById("TAPS_Model");
-                //modal.style.display = "none";
-                var modal = document.getElementById("TAPS_T&C_Model");
-                modal.style.display = "none";
-            });
-
-            $(document).off("vclick", ".nextTNC");
-            //$(".payNowTPAs").off("vclick");
-            $(document).on("vclick", ".nextTNC", function (event) {
-                //$(".payNowTPAs").on("vclick", function(event) {
-                event.preventDefault();
-                //var modal = document.getElementById("TAPS_Model");
-                //modal.style.display = "none";
-                var agreeChecked = $('#TermCond').is(":checked");
-                if (agreeChecked) {
-                    var modal = document.getElementById("TAPS_T&C_Model");
-                    modal.style.display = "none";
-                    var TAPS_Model = document.getElementById("TAPS_Model");
-                    TAPS_Model.style.display = "block";
-                } else {
-                    alert("Please accept accept the Privacy Policy and Cookie Policy and the statement.")
-                }
-                
-            });
+            
 
             $(document).off("vclick", ".close");
             //$(".payNowTPAs").off("vclick");
@@ -5728,6 +5851,304 @@ function setCoursesListView() {
     }
 }
 
+function submitTermAndCndition() {
+    var urlMethod = getBaseUrl();
+    urlMethod += configs.getCustom("CS_TERMS_ACCEPT_CONDITION");
+    var authKey = getAuthKeyUnencrypt();
+    var portalKey = getPortalKeyUnencrypt();
+    var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(termsParamsObjNew);
+    urlMethod += params;
+    $.ajax({
+        url: urlMethod,
+        dataType: "json",
+        type: "GET",
+        async: true,
+        success: function (data, textStatus, jqXHR) {
+            var acceptData = data;
+            var modal = document.getElementById("TAPS_T&C_Model");
+            modal.style.display = "none";
+            TerConditionIndex = 0;
+            console.log(acceptData);
+            var TAPsDetailsforPopUp = TAPsDetails.split("-");
+            var Pay_Now_Price_Model = document.getElementById("Pay_Now_Price_Model");
+            Pay_Now_Price_Model.style.display = "block";
+            $("#discountValue").html(TAPsDetailsforPopUp[2]);
+            $("#costValue").html(TAPsDetailsforPopUp[1]);
+        },
+        error: function (msg) {
+
+        }
+    });
+
+    $(document).off("vclick", ".Pay_Now_Price");
+    $(document).on("vclick", ".Pay_Now_Price", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById("Pay_Now_Price_Model");
+        modal.style.display = "none";
+        var Pay_Now_Option_Model = document.getElementById("Pay_Now_Option_Model");
+        Pay_Now_Option_Model.style.display = "block";
+      
+    });
+
+    $(document).off("vclick", ".close_Pay_Now_Price_Model");
+    $(document).on("vclick", ".close_Pay_Now_Price_Model", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById("Pay_Now_Price_Model");
+        modal.style.display = "none";
+        TerConditionIndex = 0;
+
+    });
+
+    $(document).off("vclick", ".close_Pay_Now_Option_Model");
+    $(document).on("vclick", ".close_Pay_Now_Option_Model", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById("Pay_Now_Option_Model");
+        modal.style.display = "none";
+        TerConditionIndex = 0;
+
+    });
+
+    $(document).off("vclick", ".Pay_Now_Option_IP");
+    $(document).on("vclick", ".Pay_Now_Option_IP", function (event) {
+        try {
+            event.preventDefault();
+            var TAPsDetailsforPopUp = TAPsDetails.split("-");
+            //ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField
+            console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+
+            var urlMethod = getBaseUrl();
+            urlMethod += configs.getCustom("CS_USER_INFO_DETAILS");
+            var authKey = getAuthKeyUnencrypt();
+            var portalKey = getPortalKeyUnencrypt();
+            var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+            urlMethod += params;
+            $.ajax({
+                url: urlMethod,
+                beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                complete: function () { $("#mloader").remove(); },
+                dataType: "json",
+                type: "GET",
+                async: true,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    var UserDeatils = data.GetUserDetailsResult.Data;
+                    console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                    var urlMethodNew = getBaseUrl();
+                    urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                    var authKey = getAuthKeyUnencrypt();
+                    var portalKey = getPortalKeyUnencrypt();
+                    var additionalParams = resetParams();
+                    var TAPsDetailsforPopUp = TAPsDetails.split("-");
+                    additionalParams.TAPID = TAPsDetailsforPopUp[0];
+                    additionalParams.PaymentMethodId = "10";
+                    additionalParams.Amount = TAPsDetailsforPopUp[1];
+                    var STPaymentDetails = {
+                        Email: UserDeatils.emailField,
+                        Firstname: UserDeatils.firstNameField,
+                        Lastname: UserDeatils.lastNameField,
+                        City: UserDeatils.cityField,
+                        AddressLine1: UserDeatils.streetField,
+                        PostalCode: UserDeatils.postalCodeField,
+                        CountryCode: UserDeatils.countryCodeField,
+                        Currency: "GBP",
+                        IsInstantPayment: true,
+                        PaymentAmount: TAPsDetailsforPopUp[1],
+                        TotalNoOfPayment: 0
+                    }
+                    additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
+                    additionalParams.ACID = TAPsDetailsforPopUp[4];
+                    additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+                    additionalParams.courseid = TAPsDetailsforPopUp[6];
+                    additionalParams.assessmentitemid = "0";
+                    //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+
+                    var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
+                    urlMethodNew += params;
+                    $.ajax({
+                        url: urlMethodNew,
+                        beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                        complete: function () { $("#mloader").remove(); },
+                        dataType: "json",
+                        type: "GET",
+                        async: true,
+                        success: function (data, textStatus, jqXHR) {
+                            if (data != null) {
+                                console.log(data);
+                                if (data.BuildPaymentAndPayResult.Data.urlField != null) {
+                                    var SuccessUrl = data.BuildPaymentAndPayResult.Data.urlField;
+                                    TerConditionIndex = 0;
+                                    window.open(SuccessUrl, "_self")
+                                } else {
+                                    alert("Unable to complete the payment. Try after some time.");
+                                    TerConditionIndex = 0;
+                                    location.reload();
+                                }
+                                
+                            }
+                        },
+                        error: function (msg) {
+
+                        }
+                    });
+                },
+                error: function (msg) {
+
+                }
+            });
+        } catch (e) {
+
+        }
+        
+
+        /*var urlMethod = getBaseUrl();
+        urlMethod += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+        var authKey = getAuthKeyUnencrypt();
+        var portalKey = getPortalKeyUnencrypt();
+        var additionalParams = resetParams();
+        var TAPsDetailsforPopUp = TAPsDetails.split("-");
+        additionalParams.TAPID = TAPsDetailsforPopUp[0];
+        additionalParams.PaymentMethodId = "10";
+        additionalParams.Amount = TAPsDetailsforPopUp[1];
+        var STPaymentDetails = {
+            IsInstantPayment: true,
+            PaymentAmount: TAPsDetailsforPopUp[1],
+            TotalNoOfPayment: 0
+        }
+        additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
+        additionalParams.ACID = TAPsDetailsforPopUp[4];
+        additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+        additionalParams.courseid = TAPsDetailsforPopUp[6];
+        additionalParams.assessmentitemid = "0";
+        //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+
+        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
+        urlMethod += params;
+        $.ajax({
+            url: urlMethod,
+            dataType: "json",
+            type: "GET",
+            async: true,
+            success: function (data, textStatus, jqXHR) {
+                if (data != null) {
+                    console.log(data);
+                    
+                }
+            },
+            error: function (msg) {
+
+            }
+        });*/
+    });
+    $(document).off("vclick", ".Pay_Now_Option_PBC");
+    $(document).on("vclick", ".Pay_Now_Option_PBC", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById("Pay_Now_Option_Model");
+        modal.style.display = "none";
+        var urlMethod = getBaseUrl();
+        urlMethod += configs.getCustom("CS_SECURE_TRADING_JWT");
+        var authKey = getAuthKeyUnencrypt();
+        var portalKey = getPortalKeyUnencrypt();
+        var additionalParams = resetParams();
+        var TAPsDetailsforPopUp = TAPsDetails.split("-");
+        additionalParams.Amount = TAPsDetailsforPopUp[1];
+        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey)+"&param=" + JSON.stringify(additionalParams);
+        urlMethod += params;
+        $.ajax({
+            url: urlMethod,
+            dataType: "json",
+            type: "GET",
+            async: true,
+            success: function (data, textStatus, jqXHR) {
+                if (data != null) {
+                    $("#finalPaySCAmount").html(TAPsDetailsforPopUp[1]);
+                    var jwtToken = data.getJwtSecureTradingResult.Data;
+                    console.log(jwtToken);
+                    var token = jwtToken.Token;
+                    var livestatus = parseInt(jwtToken.IsLive);
+                    var modal = document.getElementById("Pay_Now_FinalSC_Model");
+                    modal.style.display = "block";
+                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:block;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;width: 89%;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
+                    var st = SecureTrading({
+                        panIcon: true,
+                        jwt: token,
+                        livestatus: livestatus,
+                        submitCallback: stSubmitCallback,
+                        animatedCard: true,
+                        submitOnSuccess: false,
+                    });
+                    st.Components();
+                }
+               
+                
+            },
+            error: function (msg) {
+
+            }
+        });
+    });
+
+    $(document).off("vclick", ".close_Pay_Now_FinalSC_Model");
+    $(document).on("vclick", ".close_Pay_Now_FinalSC_Model", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById("Pay_Now_FinalSC_Model");
+        modal.style.display = "none";
+        TerConditionIndex = 0;
+        location.reload();
+    });
+
+}
+
+function stSubmitCallback(data) {
+    var paymentCallBack = data;
+    console.log(paymentCallBack);
+    var urlMethod = getBaseUrl();
+    urlMethod += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+    var authKey = getAuthKeyUnencrypt();
+    var portalKey = getPortalKeyUnencrypt();
+    var additionalParams = resetParams();
+    var TAPsDetailsforPopUp = TAPsDetails.split("-");
+    additionalParams.TAPID = TAPsDetailsforPopUp[0];
+    additionalParams.PaymentMethodId = "1";
+    additionalParams.Amount = TAPsDetailsforPopUp[1];
+    var STPaymentDetails = {
+        Acknowledge: "SUCCESS",
+        Transactionreference: paymentCallBack.transactionreference
+    }
+    additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
+    additionalParams.ACID = TAPsDetailsforPopUp[4];
+    additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+    additionalParams.courseid = TAPsDetailsforPopUp[6];
+    additionalParams.assessmentitemid = "0";
+    //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+
+    var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
+    urlMethod += params;
+    $.ajax({
+        url: urlMethod,
+        dataType: "json",
+        type: "GET",
+        async: true,
+        success: function (data, textStatus, jqXHR) {
+            if (data != null) {
+                console.log(data);
+                if (data.BuildPaymentAndPayResult.Data.paymentMethodIdField == 1) {
+                    if (data.BuildPaymentAndPayResult.Data.isPaymentSuccessfullField) {
+                        alert("Payment has been successfully processed");
+                        TerConditionIndex = 0;
+                        location.reload();
+
+                    } else {
+                        alert("Payment has not been processed");
+                        location.reload();
+                    }
+                }
+            }
+        },
+        error: function (msg) {
+
+        }
+    });
+}
 function assessmentPackage() {
     try {
 
@@ -5833,7 +6254,7 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                         TAPs_details += '<p style="font-size: 15px;font-family: Poppins;">' + ret.packageListField[i].tAPDescriptionField + '</p>';
                         TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;color:red"><span >Today Only </span><span style="padding-right:0px;color:red" class="ng-binding">£' + buyNow + '</span></span>';
                         TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >From Tomorrow </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
-                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + i + '>Pay Now </p>';
+                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField  + '>Pay Now </p>';
                         TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div><hr>';
                     }
                 }
@@ -5851,7 +6272,7 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                         TAPs_details += '<p style="font-size: 15px;font-family: Poppins;">' + ret.packageListField[i].tAPDescriptionField + '</p>';
                         TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy Now </span><span style="padding-right:0px;" class="ng-binding">£' + buyNow + '</span></span>';
                         TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
-                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + i + '>Pay Now </p>';
+                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField + '>Pay Now </p>';
                         TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div><hr>';
                     }
                 }
@@ -10059,6 +10480,11 @@ function triggerLoad(updatePosition) {
         showPleaseWait();
 
         if (loadIds.courseid != 0) {
+            $(".coursemenupanel").panel("open");
+        }
+
+
+        if (loadIds.courseid == 0) {
             $(".coursemenupanel").panel("open");
         }
 

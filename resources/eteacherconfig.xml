@@ -26,7 +26,7 @@
 
         <item>
             <const>CS_SITE_URL_BASE</const>
-            <value>https://mobilestudentdesktop.eteacher.pro/</value>
+            <value>http://test.mobilestudentdesktop.eteacher.pro/</value>
         </item>
         <item>
             <const>CS_APP_LANGUAGE</const>
@@ -341,7 +341,26 @@
             <const>CS_TERMS_SECOND_PART</const>
             <value>UserService.svc/getTermsCondtionsData</value>
         </item>
-
+        <item>
+            <const>CS_TERMS_ALL_CONDITION</const>
+            <value>UserService.svc/getAllTermsCondtionsData</value>
+        </item>
+        <item>
+            <const>CS_TERMS_ACCEPT_CONDITION</const>
+            <value>UserService.svc/userAcceptPolicyBeforePayment</value>
+        </item>
+        <item>
+            <const>CS_SECURE_TRADING_JWT</const>
+            <value>CourseService.svc/getJwtSecureTrading</value>
+        </item>
+        <item>
+            <const>CS_SECURE_TRADING_SUCCESS_SAVE</const>
+            <value>CourseService.SVC/BuildPaymentAndPay</value>
+        </item>
+        <item>
+            <const>CS_USER_INFO_DETAILS</const>
+            <value>UserService.svc/GetUserDetails</value>
+        </item>
         <item>
             <const>CS_GET_MYAVAILABLEECLASSES</const>
             <value>CourseService.svc/getMyAvailableEClassesNew</value>
@@ -391,6 +410,10 @@
         </item>
         <item>
             <const>CS_TERMS_URL</const>
+            <value>https://studentdesktop.eteacher.pro/data/TermsAndConditions.aspx</value>
+        </item>
+        <item>
+            <const>CS_payment_TERMS_URL</const>
             <value>https://studentdesktop.eteacher.pro/data/TermsAndConditions.aspx</value>
         </item>
         <item>

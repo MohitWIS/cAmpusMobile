@@ -2844,7 +2844,10 @@ function getAuthKeyUnencrypt() {
 		    authKey.firstlogin=activeUser.requireslogin.toString();
         authKey.isandroid = "true";
         var encData = window.localStorage.getItem("encData");
-        authKey.encData = encData;
+        if (encData == null) {
+            encData = "";
+        }
+        authKey.encData = encodeURIComponent(encData);
         return authKey;
     } catch (e) {}
 }
