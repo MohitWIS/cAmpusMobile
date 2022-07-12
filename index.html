@@ -471,6 +471,7 @@
                 <p id="policyPara" class="ng-binding" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 11px;">
 
                 </p>
+
                 <input style="float:left" type="checkbox" id="TermCond" name="TermCond" value="TermCond">
                 <label id="termCon" for="TermCond">  </label>
                 <div>
@@ -493,11 +494,48 @@
             <div class="box-header" style="padding:20px 20px 0 20px;">
                 <h3 class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;">Payment Options</h3>
                 <hr />
-                <p id="policyPara" class="ng-binding" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 11px;">
+                <!--<p id="policyPara" class="ng-binding" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 11px;">
                     Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
                     Total Cost= £<span id="costValue"></span> (Incl. VAT).
-                </p>
+                </p>-->
 
+                <input type="radio" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
+                <label for="policyPararadio" id="policyParaPaynow">
+                    Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
+                    Total Cost= £<span id="costValue"></span> (Incl. VAT).
+                </label><br>
+                <div style="display:none" id="dekoRadio">
+                    <input type="radio" id="dekoPayment" name="fav_language" value="DekoPayment">
+                    <label for="dekoPayment" id="dekoPaymentPara">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
+                </div>
+
+            </div>
+
+            
+            <div id="dekoPaymentCalculator" style="display:none;">
+                <br />
+                <br />
+               
+                <p style="margin: 0px;padding-left: 18px;">Move the slider to select your deposit amount.</p>
+                <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="9" step="1">
+                <div style="text-align:center"><span id="amountdekooutput"></span><span>%</span></div>
+
+                <br />
+                <p style="margin: 0px;padding-left: 18px;">Select the term of your loan. Months</p>
+                <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="8" step="1">
+                <div style="text-align:center"><span id="monthdekooutour"></span><span> months</span></div>
+
+
+                <br />
+                <div style="padding: 18px;font-size: 14px;">
+                    <p>Deposit -<span id="depsitamontper"></span></p>
+                    <p>Deposit Amount -£<span id="depsitamont"></span></p>
+                    <p>Monthly Repayments - <span id="monthlyamount"></span></p>
+                    <p>Interest Rate - <span id="rateofint">0% (Fixed)</span></p>
+                    <p>Amount Borrowed -<span id="amontborrow"></span></p>
+                    <p>Total Payable -£<span id="totalpaydeko"></span></p>
+                    
+                </div>
 
             </div>
 
@@ -1243,7 +1281,7 @@
     <script type="text/javascript" src="https://webservices.securetrading.net/js/v2/st.js"></script>
 
     <script type="text/javascript">
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        /*if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
             // true for mobile device
             console.log("mobile");
         }else{
@@ -1251,7 +1289,7 @@
             alert("This is a Mobile website open it in Mobile phones instead.")
             window.open("https://campus.eteacher.pro/","_self")
             console.log("not mobile");
-        }
+        }*/
         
 
         function getQueryParams(qs) {

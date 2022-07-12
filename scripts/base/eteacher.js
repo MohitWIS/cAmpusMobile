@@ -5866,6 +5866,7 @@ function submitTermAndCndition() {
         async: true,
         success: function (data, textStatus, jqXHR) {
             var acceptData = data;
+
             var modal = document.getElementById("TAPS_T&C_Model");
             modal.style.display = "none";
             TerConditionIndex = 0;
@@ -5875,19 +5876,176 @@ function submitTermAndCndition() {
             Pay_Now_Price_Model.style.display = "block";
             $("#discountValue").html(TAPsDetailsforPopUp[2]);
             $("#costValue").html(TAPsDetailsforPopUp[1]);
+            $('#policyPararadio').prop('checked', true);
+            $("#dekoPaymentCalculator").css("display", "none");
+            if (TAPsDetailsforPopUp[1] >= 266) {
+                $("#totalpaydeko").empty();
+                $("#dekoRadio").css("display", "block");
+                $("#costValueDeko").html(TAPsDetailsforPopUp[1]);
+            }
         },
         error: function (msg) {
 
         }
     });
 
+    $("#policyPararadio").change(function () {
+        $("#dekoPaymentCalculator").css("display", "none");
+    });
+    $("#dekoPayment").change(function () {
+        $("#totalpaydeko").empty();
+        $("#depsitamont").empty();
+        $("#dekoPaymentCalculator").css("display", "block");
+
+        var values = [6, 9, 10, 12, 18, 24, 36, 48, 60];
+
+        var input = document.getElementById('monthdeko'),
+            output = document.getElementById('monthdekooutour');
+        input.oninput = function () {
+            output.innerHTML = values[this.value];
+        };
+        input.oninput();
+
+
+        var valuesAmount = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+        var inputDeko = document.getElementById('amountdeko'),
+            outputDeko = document.getElementById('amountdekooutput');
+        inputDeko.oninput = function () {
+            outputDeko.innerHTML = valuesAmount[this.value];
+        };
+        inputDeko.oninput();
+        
+        var monthsToDeko = $("#monthdekooutour").text();
+        var pertodeko = $("#amountdekooutput").text();
+        var TAPsDetailsforPopUp = TAPsDetails.split("-");
+        var depoammount = TAPsDetailsforPopUp[1] * pertodeko / 100;
+
+        $("#depsitamont").text(depoammount);
+        $("#depsitamontper").text(pertodeko + "%");
+        $("#totalpaydeko").text(TAPsDetailsforPopUp[1]);
+        getCalculatedValues(depoammount, monthsToDeko, TAPsDetailsforPopUp[1]);
+        $('#amountdeko').change(function () {
+            var pertodekoOnchange = $("#amountdekooutput").text();
+            var monthsToDekoOnChange = $("#monthdekooutour").text();
+            $("#depsitamontper").text(pertodekoOnchange + "%");
+            var depoammountOnChange = TAPsDetailsforPopUp[1] * pertodekoOnchange / 100;
+            $("#depsitamont").text(depoammountOnChange);
+            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, TAPsDetailsforPopUp[1]);
+        });
+
+        $('#monthdeko').change(function () {
+            var pertodekoOnchange = $("#amountdekooutput").text();
+            var depoammountOnChange = TAPsDetailsforPopUp[1] * pertodekoOnchange / 100;
+            var monthsToDekoOnChange = $("#monthdekooutour").text();
+            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, TAPsDetailsforPopUp[1]);
+        });
+        
+        
+    });
+
+    function getCalculatedValues(depoammount, monthsToDeko, finalamount) {
+        var urlMethod = getBaseUrl();
+        urlMethod += configs.getCustom("CS_SITE_URL_GETDEKOVALUES");
+        var params = "?goodsSpend=" + finalamount + "&depositAmount=" + depoammount+"&financeProduct=" + monthsToDeko;
+        urlMethod += params;
+        $.ajax({
+            url: urlMethod,
+            beforeSend: function () { $("#coursepage").append(mloadingGif); },
+            complete: function () { $("#mloader").remove(); },
+            dataType: "json",
+            type: "GET",
+            async: true,
+            success: function (data, textStatus, jqXHR) {
+                var dekoValues = data.getDekoFinanceValuesResult.Data;
+                $("#rateofint").text(dekoValues.rate_of_interestField);
+                $("#monthlyamount").text(dekoValues.monthly_repaymentField);
+                $("#amontborrow").text(dekoValues.loan_amountField);
+                if (dekoValues.monthly_interest_rateField > 0.00) {
+                    var costF = parseFloat(dekoValues.total_costField.replace(/,/g, ''));
+                    var ttC = costF + parseFloat(dekoValues.depositField);
+                    $("#totalpaydeko").text(ttC);
+                }else {
+                    $("#totalpaydeko").text(dekoValues.goods_spendField);
+                }
+                
+            },
+            error: function (msg) {
+                $("#mloader").remove();
+            }
+        });
+    }
+
     $(document).off("vclick", ".Pay_Now_Price");
     $(document).on("vclick", ".Pay_Now_Price", function (event) {
         event.preventDefault();
-        var modal = document.getElementById("Pay_Now_Price_Model");
-        modal.style.display = "none";
-        var Pay_Now_Option_Model = document.getElementById("Pay_Now_Option_Model");
-        Pay_Now_Option_Model.style.display = "block";
+        
+        if ($("#dekoPayment").is(":checked")) {
+            
+            var urlMethodNew = getBaseUrl();
+            urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+            var authKey = getAuthKeyUnencrypt();
+            var portalKey = getPortalKeyUnencrypt();
+            var additionalParams = resetParams();
+            var TAPsDetailsforPopUp = TAPsDetails.split("-");
+            additionalParams.TAPID = TAPsDetailsforPopUp[0];
+            additionalParams.PaymentMethodId = "6";
+            additionalParams.Amount = TAPsDetailsforPopUp[1];
+            var InitialAmountdeko = $('#depsitamont').text();
+            var NormalAmountdeko = $('#monthlyamount').text();
+            var totalpaydekominus = $('#totalpaydeko').text();
+            var Amountdeko = parseFloat(NormalAmountdeko) - parseFloat(totalpaydekominus);
+            var TermLoandeko = $('#monthdekooutour').text();
+            var STPaymentDetails = {
+                InitialAmount: InitialAmountdeko,
+                NormalAmount: NormalAmountdeko,
+                Amount: Amountdeko,
+                TermLoan: TermLoandeko 
+            }
+            additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
+            additionalParams.ACID = TAPsDetailsforPopUp[4];
+            additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+            additionalParams.courseid = TAPsDetailsforPopUp[6];
+            additionalParams.assessmentitemid = "0";
+            //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+
+            var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
+            urlMethodNew += params;
+            $.ajax({
+                url: urlMethodNew,
+                beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                complete: function () { $("#mloader").remove(); },
+                dataType: "json",
+                type: "GET",
+                async: true,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    var successdekoo = data.BuildPaymentAndPayResult.Data;
+                    if (successdekoo.isPaymentSuccessfullField) {
+                        var modal = document.getElementById("Pay_Now_Price_Model");
+                        modal.style.display = "none";
+                        var SuccessUrl = successdekoo.urlField;
+                        TerConditionIndex = 0;
+                        window.open(SuccessUrl, "_self")
+                    } else {
+                        alert("Unable to complete the payment. Try after some time.");
+                        TerConditionIndex = 0;
+                        location.reload();
+                    }
+                    
+                },
+                error: function (msg) {
+                    alert("Unable to complete the payment. Try after some time.");
+                    TerConditionIndex = 0;
+                    location.reload();
+                }
+            });
+        } else {
+            var modal = document.getElementById("Pay_Now_Price_Model");
+            modal.style.display = "none";
+            var Pay_Now_Option_Model = document.getElementById("Pay_Now_Option_Model");
+            Pay_Now_Option_Model.style.display = "block";
+        }
+        
       
     });
 

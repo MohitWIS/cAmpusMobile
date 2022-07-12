@@ -9,7 +9,7 @@
         </item>
         <item>
             <const>CS_VERSION_NO</const>
-            <value>12.09</value>
+            <value>12.10</value>
         </item>
         <item>
             <const>CS_SUPPORT_EMAIL</const>
@@ -26,7 +26,7 @@
 
         <item>
             <const>CS_SITE_URL_BASE</const>
-            <value>https://mobilestudentdesktop.eteacher.pro/</value>
+            <value>http://test.mobilestudentdesktop.eteacher.pro/</value>
         </item>
         <item>
             <const>CS_APP_LANGUAGE</const>
@@ -200,6 +200,10 @@
         <item>
             <const>CS_SITE_URL_HELPDESKISSUEFILEUPLOAD</const>
             <value>UserStreamingService.svc/HelpdeskFileUpload</value>
+        </item>
+        <item>
+            <const>CS_SITE_URL_GETDEKOVALUES</const>
+            <value>CourseService.svc/getDekoFinanceValues</value>
         </item>
         <item>
             <const>CS_SITE_URL_HELPDESKISSUEFILEDOWNLOAD</const>
