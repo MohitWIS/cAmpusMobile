@@ -5878,6 +5878,7 @@ function submitTermAndCndition() {
             $("#costValue").html(TAPsDetailsforPopUp[1]);
             $('#policyPararadio').prop('checked', true);
             $("#dekoPaymentCalculator").css("display", "none");
+            $("#fullPayRadio").css("display", "block");
             if (TAPsDetailsforPopUp[1] >= 266) {
                 $("#totalpaydeko").empty();
                 $("#dekoRadio").css("display", "block");
