@@ -495,55 +495,72 @@
                 <h3 class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;">Payment Options</h3>
                 <hr />
                 <!--<p id="policyPara" class="ng-binding" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 11px;">
-                    Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
-                    Total Cost= £<span id="costValue"></span> (Incl. VAT).
-                </p>-->
+        Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
+        Total Cost= £<span id="costValue"></span> (Incl. VAT).
+    </p>-->
+                    <div id="extebsionOption" style="display:none">
+                        <span>Request Extension For:</span>
+                        <select id="extentionop">
+                            <option value="0">-select months-</option>
+                        </select>
+                    </div>
 
-                <input type="radio" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
-                <label for="policyPararadio" id="policyParaPaynow">
-                    Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
-                    Total Cost= £<span id="costValue"></span> (Incl. VAT).
-                </label><br>
-                <div style="display:none" id="dekoRadio">
-                    <input type="radio" id="dekoPayment" name="fav_language" value="DekoPayment">
-                    <label for="dekoPayment" id="dekoPaymentPara">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
+                    <div id="paymentExtDetails" style="display:none">
+                        <h2>Payment</h2>
+                        <span>Please review your extension payment option below. To continue studying, click the Pay Now button below once you have selected your payment option.</span>
+                        <h2>Information</h2>
+                        <p>Extension Fee - <span id="extFee"></span></p>
+                        <p>Prompt Payment Price - <span id="extPPprice"></span></p>
+                        <p>Extension Term - <span id="extTerm"></span> months</p>
+                    </div>
+                <hr />
+                    <div style="display:none" id="fullPayRadio">
+                        <input type="radio" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
+                        <label for="policyPararadio" id="policyParaPaynow">
+                            Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
+                            Total Cost= £<span id="costValue"></span> (Incl. VAT).
+                        </label><br>
+                    </div>
+                    <div style="display:none" id="dekoRadio">
+                        <input type="radio" id="dekoPayment" name="fav_language" value="DekoPayment">
+                        <label for="dekoPayment" id="dekoPaymentPara">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
+                    </div>
+
                 </div>
 
-            </div>
 
-            
-            <div id="dekoPaymentCalculator" style="display:none;">
-                <br />
-                <br />
-               
-                <p style="margin: 0px;padding-left: 18px;">Move the slider to select your deposit amount.</p>
-                <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="9" step="1">
-                <div style="text-align:center"><span id="amountdekooutput"></span><span>%</span></div>
+                <div id="dekoPaymentCalculator" style="display:none;">
+                    <br />
+                    <br />
 
-                <br />
-                <p style="margin: 0px;padding-left: 18px;">Select the term of your loan. Months</p>
-                <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="8" step="1">
-                <div style="text-align:center"><span id="monthdekooutour"></span><span> months</span></div>
+                    <p style="margin: 0px;padding-left: 18px;">Move the slider to select your deposit amount.</p>
+                    <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="9" step="1">
+                    <div style="text-align:center"><span id="amountdekooutput"></span><span>%</span></div>
+
+                    <br />
+                    <p style="margin: 0px;padding-left: 18px;">Select the term of your loan. Months</p>
+                    <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="8" step="1">
+                    <div style="text-align:center"><span id="monthdekooutour"></span><span> months</span></div>
 
 
-                <br />
-                <div style="padding: 18px;font-size: 14px;">
-                    <p>Deposit -<span id="depsitamontper"></span></p>
-                    <p>Deposit Amount -£<span id="depsitamont"></span></p>
-                    <p>Monthly Repayments - <span id="monthlyamount"></span></p>
-                    <p>Interest Rate - <span id="rateofint">0% (Fixed)</span></p>
-                    <p>Amount Borrowed -<span id="amontborrow"></span></p>
-                    <p>Total Payable -£<span id="totalpaydeko"></span></p>
-                    
+                    <br />
+                    <div style="padding: 18px;font-size: 14px;">
+                        <p>Deposit -<span id="depsitamontper"></span></p>
+                        <p>Deposit Amount -£<span id="depsitamont"></span></p>
+                        <p>Monthly Repayments - <span id="monthlyamount"></span></p>
+                        <p>Interest Rate - <span id="rateofint">0% (Fixed)</span></p>
+                        <p>Amount Borrowed -<span id="amontborrow"></span></p>
+                        <p>Total Payable -£<span id="totalpaydeko"></span></p>
+
+                    </div>
+
                 </div>
 
+                <hr>
+                <div class="Pay_Now_Price" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;" data-dismiss="modal" translate="">Pay Now</div>
+
+
             </div>
-
-            <hr>
-            <div class="Pay_Now_Price" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;" data-dismiss="modal" translate="">Pay Now</div>
-
-
-        </div>
     </div>
 
 

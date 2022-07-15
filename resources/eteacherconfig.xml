@@ -9,7 +9,7 @@
         </item>
         <item>
             <const>CS_VERSION_NO</const>
-            <value>12.10</value>
+            <value>12.11</value>
         </item>
         <item>
             <const>CS_SUPPORT_EMAIL</const>
@@ -26,7 +26,7 @@
 
         <item>
             <const>CS_SITE_URL_BASE</const>
-            <value>http://test.mobilestudentdesktop.eteacher.pro/</value>
+            <value>https://mobilestudentdesktop.eteacher.pro/</value>
         </item>
         <item>
             <const>CS_APP_LANGUAGE</const>
@@ -156,6 +156,10 @@
         <item>
             <const>CS_SITE_URL_WORKSHEET</const>
             <value>CourseService.svc/WorksheetGet</value>
+        </item>
+      <item>
+            <const>CS_SITE_URL_FILE_EXTENSION</const>
+            <value>UserService.svc/GetReferFriendANDAddCourseURL</value>
         </item>
         <item>
             <const>CS_SITE_URL_WORKSHEET_SAVE</const>

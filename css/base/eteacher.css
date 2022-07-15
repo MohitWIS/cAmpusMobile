@@ -3588,7 +3588,7 @@ input#messagesearch {
 div.supportbtndiv{float: left;
     width: 49%;
     margin-right: 2%;
-    background: #55c7a6 !important;
+    background: #55c7a6;
     padding-top: 0;
     padding-bottom: 0;}
 div.supportbtndivright{float: left;
@@ -3596,7 +3596,23 @@ div.supportbtndivright{float: left;
     padding-right: 0;
     background-color: #A0B6CD; padding-top: 0;
     padding-bottom: 0;}
-.sendsupportbtn{background: #55c7a6 !important;
+.disableSupportDiv {
+    background: #72ddc8 !important;
+    pointer-events: none;
+}
+
+.disableSupportDivDynamic {
+    background: #72ddc8 !important;
+    pointer-events: none;
+    float: left;
+    width: 32%;
+}
+
+.sendsupportupdatebtn {
+    background: #55c7a6 !important;
+}
+.sendsupportbtn{
+    /*background: #55c7a6 !important;*/
     padding-top: 1%;
     padding-bottom: 1%; color:#FFFFFF !important;}
 

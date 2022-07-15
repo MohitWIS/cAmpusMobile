@@ -1,4 +1,5 @@
-var newfileissueid="";
+var newfileissueid = "";
+var extensionsFiles = "";
 $(document).on("pagecreate", "#helpdeskpage", function(e) {
     try {
         
@@ -107,7 +108,27 @@ $(document).on("pagebeforeshow", "#helpdeskpage", function(e) {
                if (tablet === false) {
                $(".ui-panel-content-wrap").addClass("fullscreenmobile");
                }
-               helpdeskFirstLoad = false;
+                   helpdeskFirstLoad = false;
+                   var urlMethod = getBaseUrl();
+                   urlMethod += configs.getCustom("CS_SITE_URL_FILE_EXTENSION");
+                   var params = "?portalId=" + configs.getCustom("CS_PORTAL_ID");
+                   urlMethod += params;
+                   $.ajax({
+                       url: urlMethod,
+                       beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                       complete: function () { $("#mloader").remove(); },
+                       dataType: "json",
+                       type: "GET",
+                       async: true,
+                       success: function (data, textStatus, jqXHR) {
+                           console.log(data);
+                           extensionsFiles = data.GetReferFriendANDAddCourseURLResult.Data.helpDeskFileExtensionsField;
+                           alert(extensionsFiles);
+                       },
+                       error: function (msg) {
+                           $("#mloader").remove();
+                       }
+                   });
                /*$("#helpdeskmaincontent").on("vclick", function(event) {
                                             event.preventDefault();
                                             event.stopPropagation();
@@ -176,6 +197,7 @@ $(document).on("pagebeforeshow", "#helpdeskpage", function(e) {
                             uploadUrl: "https://upload.eteacher.pro/ChunkUploadLatest.aspx?userId="+activeUser.userId+"&portalId=40&fileCount="+filecount.counter+"&fileName=",
                             chunkSize: 200000,
                             allowedFileExtensions:[".doc",".docx",".xls",".xlsx",".ppt",".pptx",".txt",".pdf",".mp4",".jpg",".jpeg",".png",".gif"],
+                            invalidFileExtensionMessage: "It looks like you are trying to upload an unauthorised file type. Please note, you may only upload files with the following extensions: .doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.pdf,.mp4,.jpg,.jpeg,.png,.gif",
                             onUploadStarted: onUploadStarted,
                             onProgress: onUploadProgress,
                             onUploaded: onUploadComplete,
@@ -229,8 +251,24 @@ $(document).on("pagebeforeshow", "#helpdeskpage", function(e) {
                     function onValueChanged(e) {
                         if(e.value == ""){
                             HelpDeskFiles.splice(HelpDeskFiles.length - 1, 1);
+                            if ($(".supportbtndiv").hasClass("disableSupportDiv")) {
+                                $(".supportbtndiv").removeClass("disableSupportDiv");
+                            }
                         }
-                        else{
+                        else {
+                            if (!e.component._files[0].isValidFileExtension) {
+                                msgStr = "It looks like you are trying to upload an unauthorised file type. Please note, you may only upload files with the following extensions: " + extensionsFiles + ". Please remove the file & try again.";
+                                msgTitle = "File Error";
+                                msgBtnValue = resources.btnOk;
+                                alert(msgStr)
+                                //navigator.notification.confirm(msgStr, function () { }, msgTitle, msgBtnValue);
+                                //$(".supportbtndiv").css("pointer-events","none");
+                                $(".supportbtndiv").addClass("disableSupportDiv");
+                            } else {
+                                if ($(".supportbtndiv").hasClass("disableSupportDiv")) {
+                                    $(".supportbtndiv").removeClass("disableSupportDiv");
+                                }
+                            }
                             var count = 0;
                             var lastIndex = e.value[0].name.lastIndexOf(".");
                             var prefixName = e.value[0].name.substring(0, lastIndex);
@@ -259,7 +297,8 @@ $(document).on("pagebeforeshow", "#helpdeskpage", function(e) {
                         }
 
                      }
-                    function onUploadStarted(e) {
+                   function onUploadStarted(e) {
+                       $(".supportbtndiv").addClass("disableSupportDiv");
                         document.getElementsByClassName("dx-fileuploader-files-container")[0].style.display = 'block';
                         getChunkPanel().innerHTML = '';
                     }
@@ -267,7 +306,8 @@ $(document).on("pagebeforeshow", "#helpdeskpage", function(e) {
                         //getChunkPanel().appendChild(addChunkInfo(e.segmentSize, e.bytesLoaded, e.bytesTotal));
                     }
 
-                    function onUploadComplete(e){
+                   function onUploadComplete(e) {
+                       $(".supportbtndiv").removeClass("disableSupportDiv");
                         //console.log(HelpDeskFiles.length - 1);
                         document.getElementsByClassName("dx-fileuploader-files-container")[0].style.display = 'none';
                         filecount.counter++;
@@ -814,8 +854,38 @@ function refreshIssueList(issueId, returnFunction) {
                                      function onValueChanged(e) {
                                         if(e.value == ""){
                                             HelpDeskFiles.splice(HelpDeskFiles.length - 1, 1);
+                                            var id = $(e.element).attr("id");
+                                            var ids = id.split("-");
+                                            var newfileissueid = "#addcommentbtn-" + ids[2];
+
+                                            if ($(newfileissueid).hasClass("disableSupportDivDynamic")) {
+                                                $(newfileissueid).removeClass("disableSupportDivDynamic");
+                                                $(newfileissueid).addClass("sendsupportupdatebtn");
+                                            }
                                         }
-                                        else{
+                                        else {
+                                            if (!e.component._files[0].isValidFileExtension) {
+                                                msgStr = "It looks like you are trying to upload an unauthorised file type. Please note, you may only upload files with the following extensions: " + extensionsFiles + ". Please remove the file & try again.";
+                                                msgTitle = "File Error";
+                                                msgBtnValue = resources.btnOk;
+                                                alert(msgStr);
+                                                //navigator.notification.confirm(msgStr, function () { }, msgTitle, msgBtnValue);
+                                                var id = $(e.element).attr("id");
+                                                var ids = id.split("-");
+                                                var newfileissueid = "#addcommentbtn-" + ids[2];
+                                                $(newfileissueid).removeClass("sendsupportupdatebtn")
+                                                $(newfileissueid).addClass("disableSupportDivDynamic");
+                                                console.log(id);
+                                            } else {
+                                                var id = $(e.element).attr("id");
+                                                var ids = id.split("-");
+                                                var newfileissueid = "#addcommentbtn-" + ids[2];
+
+                                                if ($(newfileissueid).hasClass("disableSupportDivDynamic")) {
+                                                    $(newfileissueid).removeClass("disableSupportDivDynamic");
+                                                    $(newfileissueid).addClass("sendsupportupdatebtn");
+                                                }
+                                            }
                                             var count = 0;
                                             var lastIndex = e.value[0].name.lastIndexOf(".");
                                             var prefixName = e.value[0].name.substring(0, lastIndex);
@@ -847,6 +917,11 @@ function refreshIssueList(issueId, returnFunction) {
                                      }
 
                                      function onUploadStarted(e) {
+                                        var id = $(e.element).attr("id");
+                                        var ids = id.split("-");
+                                        var newfileissueid = "#addcommentbtn-" + ids[2];
+                                        $(newfileissueid).removeClass("sendsupportupdatebtn")
+                                        $(newfileissueid).addClass("disableSupportDivDynamic");
                                          document.getElementsByClassName("dx-fileuploader-files-container")[0].style.display = 'block';
                                          getChunkPanel().innerHTML = '';
                                      }
@@ -862,6 +937,13 @@ function refreshIssueList(issueId, returnFunction) {
                                          var filenameOld = "#filenameOld"+newfileissueid;
                                          $(filenameOld).append('<p class="deleteImages-'+newfileissueid+'" style="margin:0px;"  id='+ HelpDeskFiles[HelpDeskFiles.length - 1].name + ' >'+HelpDeskFiles[HelpDeskFiles.length - 1].name+'<span  id='+ HelpDeskFiles[HelpDeskFiles.length - 1].name + ' style=color:#ef5351; >  &#10006;</span></p><br>');
                                          filecount.counter++;
+
+                                         var newfileissueidCom = "#addcommentbtn-" + ids[2];
+
+                                         if ($(newfileissueidCom).hasClass("disableSupportDivDynamic")) {
+                                             $(newfileissueidCom).removeClass("disableSupportDivDynamic");
+                                             $(newfileissueidCom).addClass("sendsupportupdatebtn");
+                                         }
 
                                      }
 
@@ -1432,6 +1514,36 @@ function getMessages(event, direction) {
                                          function onValueChanged(e) {
                                              if(e.value == ""){
                                                  HelpDeskFiles.splice(HelpDeskFiles.length - 1, 1);
+                                                 var id = $(e.element).attr("id");
+                                                 var ids = id.split("-");
+                                                 var newfileissueid = "#addcommentbtn-" + ids[2];
+
+                                                 if ($(newfileissueid).hasClass("disableSupportDivDynamic")) {
+                                                     $(newfileissueid).removeClass("disableSupportDivDynamic");
+                                                     $(newfileissueid).addClass("sendsupportupdatebtn");
+                                                 }
+                                                 if (!e.component._files[0].isValidFileExtension) {
+                                                     msgStr = "It looks like you are trying to upload an unauthorised file type. Please note, you may only upload files with the following extensions: " + extensionsFiles + ". Please remove the file & try again.";
+                                                     msgTitle = "File Error";
+                                                     msgBtnValue = resources.btnOk;
+                                                     //navigator.notification.confirm(msgStr, function () { }, msgTitle, msgBtnValue);
+                                                     alert(msgStr)
+                                                     var id = $(e.element).attr("id");
+                                                     var ids = id.split("-");
+                                                     var newfileissueid = "#addcommentbtn-" + ids[2];
+                                                     $(newfileissueid).removeClass("sendsupportupdatebtn")
+                                                     $(newfileissueid).addClass("disableSupportDivDynamic");
+                                                     console.log(id);
+                                                 } else {
+                                                     var id = $(e.element).attr("id");
+                                                     var ids = id.split("-");
+                                                     var newfileissueid = "#addcommentbtn-" + ids[2];
+
+                                                     if ($(newfileissueid).hasClass("disableSupportDivDynamic")) {
+                                                         $(newfileissueid).removeClass("disableSupportDivDynamic");
+                                                         $(newfileissueid).addClass("sendsupportupdatebtn");
+                                                     }
+                                                 }
                                              }
                                              else{
                                                  var count = 0;
@@ -1468,6 +1580,11 @@ function getMessages(event, direction) {
                                          function onUploadStarted(e) {
                                              document.getElementsByClassName("dx-fileuploader-files-container")[0].style.display = 'block';
                                              getChunkPanel().innerHTML = '';
+                                             var id = $(e.element).attr("id");
+                                             var ids = id.split("-");
+                                             var newfileissueid = "#addcommentbtn-" + ids[2];
+                                             $(newfileissueid).removeClass("sendsupportupdatebtn")
+                                             $(newfileissueid).addClass("disableSupportDivDynamic");
                                          }
                                          function onUploadProgress(e) {
                                              //getChunkPanel().appendChild(addChunkInfo(e.segmentSize, e.bytesLoaded, e.bytesTotal));
@@ -1482,6 +1599,12 @@ function getMessages(event, direction) {
                                              var filenameOld = "#filenameOld"+newfileissueid;
                                              $(filenameOld).append('<p class="deleteImages-'+newfileissueid+'" style="margin:0px;"  id='+ HelpDeskFiles[HelpDeskFiles.length - 1].name + ' >'+HelpDeskFiles[HelpDeskFiles.length - 1].name+'<span  id='+ HelpDeskFiles[HelpDeskFiles.length - 1].name + ' style=color:#ef5351; >  &#10006;</span></p><br>');
                                              filecount.counter++;
+                                             var newfileissueidcom = "#addcommentbtn-" + ids[2];
+
+                                             if ($(newfileissueidcom).hasClass("disableSupportDivDynamic")) {
+                                                 $(newfileissueidcom).removeClass("disableSupportDivDynamic");
+                                                 $(newfileissueidcom).addClass("sendsupportupdatebtn");
+                                             }
                                              // console.log(e.file.name);
                                              // console.log(e.file.size);
                                              // console.log(e.file.name);
