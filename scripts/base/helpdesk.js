@@ -123,7 +123,7 @@ $(document).on("pagebeforeshow", "#helpdeskpage", function(e) {
                        success: function (data, textStatus, jqXHR) {
                            console.log(data);
                            extensionsFiles = data.GetReferFriendANDAddCourseURLResult.Data.helpDeskFileExtensionsField;
-                           alert(extensionsFiles);
+                           //alert(extensionsFiles);
                        },
                        error: function (msg) {
                            $("#mloader").remove();

@@ -679,7 +679,7 @@ function getCoursesData(getLocal, returnFunction) {
                     //do nothing
                   }
 
-            }, 5000);
+            }, 8000);
         }
     } catch (e) {}
 }
