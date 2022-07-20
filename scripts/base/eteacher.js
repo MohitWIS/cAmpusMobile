@@ -7508,12 +7508,12 @@ function showGuideLinesInaccessible(event, returnFunction) {
         returnFunction(false);
     }
 }
-function showCoursePaymentInaccessible(returnFunction) {
+function showCoursePaymentInaccessible(event, returnFunction) {
     try {
         //alert('in');
         if (naOK === true) {
             var id = $(event.currentTarget).attr("id");
-            var pClass = $('#' + id).parent().prop('className');
+            var pClass = $('#' + id).prop('className');
             var splifclass = pClass.split(" ");
             console.log(splifclass[0] + "  -  " + splifclass[1]);
             var courseId = id.split("-");
