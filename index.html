@@ -420,17 +420,19 @@
             <span class="close">×</span>
             <div class="box-header" style="padding:20px 20px 0 20px;">
                 <div id="first_Time" style="display:none;">
-                    <h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;" translate="">Congratulations</h5>
+                    <h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;">Congratulations</h5>
                     <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;">
-                        <span translate="" class="ng-scope">Thanks for enrolling on the</span> <span id="course_Name_First"></span>
-                        <span translate="" class="ng-scope"> course. You can now study the online theory for free.</span>
+                        <span >Thanks for enrolling on the</span> <span id="course_Name_First"></span>
+                        <span > course. You can now study the online theory for free.</span>
                     </p>
                     <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;"><span translate="" class="ng-scope">If you wish to qualify and get support, you will need to purchase a Training & Assessment Package.</span></p>
                 </div>
                 <h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;" translate="">Purchase Your Training &amp; Assessment Package</h5>
                 <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;">
-                    <span translate="" class="ng-scope">To be assessed and recieve your final certificate, you will purchase a Training &amp;/or Assessment package. For the</span> <span id="course_Name"></span>
-                    <span translate="" class="ng-scope">, you have the following packages to choose from:</span>
+                    <!--<span >To be assessed and recieve your final certificate, you will purchase a Training &amp;/or Assessment package. For the</span> <span id="course_Name"></span>
+                    <span >, you have the following packages to choose from:</span>-->
+                    <span>Thanks for registering your details. To enrol on the </span> <span id="course_Name"></span>
+                    <span>course, please choose your Training & Assessment Package (study option) and click ‘Buy Now’.</span>
                 </p>
 
                 <div>
@@ -438,7 +440,7 @@
                     <!-- ngIf: trainingAssessmentPackageData.AccessmentCenters.length > 0 -->
                 </div>
             </div>
-            <div class="closeTAPsLates" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: black;margin: 11px;width: 70%;margin-left: 12%;" data-dismiss="modal" translate="">Decide Later</div>
+            <div class="closeTAPsLates" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: black;margin: 11px;width: 70%;margin-left: 12%;display:none;" data-dismiss="modal" translate="">Decide Later</div>
             <select name="assessment" id="assessment_center">
                 <option value="">Select an Assessment Center:</option>
 
@@ -509,8 +511,8 @@
                         <h2>Payment</h2>
                         <span>Please review your extension payment option below. To continue studying, click the Pay Now button below once you have selected your payment option.</span>
                         <h2>Information</h2>
-                        <p>Extension Fee - <span id="extFee"></span></p>
-                        <p>Prompt Payment Price - <span id="extPPprice"></span></p>
+                        <p>Extension Fee - £<span id="extFee"></span></p>
+                        <p>Prompt Payment Price - £<span id="extPPprice"></span></p>
                         <p>Extension Term - <span id="extTerm"></span> months</p>
                         <hr />
                     </div>
@@ -1299,7 +1301,7 @@
     <script type="text/javascript" src="https://webservices.securetrading.net/js/v2/st.js"></script>
 
     <script type="text/javascript">
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        /*if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
             // true for mobile device
             console.log("mobile");
         }else{
@@ -1307,7 +1309,7 @@
             alert("This is a Mobile website open it in Mobile phones instead.")
             window.open("https://campus.eteacher.pro/","_self")
             console.log("not mobile");
-        }
+        }*/
         
 
         function getQueryParams(qs) {

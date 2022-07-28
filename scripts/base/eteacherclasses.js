@@ -12,7 +12,7 @@ init: function() {
     try {
         this.coursesDB = openDatabase("Database", "1.0", "ETEACHER", 10000);
         this.coursesDB.transaction(function(tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS ETEACHER_COURSE (id unique, courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,coursediscounttype,coursediscountvalue,maxextensionterm,purchasedtapid,isBuypackageavailable)");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS ETEACHER_COURSE (id unique, courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable)");
                                    });
         this.courses = new Array();
         this.loadCourses();
@@ -26,7 +26,7 @@ loadCourses: function() {
           tx.executeSql("SELECT * FROM ETEACHER_COURSE", [], function(tx, results) {
             var len = results.rows.length;
             for (var i = 0; i < len; i++) {
-                var savedCourse = new Course(results.rows.item(i).courseid, results.rows.item(i).title, results.rows.item(i).status, results.rows.item(i).coursestatusid, results.rows.item(i).buypackage, results.rows.item(i).freeaccess, results.rows.item(i).coursecost, results.rows.item(i).coursediscounttype, results.rows.item(i).coursediscountvalue, results.rows.item(i).maxextensionterm, results.rows.item(i).purchasedtapid, results.rows.item(i).isBuypackageavailable);
+                var savedCourse = new Course(results.rows.item(i).courseid, results.rows.item(i).title, results.rows.item(i).status, results.rows.item(i).coursestatusid, results.rows.item(i).buypackage, results.rows.item(i).freeaccess, results.rows.item(i).coursecost, results.rows.item(i).coursediscounttype, results.rows.item(i).coursediscountvalue, results.rows.item(i).maxextensionterm, results.rows.item(i).validfor, results.rows.item(i).minimumextensionfee, results.rows.item(i).purchasedtapid, results.rows.item(i).isBuypackageavailable);
               this.courses.push(savedCourse);
             }
           }, null);
@@ -86,7 +86,7 @@ refreshCourses: function(updatePostion, returnFunction) {
                                   var course;
                                   if (usercourses.length == undefined) {
                                       courseobj = usercourses;
-                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
+                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
                                   that.courses.push(course);
                                   //if (course.accessible) {
                                   //course.setCourseModuleList(course.status, courseobj);
@@ -95,7 +95,7 @@ refreshCourses: function(updatePostion, returnFunction) {
                                   } else {
                                   for (var i = 0; i < usercourses.length; i++) {
                                   courseobj = usercourses[i];
-                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
+                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
                                   that.courses.push(course);
                                   //if (course.accessible) {
                                   //course.setCourseModuleList(course.status, courseobj);
@@ -126,7 +126,8 @@ getCoursesListView: function(status) {
             $.each(this.courses, function(i, course) {
                    classStatus = setStatusClass(course.status, true);
                    var title = course.title;
-                   var coursesingleline = "";
+                var coursesingleline = "";
+               
                    if(tablet===false && course.title.length < 42){
                    coursesingleline = "coursesingleline";
                    }
@@ -143,8 +144,17 @@ getCoursesListView: function(status) {
                    courseStr += "</div></ul></div>";
                    
                    } else {
+                       var courseStatuswtspace = course.status;
+                       var newCourseStatus = "";
+                       if (courseStatuswtspace == "Payment Pending") {
+                          newCourseStatus = courseStatuswtspace.replace(/ /g, '');
+                       } else {
+                          newCourseStatus = courseStatuswtspace
+                       }
 
-                       courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.maxextensionterm + "-" + course.isBuypackageavailable + "-" + course.status + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
+                       console.log(course);
+                      
+                       courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
                        courseStr += "<h3 id='h3-" + courseid +"'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                    courseStr += "'><div class='coursetitle " + coursesingleline;
                    courseStr += "'>" + title + "</div>";
@@ -197,6 +207,12 @@ save: function(course) {
         if (course.maxextensionterm == undefined) {
             course.maxextensionterm = "";
         }
+        if (course.validfor == undefined) {
+            course.validfor = "";
+        }
+        if (course.minimumextensionfee == undefined) {
+            course.minimumextensionfee = "";
+        }
         if (course.purchasedtapid == undefined) {
             course.purchasedtapid = "";
         }
@@ -205,7 +221,7 @@ save: function(course) {
         }
         this.usersDB.transaction(function(tx) {
                                  tx.executeSql("DELETE * FROM ETEACHER_COURSE WHERE courseid=" + course.courseid);
-            tx.executeSql("INSERT INTO ETEACHER_COURSE(courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,coursediscounttype,coursediscountvalue,maxextensionterm,purchasedtapid,isBuypackageavailable) VALUES (course.courseid, course.title, course.status, course.coursestatusid,course.buypackage,course.freeaccess,course.coursecost,course.coursediscounttype,course.coursediscountvalue,course.maxextensionterm,course.purchasedtapid,course.isBuypackageavailable)");
+            tx.executeSql("INSERT INTO ETEACHER_COURSE(courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable) VALUES (course.courseid, course.title, course.status, course.coursestatusid,course.buypackage,course.freeaccess,course.coursecost,course.coursediscounttype,course.coursediscountvalue,course.maxextensionterm,course.validfor,course.minimumextensionfee,course.purchasedtapid,course.isBuypackageavailable)");
                                  });
     } catch (e) {
         errorHandler("Courses.save", e);
@@ -324,15 +340,15 @@ getNextCourse: function(courseId) {
     }
 }
 };
-var Course = function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, purchasedtapid, isBuypackageavailable) {
+var Course = function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
     try {
-        this.init(courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, purchasedtapid, isBuypackageavailable);
+        this.init(courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable);
     } catch (e) {
         errorHandler("Course", e);
     }
 };
 Course.prototype = {
-    init: function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, purchasedtapid, isBuypackageavailable) {
+    init: function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
     try {
         this.modulegroups = [];
         if (courseid == undefined) {
@@ -388,6 +404,12 @@ Course.prototype = {
         if (maxextensionterm == undefined) {
             maxextensionterm = 0;
         }
+        if (validfor == undefined) {
+            validfor = 0;
+        }
+        if (minimumextensionfee == undefined) {
+            minimumextensionfee = 0;
+        }
         if (purchasedtapid == undefined) {
             purchasedtapid = "";
         }
@@ -422,6 +444,8 @@ Course.prototype = {
         this.coursediscounttype = coursediscounttype;
         this.coursediscountvalue = coursediscountvalue;
         this.maxextensionterm = maxextensionterm;
+        this.validfor = validfor;
+        this.minimumextensionfee = minimumextensionfee;
         this.purchasedtapid = purchasedtapid;
         this.isBuypackageavailable = isBuypackageavailable;
         this.coursestatusid = coursestatusid;

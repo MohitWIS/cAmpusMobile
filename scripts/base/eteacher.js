@@ -5875,14 +5875,16 @@ function submitTermAndCndition() {
             var Pay_Now_Price_Model = document.getElementById("Pay_Now_Price_Model");
             Pay_Now_Price_Model.style.display = "block";
             $("#discountValue").html(TAPsDetailsforPopUp[2]);
-            $("#costValue").html(TAPsDetailsforPopUp[1]);
+            var PayNowPriceSB = TAPsDetailsforPopUp[1];
+            $('#extentionop').empty();
+            $("#costValue").html(PayNowPriceSB);
             $('#policyPararadio').prop('checked', true);
             $("#dekoPaymentCalculator").css("display", "none");
             $("#fullPayRadio").css("display", "block");
             if (TAPsDetailsforPopUp[1] >= 266) {
                 $("#totalpaydeko").empty();
                 $("#dekoRadio").css("display", "block");
-                $("#costValueDeko").html(TAPsDetailsforPopUp[1]);
+                $("#costValueDeko").html(TAPsDetailsforPopUp[7]);
             }
         },
         error: function (msg) {
@@ -5919,26 +5921,26 @@ function submitTermAndCndition() {
         var monthsToDeko = $("#monthdekooutour").text();
         var pertodeko = $("#amountdekooutput").text();
         var TAPsDetailsforPopUp = TAPsDetails.split("-");
-        var depoammount = TAPsDetailsforPopUp[1] * pertodeko / 100;
+        var depoammount = TAPsDetailsforPopUp[7] * pertodeko / 100;
 
         $("#depsitamont").text(depoammount);
         $("#depsitamontper").text(pertodeko + "%");
-        $("#totalpaydeko").text(TAPsDetailsforPopUp[1]);
-        getCalculatedValues(depoammount, monthsToDeko, TAPsDetailsforPopUp[1]);
+        $("#totalpaydeko").text(TAPsDetailsforPopUp[7]);
+        getCalculatedValues(depoammount, monthsToDeko, TAPsDetailsforPopUp[7]);
         $('#amountdeko').change(function () {
             var pertodekoOnchange = $("#amountdekooutput").text();
             var monthsToDekoOnChange = $("#monthdekooutour").text();
             $("#depsitamontper").text(pertodekoOnchange + "%");
-            var depoammountOnChange = TAPsDetailsforPopUp[1] * pertodekoOnchange / 100;
+            var depoammountOnChange = TAPsDetailsforPopUp[7] * pertodekoOnchange / 100;
             $("#depsitamont").text(depoammountOnChange);
-            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, TAPsDetailsforPopUp[1]);
+            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, TAPsDetailsforPopUp[7]);
         });
 
         $('#monthdeko').change(function () {
             var pertodekoOnchange = $("#amountdekooutput").text();
-            var depoammountOnChange = TAPsDetailsforPopUp[1] * pertodekoOnchange / 100;
+            var depoammountOnChange = TAPsDetailsforPopUp[7] * pertodekoOnchange / 100;
             var monthsToDekoOnChange = $("#monthdekooutour").text();
-            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, TAPsDetailsforPopUp[1]);
+            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, TAPsDetailsforPopUp[7]);
         });
         
         
@@ -5984,13 +5986,17 @@ function submitTermAndCndition() {
             
             var urlMethodNew = getBaseUrl();
             urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+            var selectedExnValue = $('#extentionop').val();
+            if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                selectedExnValue = "0"
+            }
             var authKey = getAuthKeyUnencrypt();
             var portalKey = getPortalKeyUnencrypt();
             var additionalParams = resetParams();
             var TAPsDetailsforPopUp = TAPsDetails.split("-");
             additionalParams.TAPID = TAPsDetailsforPopUp[0];
             additionalParams.PaymentMethodId = "6";
-            additionalParams.Amount = TAPsDetailsforPopUp[1];
+            additionalParams.Amount = TAPsDetailsforPopUp[7];
             var InitialAmountdeko = $('#depsitamont').text();
             var NormalAmountdeko = $('#monthlyamount').text();
             var totalpaydekominus = $('#totalpaydeko').text();
@@ -6005,6 +6011,7 @@ function submitTermAndCndition() {
             additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
             additionalParams.ACID = TAPsDetailsforPopUp[4];
             additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+            additionalParams.ValidFor = selectedExnValue;
             additionalParams.courseid = TAPsDetailsforPopUp[6];
             additionalParams.assessmentitemid = "0";
             //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
@@ -6073,6 +6080,7 @@ function submitTermAndCndition() {
         try {
             event.preventDefault();
             var TAPsDetailsforPopUp = TAPsDetails.split("-");
+            var selectedExnValue = $('#extentionop').val();
             //ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField
             console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -6095,13 +6103,19 @@ function submitTermAndCndition() {
                     console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
                     var urlMethodNew = getBaseUrl();
                     urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                    var selectedExnValue = $('#extentionop').val();
+                    if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                        selectedExnValue = "0"
+                    }
                     var authKey = getAuthKeyUnencrypt();
                     var portalKey = getPortalKeyUnencrypt();
                     var additionalParams = resetParams();
                     var TAPsDetailsforPopUp = TAPsDetails.split("-");
                     additionalParams.TAPID = TAPsDetailsforPopUp[0];
                     additionalParams.PaymentMethodId = "10";
-                    additionalParams.Amount = TAPsDetailsforPopUp[1];
+                    var paymentAmountSB = $("#costValue").text();
+                    additionalParams.Amount = paymentAmountSB;
+                    
                     var STPaymentDetails = {
                         Email: UserDeatils.emailField,
                         Firstname: UserDeatils.firstNameField,
@@ -6112,13 +6126,14 @@ function submitTermAndCndition() {
                         CountryCode: UserDeatils.countryCodeField,
                         Currency: "GBP",
                         IsInstantPayment: true,
-                        PaymentAmount: TAPsDetailsforPopUp[1],
+                        PaymentAmount: paymentAmountSB,
                         TotalNoOfPayment: 0
                     }
                     additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
                     additionalParams.ACID = TAPsDetailsforPopUp[4];
                     additionalParams.coursestatus = TAPsDetailsforPopUp[5];
                     additionalParams.courseid = TAPsDetailsforPopUp[6];
+                    additionalParams.ValidFor = selectedExnValue;
                     additionalParams.assessmentitemid = "0";
                     //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -6210,6 +6225,7 @@ function submitTermAndCndition() {
     $(document).on("vclick", ".Pay_Now_Option_PBC", function (event) {
         event.preventDefault();
         var modal = document.getElementById("Pay_Now_Option_Model");
+        var selectedExnValue = $('#extentionop').val();
         modal.style.display = "none";
         var urlMethod = getBaseUrl();
         urlMethod += configs.getCustom("CS_SECURE_TRADING_JWT");
@@ -6217,7 +6233,8 @@ function submitTermAndCndition() {
         var portalKey = getPortalKeyUnencrypt();
         var additionalParams = resetParams();
         var TAPsDetailsforPopUp = TAPsDetails.split("-");
-        additionalParams.Amount = TAPsDetailsforPopUp[1];
+
+        additionalParams.Amount = $("#costValue").text();
         var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey)+"&param=" + JSON.stringify(additionalParams);
         urlMethod += params;
         $.ajax({
@@ -6227,7 +6244,8 @@ function submitTermAndCndition() {
             async: true,
             success: function (data, textStatus, jqXHR) {
                 if (data != null) {
-                    $("#finalPaySCAmount").html(TAPsDetailsforPopUp[1]);
+                    var amounttoBe = $("#costValue").text();
+                    $("#finalPaySCAmount").html(amounttoBe);
                     var jwtToken = data.getJwtSecureTradingResult.Data;
                     console.log(jwtToken);
                     var token = jwtToken.Token;
@@ -6259,6 +6277,7 @@ function submitTermAndCndition() {
     $(document).on("vclick", ".Pay_Now_Option_OOPBDD", function (event) {
         event.preventDefault();
         var urlMethod = getBaseUrl();
+        var selectedExnValue = $('#extentionop').val();
         urlMethod += configs.getCustom("CS_USER_INFO_DETAILS");
         var authKey = getAuthKeyUnencrypt();
         var portalKey = getPortalKeyUnencrypt();
@@ -6333,13 +6352,18 @@ function submitTermAndCndition() {
             if (jQuery.trim(firstNameDD).length > 0 && jQuery.trim(lastNameDD).length > 0 && jQuery.trim(emailDD).length > 0 && jQuery.trim(sortCodeDD).length > 0 && jQuery.trim(accountDD).length > 0 && jQuery.trim(cityDD).length > 0 && jQuery.trim(postalCodeDD).length > 0 && jQuery.trim(address1DD).length > 0 && jQuery.trim(countryIdDD).length > 0) {
                 var urlMethodNew = getBaseUrl();
                 urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                var selectedExnValue = $('#extentionop').val();
+                if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                    selectedExnValue = "0"
+                }
                 var authKey = getAuthKeyUnencrypt();
                 var portalKey = getPortalKeyUnencrypt();
                 var additionalParams = resetParams();
                 var TAPsDetailsforPopUp = TAPsDetails.split("-");
                 additionalParams.TAPID = TAPsDetailsforPopUp[0];
                 additionalParams.PaymentMethodId = "9";
-                additionalParams.Amount = TAPsDetailsforPopUp[1];
+                var amounttoBe = $("#costValue").text();
+                additionalParams.Amount = amounttoBe;
                 var STPaymentDetails = {
                     Email: emailDD,
                     Firstname: firstNameDD,
@@ -6352,13 +6376,14 @@ function submitTermAndCndition() {
                     MandateID: mandateIDDD,
                     Currency: "GBP",
                     IsInstantPayment: true,
-                    PaymentAmount: TAPsDetailsforPopUp[1],
+                    PaymentAmount: amounttoBe,
                     TotalNoOfPayment: 0
                 }
                 additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
                 additionalParams.ACID = TAPsDetailsforPopUp[4];
                 additionalParams.coursestatus = TAPsDetailsforPopUp[5];
                 additionalParams.courseid = TAPsDetailsforPopUp[6];
+                additionalParams.ValidFor = selectedExnValue;
                 additionalParams.assessmentitemid = "0";
                 //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -6459,77 +6484,132 @@ function submitTermAndCnditionForExtension() {
                    
                     $('#extentionop').append($("<option></option>").attr("value", i).text(monvalue)); 
                 }
+                if (TAPsDetailsforPopUp[9] != "PaymentPending") {
+                    $("#extebsionOption").css("display", "block");
+                }
                 
-                $("#extebsionOption").css("display", "block");
             } else {
                 $("#extebsionOption").css("display", "none");
                 $("#fullPayRadio").css("display", "block");
             }
 
-            $('#extentionop').on('change', function (e) {
-                var optionSelected = $("option:selected", this);
-                var valueSelected = this.value;
-                if (valueSelected != "0") {
-                    $("#fullPayRadio").css("display", "block");
-                    $("#discountValue").html(TAPsDetailsforPopUp[5]);
-                    $("#costValue").html(TAPsDetailsforPopUp[3]);
-                    //$('#policyPararadio').prop('checked', true);
-                    //$("#dekoPaymentCalculator").css("display", "none");
-                    $("#paymentExtDetails").css("display", "block");
-                    $("#extFee").empty();
-                    $("#extPPprice").empty();
-                    $("#costValue").empty();
-                    $("#discountValue").empty();
-                    $("#costValueDeko").empty();
-                    $("#extTerm").html(valueSelected);
-                    var compairableExtensionFee = parseFloat(parseFloat(TAPsDetailsforPopUp[3]) / parseInt(TAPsDetailsforPopUp[7])) * parseInt(valueSelected);
-                    
-                    $("#extFee").html(compairableExtensionFee.toFixed(2));
-                    var cost = ""
-                    if (compairableExtensionFee.toFixed(2) < 266) {
-                        cost = parseFloat(TAPsDetailsforPopUp[3]) / parseInt(TAPsDetailsforPopUp[7]);
-                    } else {
-                        if (TAPsDetailsforPopUp[4] == "2") {
-                            cost = (parseFloat(TAPsDetailsforPopUp[3]) - parseFloat(TAPsDetailsforPopUp[5])) / parseInt(TAPsDetailsforPopUp[7]);
-                        } else {
-                            cost = (parseFloat(TAPsDetailsforPopUp[3]) - (parseFloat(TAPsDetailsforPopUp[3]) * parseFloat(TAPsDetailsforPopUp[5]) / 100 )) / parseInt(TAPsDetailsforPopUp[7]);
-                        }
-                        
-                    }
-                    var promtPayment = parseFloat(cost) * valueSelected;
-                    $("#costValue").html(promtPayment.toFixed(2));
-                    
-                    $("#extPPprice").html(promtPayment.toFixed(2));
-                    if (compairableExtensionFee.toFixed(2) >= 266) {
-                        
-                        var disCountValue = parseFloat(compairableExtensionFee) - parseFloat(promtPayment);
-                        $("#discountValue").html(disCountValue.toFixed(2));
-                        $("#totalpaydeko").empty();
-                        $("#dekoRadio").css("display", "block");
+            if (TAPsDetailsforPopUp[9] == 6) {
+                $('#extentionop').on('change', function (e) {
+                    e.preventDefault();
+                    var optionSelected = $("option:selected", this);
+                    var valueSelected = this.value;
+                    if (valueSelected != "0") {
+                        $("#fullPayRadio").css("display", "block");
+                        $("#discountValue").html(TAPsDetailsforPopUp[5]);
+                        $("#costValue").html(TAPsDetailsforPopUp[3]);
+                        //$('#policyPararadio').prop('checked', true);
+                        //$("#dekoPaymentCalculator").css("display", "none");
+                        $("#paymentExtDetails").css("display", "block");
+                        $("#extFee").empty();
+                        $("#extPPprice").empty();
+                        $("#costValue").empty();
+                        $("#discountValue").empty();
+                        $("#costValueDeko").empty();
+                        $("#extTerm").html(valueSelected);
+                        var compairableExtensionFee = parseFloat(parseFloat(TAPsDetailsforPopUp[3]) / parseInt(TAPsDetailsforPopUp[7])) * parseInt(valueSelected);
 
-                        //$("#costValueDeko").html(TAPsDetailsforPopUp[3]);
-                        $("#costValueDeko").html(compairableExtensionFee.toFixed(2));
-                        if ($('#dekoPayment').is(':checked')) {
-                            var pertodekoOnchange = $("#amountdekooutput").text();
-                            var monthsToDekoOnChange = $("#monthdekooutour").text();
-                            $("#depsitamontper").text(pertodekoOnchange + "%");
-                            var depoammountOnChange = compairableExtensionFee.toFixed(2) * pertodekoOnchange / 100;
-                            $("#depsitamont").text(depoammountOnChange);
-                            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, compairableExtensionFee.toFixed(2));
+                        
+                        $("#extFee").html(compairableExtensionFee.toFixed(2));
+                        var cost = ""
+                        if (compairableExtensionFee.toFixed(2) < 266) {
+                            cost = parseFloat(TAPsDetailsforPopUp[3]) / parseInt(TAPsDetailsforPopUp[7]);
+                        } else {
+                            if (TAPsDetailsforPopUp[4] == "2") {
+                                cost = (parseFloat(TAPsDetailsforPopUp[3]) - parseFloat(TAPsDetailsforPopUp[5])) / parseInt(TAPsDetailsforPopUp[7]);
+                            } else {
+                                cost = (parseFloat(TAPsDetailsforPopUp[3]) - (parseFloat(TAPsDetailsforPopUp[3]) * parseFloat(TAPsDetailsforPopUp[5]) / 100)) / parseInt(TAPsDetailsforPopUp[7]);
+                            }
+
+                        }
+                        var promtPayment = parseFloat(cost) * valueSelected;
+
+                        if (TAPsDetailsforPopUp[10] >= compairableExtensionFee) {
+                            $("#extFee").empty();
+                            
+                            promtPayment = parseFloat(TAPsDetailsforPopUp[10]);
+                            $("#extFee").html(promtPayment);
+                        }
+
+                        $("#costValue").html(promtPayment.toFixed(2));
+
+                        $("#extPPprice").html(promtPayment.toFixed(2));
+                        if (compairableExtensionFee.toFixed(2) >= 266) {
+
+                            var disCountValue = parseFloat(compairableExtensionFee) - parseFloat(promtPayment);
+                            $("#discountValue").html(disCountValue.toFixed(2));
+                            $("#totalpaydeko").empty();
+                            $("#dekoRadio").css("display", "block");
+
+                            //$("#costValueDeko").html(TAPsDetailsforPopUp[3]);
+                            $("#costValueDeko").html(compairableExtensionFee.toFixed(2));
+                            if ($('#dekoPayment').is(':checked')) {
+                                var pertodekoOnchange = $("#amountdekooutput").text();
+                                var monthsToDekoOnChange = $("#monthdekooutour").text();
+                                $("#depsitamontper").text(pertodekoOnchange + "%");
+                                var depoammountOnChange = compairableExtensionFee.toFixed(2) * pertodekoOnchange / 100;
+                                $("#depsitamont").text(depoammountOnChange);
+                                getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, compairableExtensionFee.toFixed(2));
+                            }
+                        } else {
+                            $("#dekoRadio").css("display", "none");
+                            $("#dekoPaymentCalculator").css("display", "none");
                         }
                     } else {
+                        $("#extFee").empty();
+                        $("#extPPprice").empty();
+                        $("#extTerm").empty();
+                        $("#paymentExtDetails").css("display", "none");
+                        $("#fullPayRadio").css("display", "none");
                         $("#dekoRadio").css("display", "none");
-                        $("#dekoPaymentCalculator").css("display", "none");
+                    }
+                });
+            } else if (TAPsDetailsforPopUp[9] == "PaymentPending") {
+                $("#fullPayRadio").css("display", "block");
+                $("#discountValue").html(TAPsDetailsforPopUp[5]);
+                $("#costValue").html(TAPsDetailsforPopUp[3]);
+                //$('#policyPararadio').prop('checked', true);
+                //$("#dekoPaymentCalculator").css("display", "none");
+                $("#paymentExtDetails").css("display", "none");
+                $("#extFee").empty();
+                $("#extPPprice").empty();
+                $("#costValue").empty();
+                $("#discountValue").empty();
+                $("#costValueDeko").empty();
+                
+                var compairableExtensionFee = TAPsDetailsforPopUp[3];
+                var disCountValue = parseFloat(compairableExtensionFee) - parseFloat(TAPsDetailsforPopUp[5]);
+                $("#extFee").html(compairableExtensionFee);
+                $("#costValue").html(disCountValue);
+
+                
+                if (compairableExtensionFee >= 266) {
+
+                    
+                    $("#discountValue").html(TAPsDetailsforPopUp[5]);
+                    $("#totalpaydeko").empty();
+                    $("#dekoRadio").css("display", "block");
+
+                    //$("#costValueDeko").html(TAPsDetailsforPopUp[3]);
+                    $("#costValueDeko").html(compairableExtensionFee);
+                    if ($('#dekoPayment').is(':checked')) {
+                        var pertodekoOnchange = $("#amountdekooutput").text();
+                        var monthsToDekoOnChange = $("#monthdekooutour").text();
+                        $("#depsitamontper").text(pertodekoOnchange + "%");
+                        var depoammountOnChange = compairableExtensionFee * pertodekoOnchange / 100;
+                        $("#depsitamont").text(depoammountOnChange);
+                        getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, compairableExtensionFee);
                     }
                 } else {
-                    $("#extFee").empty();
-                    $("#extPPprice").empty();
-                    $("#extTerm").empty();
-                    $("#paymentExtDetails").css("display", "none");
-                    $("#fullPayRadio").css("display", "none");
                     $("#dekoRadio").css("display", "none");
+                    $("#dekoPaymentCalculator").css("display", "none");
                 }
-            });
+            }
+            
             
         },
         error: function (msg) {
@@ -6612,7 +6692,7 @@ function submitTermAndCnditionForExtension() {
                 if (dekoValues.monthly_interest_rateField > 0.00) {
                     var costF = parseFloat(dekoValues.total_costField.replace(/,/g, ''));
                     var ttC = costF + parseFloat(dekoValues.depositField);
-                    $("#totalpaydeko").text(ttC);
+                    $("#totalpaydeko").text(ttC.toFixed(2));
                 } else {
                     $("#totalpaydeko").text(dekoValues.goods_spendField);
                 }
@@ -6632,17 +6712,22 @@ function submitTermAndCnditionForExtension() {
 
             var urlMethodNew = getBaseUrl();
             urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+            var selectedExnValue = $('#extentionop').val();
+            if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                selectedExnValue = "0"
+            }
             var authKey = getAuthKeyUnencrypt();
             var portalKey = getPortalKeyUnencrypt();
             var additionalParams = resetParams();
             var TAPsDetailsforPopUp = TAPsDetails.split("-");
             additionalParams.TAPID = 0;
             additionalParams.PaymentMethodId = "6";
-            additionalParams.Amount = $('#totalpaydeko').text();
+            additionalParams.Amount = $("#costValueDeko").text();
             var InitialAmountdeko = $('#depsitamont').text();
             var NormalAmountdeko = $('#monthlyamount').text();
             var totalpaydekominus = $('#totalpaydeko').text();
-            var Amountdeko = parseFloat(totalpaydekominus) - parseFloat(NormalAmountdeko);
+            
+            var Amountdeko = $("#costValueDeko").text();
             var TermLoandeko = $('#monthdekooutour').text();
             var STPaymentDetails = {
                 InitialAmount: InitialAmountdeko,
@@ -6652,6 +6737,7 @@ function submitTermAndCnditionForExtension() {
             }
             additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
             additionalParams.ACID = 0;
+            additionalParams.ValidFor = selectedExnValue;
             additionalParams.coursestatus = "";
             additionalParams.courseid = TAPsDetailsforPopUp[2];
             additionalParams.assessmentitemid = "0";
@@ -6721,6 +6807,7 @@ function submitTermAndCnditionForExtension() {
         try {
             event.preventDefault();
             var TAPsDetailsforPopUp = TAPsDetails.split("-");
+            var selectedExnValue = $('#extentionop').val();
             //ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField
             console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -6743,6 +6830,10 @@ function submitTermAndCnditionForExtension() {
                     console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
                     var urlMethodNew = getBaseUrl();
                     urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                    var selectedExnValue = $('#extentionop').val();
+                    if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                        selectedExnValue = "0"
+                    }
                     var authKey = getAuthKeyUnencrypt();
                     var portalKey = getPortalKeyUnencrypt();
                     var additionalParams = resetParams();
@@ -6768,6 +6859,7 @@ function submitTermAndCnditionForExtension() {
                     additionalParams.ACID = 0;
                     additionalParams.coursestatus = TAPsDetailsforPopUp[9];
                     additionalParams.courseid = TAPsDetailsforPopUp[2];
+                    additionalParams.ValidFor = selectedExnValue;
                     additionalParams.assessmentitemid = "0";
                     //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -6859,6 +6951,7 @@ function submitTermAndCnditionForExtension() {
     $(document).on("vclick", ".Pay_Now_Option_PBC", function (event) {
         event.preventDefault();
         var AmountToPaid = $("#costValue").text();
+        var selectedExnValue = $('#extentionop').val();
         var modal = document.getElementById("Pay_Now_Option_Model");
         modal.style.display = "none";
         var urlMethod = getBaseUrl();
@@ -6909,6 +7002,7 @@ function submitTermAndCnditionForExtension() {
     $(document).off("vclick", ".Pay_Now_Option_OOPBDD");
     $(document).on("vclick", ".Pay_Now_Option_OOPBDD", function (event) {
         event.preventDefault();
+        var selectedExnValue = $('#extentionop').val();
         var urlMethod = getBaseUrl();
         urlMethod += configs.getCustom("CS_USER_INFO_DETAILS");
         var authKey = getAuthKeyUnencrypt();
@@ -6986,6 +7080,10 @@ function submitTermAndCnditionForExtension() {
             if (jQuery.trim(firstNameDD).length > 0 && jQuery.trim(lastNameDD).length > 0 && jQuery.trim(emailDD).length > 0 && jQuery.trim(sortCodeDD).length > 0 && jQuery.trim(accountDD).length > 0 && jQuery.trim(cityDD).length > 0 && jQuery.trim(postalCodeDD).length > 0 && jQuery.trim(address1DD).length > 0 && jQuery.trim(countryIdDD).length > 0) {
                 var urlMethodNew = getBaseUrl();
                 urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                var selectedExnValue = $('#extentionop').val();
+                if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                    selectedExnValue = "0"
+                }
                 var authKey = getAuthKeyUnencrypt();
                 var portalKey = getPortalKeyUnencrypt();
                 var additionalParams = resetParams();
@@ -7005,13 +7103,14 @@ function submitTermAndCnditionForExtension() {
                     MandateID: mandateIDDD,
                     Currency: "GBP",
                     IsInstantPayment: true,
-                    PaymentAmount: TAPsDetailsforPopUp[1],
+                    PaymentAmount: finalPayDDAmount,
                     TotalNoOfPayment: 0
                 }
                 additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
                 additionalParams.ACID = 0;
                 additionalParams.coursestatus = TAPsDetailsforPopUp[9];
                 additionalParams.courseid = TAPsDetailsforPopUp[2];
+                additionalParams.ValidFor = selectedExnValue;
                 additionalParams.assessmentitemid = "0";
                 //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -7078,6 +7177,10 @@ function stSubmitCallback(data) {
     if (paymentCallBack.errorcode == "0") {
         var urlMethod = getBaseUrl();
         urlMethod += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+        var selectedExnValue = $('#extentionop').val();
+        if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+            selectedExnValue = "0"
+        }
         var authKey = getAuthKeyUnencrypt();
         var portalKey = getPortalKeyUnencrypt();
         var additionalParams = resetParams();
@@ -7093,6 +7196,7 @@ function stSubmitCallback(data) {
         additionalParams.ACID = TAPsDetailsforPopUp[4];
         additionalParams.coursestatus = TAPsDetailsforPopUp[5];
         additionalParams.courseid = TAPsDetailsforPopUp[6];
+        additionalParams.ValidFor = selectedExnValue;
         additionalParams.assessmentitemid = "0";
         //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -7138,6 +7242,10 @@ function stSubmitCallbackExtn(data) {
     if (paymentCallBack.errorcode == "0") {
         var urlMethod = getBaseUrl();
         urlMethod += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+        var selectedExnValue = $('#extentionop').val();
+        if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+            selectedExnValue = "0"
+        }
         var authKey = getAuthKeyUnencrypt();
         var portalKey = getPortalKeyUnencrypt();
         var additionalParams = resetParams();
@@ -7154,6 +7262,7 @@ function stSubmitCallbackExtn(data) {
         additionalParams.ACID = 0;
         additionalParams.coursestatus = TAPsDetailsforPopUp[9];
         additionalParams.courseid = TAPsDetailsforPopUp[2];
+        additionalParams.ValidFor = selectedExnValue;
         additionalParams.assessmentitemid = "0";
         //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -7298,7 +7407,7 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                         TAPs_details += '<p style="font-size: 15px;font-family: Poppins;">' + ret.packageListField[i].tAPDescriptionField + '</p>';
                         TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;color:red"><span >Today Only </span><span style="padding-right:0px;color:red" class="ng-binding">£' + buyNow + '</span></span>';
                         TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >From Tomorrow </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
-                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField  + '>Pay Now </p>';
+                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField + '-' + ret.packageListField[i].buyNowRegularField + '>Buy Now </p>';
                         TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div><hr>';
                     }
                 }
@@ -7315,8 +7424,12 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                         TAPs_details += '<h5 style="font-size: 15px;font-family:Poppins;">' + ret.packageListField[i].tAPNameField + '</h5>';
                         TAPs_details += '<p style="font-size: 15px;font-family: Poppins;">' + ret.packageListField[i].tAPDescriptionField + '</p>';
                         TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy Now </span><span style="padding-right:0px;" class="ng-binding">£' + buyNow + '</span></span>';
-                        TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
-                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField + '>Pay Now </p>';
+                        if (buyNow != buyLater) {
+                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                        } else {
+                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;display:none;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                        }
+                        TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField + '-' + ret.packageListField[i].buyNowRegularField +  '>Buy Now </p>';
                         TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div><hr>';
                     }
                 }
@@ -7355,7 +7468,7 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
 
 function getAssessmentCenterData(courseid, ACID, returnFunction) {
     try {
-        var TAPs_details = "<option value=''>Select an Assessment Center:</option>";
+        var TAPs_details = "<option value='" + courseid + "-" + ACID+"'>Select an Assessment Center:</option>";
         getassessmentPackage(false, courseid, ACID, function (ret) {
             //$("#course_Name").empty();
             if (ret.showAccessmentCenterListField) {
@@ -7513,6 +7626,10 @@ function showCoursePaymentInaccessible(event, returnFunction) {
         //alert('in');
         if (naOK === true) {
             var id = $(event.currentTarget).attr("id");
+            
+            setTimeout(function () {
+                $("#" + id).collapsible("collapse");
+            }, 2000);
             var pClass = $('#' + id).prop('className');
             var splifclass = pClass.split(" ");
             console.log(splifclass[0] + "  -  " + splifclass[1]);
@@ -7522,8 +7639,8 @@ function showCoursePaymentInaccessible(event, returnFunction) {
             TAPsDetails = splifclass[1];
             var checkIndex = TAPsDetails.indexOf("paymentValues");
             var checkForTapcourse = TAPsDetails.split("-");
-            if (checkForTapcourse[8] && checkForTapcourse[9]  == 6) {
-                
+            if ((checkForTapcourse[8] == "false" || checkForTapcourse[8] == "true") && checkForTapcourse[9] == 6) {
+
                 var modal = document.getElementById("TAPS_Model");
                 modal.style.display = "none";
 
@@ -7652,7 +7769,149 @@ function showCoursePaymentInaccessible(event, returnFunction) {
                                         $("#paymentExtDetails").css("display", "none")
                                         submitTermAndCndition();
                                     }
-                                    
+
+                                }
+                            },
+                            error: function (msg) {
+
+                            }
+                        });
+
+                    } else {
+                        alert("Please accept accept the Privacy Policy and Cookie Policy and the statement.")
+                    }
+
+                });
+            } else if (checkForTapcourse[9] == "PaymentPending") {
+                var modal = document.getElementById("TAPS_Model");
+                modal.style.display = "none";
+                $("#extebsionOption").css("display", "none");
+                var urlMethod = getBaseUrl();
+                urlMethod += configs.getCustom("CS_TERMS_ALL_CONDITION");
+                var authKey = getAuthKeyUnencrypt();
+                var portalKey = getPortalKeyUnencrypt();
+                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                urlMethod += params;
+                $.ajax({
+                    url: urlMethod,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    success: function (data, textStatus, jqXHR) {
+                        var termsdata = data;
+                        var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                        termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                        document.getElementById("iframeforTC").src = termsurl;
+                        console.log(termsdata.getAllTermsCondtionsDataResult.Data.length);
+                        if (termsdata.getAllTermsCondtionsDataResult.Data.length > 0) {
+                            TerConditionIndex = 1;
+                            $(".nextTNC").html("Next");
+                            $(".closeTNC").html("I Disagree");
+                            $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                            $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                            $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                            var modal = document.getElementById("TAPS_T&C_Model");
+                            modal.style.display = "block";
+                        } else {
+                            $(".nextTNC").html("I Agree");
+                            $(".closeTNC").html("I Disagree");
+                            $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                            $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                            $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                            var modal = document.getElementById("TAPS_T&C_Model");
+                            modal.style.display = "block";
+                        }
+
+
+                    },
+                    error: function (msg) {
+
+                    }
+                });
+
+
+
+
+
+                $(document).off("vclick", ".closeTNC");
+                //$(".payNowTPAs").off("vclick");
+                $(document).on("vclick", ".closeTNC", function (event) {
+                    //$(".payNowTPAs").on("vclick", function(event) {
+                    event.preventDefault();
+                    TerConditionIndex = 0;
+                    var modal = document.getElementById("TAPS_T&C_Model");
+                    modal.style.display = "none";
+                });
+
+                $(document).off("vclick", ".nextTNC");
+                //$(".payNowTPAs").off("vclick");
+                $(document).on("vclick", ".nextTNC", function (event) {
+                    //$(".payNowTPAs").on("vclick", function(event) {
+                    event.preventDefault();
+                    //var modal = document.getElementById("TAPS_Model");
+                    //modal.style.display = "none";
+                    console.log(TAPsDetails);
+                    var agreeChecked = $('#TermCond').is(":checked");
+                    if (agreeChecked) {
+
+
+                        var urlMethod = getBaseUrl();
+                        urlMethod += configs.getCustom("CS_TERMS_ALL_CONDITION");
+                        var authKey = getAuthKeyUnencrypt();
+                        var portalKey = getPortalKeyUnencrypt();
+                        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                        urlMethod += params;
+                        $.ajax({
+                            url: urlMethod,
+                            dataType: "json",
+                            type: "GET",
+                            async: true,
+                            success: function (data, textStatus, jqXHR) {
+                                var termsdata = data;
+
+                                console.log(termsdata.getAllTermsCondtionsDataResult.Data.length);
+                                if (termsdata.getAllTermsCondtionsDataResult.Data.length == TerConditionIndex + 1) {
+                                    var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                                    document.getElementById("iframeforTC").src = termsurl;
+                                    document.getElementById("TermCond").checked = false;
+                                    $(".nextTNC").html("I Agree");
+                                    $(".closeTNC").html("I Disagree");
+                                    TerConditionIndex++;
+                                    $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyName);
+                                    $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyConfirmStatement);
+                                    $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyAcceptStatement);
+                                    var modal = document.getElementById("TAPS_T&C_McloseTNCodel");
+                                    modal.style.display = "block";
+                                } else if (termsdata.getAllTermsCondtionsDataResult.Data.length + 1 > TerConditionIndex + 1) {
+                                    var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                                    document.getElementById("iframeforTC").src = termsurl;
+                                    document.getElementById("TermCond").checked = false;
+                                    $(".nextTNC").html("Next");
+                                    $(".closeTNC").html("I Disagree");
+                                    TerConditionIndex++;
+                                    $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                                    $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                                    $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                                    var modal = document.getElementById("TAPS_T&C_Model");
+                                    modal.style.display = "block";
+                                }
+                                else {
+                                    var finalSubmit = TerConditionIndex - 1;
+                                    termsParamsObjNew.policyVersionID = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyVersionID;
+                                    termsParamsObjNew.PolicyTypeID = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyTypeID;
+                                    termsParamsObjNew.PolicyRole = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyRole;
+                                    termsParamsObjNew.PolicyRoleLength = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyRoleLength;
+                                    termsParamsObjNew.studentId = activeUser.userId;
+                                    if (TAPsDetails.indexOf("course") > 0) {
+                                        submitTermAndCnditionForExtension();
+                                    } else {
+                                        $("#extebsionOption").css("display", "none")
+                                        $("#paymentExtDetails").css("display", "none")
+                                        submitTermAndCndition();
+                                    }
+
                                 }
                             },
                             error: function (msg) {
@@ -13141,7 +13400,7 @@ function setRightHandMenuBtns() {
                     var acid = ids[1];
                     $("#addTPAs").empty();
                     $("#course_Name").empty();
-                    $("#assessment_center").empty();
+                    //$("#assessment_center").empty();
                     var modal = document.getElementById("TAPS_Model");
                     getAssessmentPackageData(courseid, acid, function (ret) {
                         $("#addTPAs").append(ret);
