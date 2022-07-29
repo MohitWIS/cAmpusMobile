@@ -5552,7 +5552,10 @@ function setCoursesListView() {
                                 }, msgTitle, msgBtnValue);*/
                             }
                             else {
-                                $("#" + id).collapsible("collapse");
+                                setTimeout(function () {
+                                    $("#" + id).collapsible("collapse");
+                                }, 2000);
+                                //$("#" + id).collapsible("collapse");
                                 var ids = id.split("-");
                                 var courseid = ids[1];
                                 $("#addTPAs").empty();
@@ -5769,10 +5772,10 @@ function setCoursesListView() {
                                 document.getElementById("TermCond").checked = false;
                                 $(".nextTNC").html("I Agree");
                                 $(".closeTNC").html("I Disagree");
-                                TerConditionIndex++;
                                 $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyName);
                                 $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyConfirmStatement);
                                 $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyAcceptStatement);
+                                TerConditionIndex++;
                                 var modal = document.getElementById("TAPS_T&C_McloseTNCodel");
                                 modal.style.display = "block";
                             } else if (termsdata.getAllTermsCondtionsDataResult.Data.length + 1 > TerConditionIndex + 1) {
@@ -5782,10 +5785,10 @@ function setCoursesListView() {
                                 document.getElementById("TermCond").checked = false;
                                 $(".nextTNC").html("Next");
                                 $(".closeTNC").html("I Disagree");
-                                TerConditionIndex++;
                                 $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
                                 $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
                                 $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                                TerConditionIndex++;
                                 var modal = document.getElementById("TAPS_T&C_Model");
                                 modal.style.display = "block";
                             }
@@ -7385,17 +7388,23 @@ function assessmentPackage() {
 function getAssessmentPackageData(courseid, ACID, returnFunction) {
     try {
         var TAPs_details = "";
+        console.log($("#course-" + courseid).hasClass("freeaccess"));
         getassessmentPackage(false, courseid, ACID, function (ret) {
             $("#course_Name").empty();
             $("#course_Name").append(ret.courseTitleField);
             $("#course_Name_First").empty();
             $("#course_Name_First").append(ret.courseTitleField);
-            if (!ret.isTapShownField) {
+            if ($("#course-" + courseid).hasClass("freeaccess")) {
+                $("#first_Time").css("display", "none");
+            } else {
+                $("#first_Time").css("display", "block");
+            }
+            /*if (ret.isTapShownField) {
                 $("#first_Time").css("display", "block");
             }
             else {
                 $("#first_Time").css("display", "none");
-            }
+            }*/
             /*if(ret.firstTimeAccessField){*/
             if (ret.firstTimeAccessField) {
                 if (ret.packageListField != null) {
@@ -7406,7 +7415,12 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                         TAPs_details += '<h5 style="font-size: 15px;font-family:Poppins;">' + ret.packageListField[i].tAPNameField + '</h5>';
                         TAPs_details += '<p style="font-size: 15px;font-family: Poppins;">' + ret.packageListField[i].tAPDescriptionField + '</p>';
                         TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;color:red"><span >Today Only </span><span style="padding-right:0px;color:red" class="ng-binding">£' + buyNow + '</span></span>';
-                        TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >From Tomorrow </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                        
+                        if (buyNow != buyLater) {
+                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >From Tomorrow </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                        } else {
+                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;display:none;"><span >From Tomorrow </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                        }
                         TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField + '-' + ret.packageListField[i].buyNowRegularField + '>Buy Now </p>';
                         TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div><hr>';
                     }
@@ -7735,10 +7749,10 @@ function showCoursePaymentInaccessible(event, returnFunction) {
                                     document.getElementById("TermCond").checked = false;
                                     $(".nextTNC").html("I Agree");
                                     $(".closeTNC").html("I Disagree");
-                                    TerConditionIndex++;
                                     $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyName);
                                     $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyConfirmStatement);
                                     $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyAcceptStatement);
+                                    TerConditionIndex++;
                                     var modal = document.getElementById("TAPS_T&C_McloseTNCodel");
                                     modal.style.display = "block";
                                 } else if (termsdata.getAllTermsCondtionsDataResult.Data.length + 1 > TerConditionIndex + 1) {
@@ -7748,10 +7762,10 @@ function showCoursePaymentInaccessible(event, returnFunction) {
                                     document.getElementById("TermCond").checked = false;
                                     $(".nextTNC").html("Next");
                                     $(".closeTNC").html("I Disagree");
-                                    TerConditionIndex++;
                                     $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
                                     $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
                                     $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                                    TerConditionIndex++;
                                     var modal = document.getElementById("TAPS_T&C_Model");
                                     modal.style.display = "block";
                                 }
@@ -7877,10 +7891,10 @@ function showCoursePaymentInaccessible(event, returnFunction) {
                                     document.getElementById("TermCond").checked = false;
                                     $(".nextTNC").html("I Agree");
                                     $(".closeTNC").html("I Disagree");
-                                    TerConditionIndex++;
                                     $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyName);
                                     $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyConfirmStatement);
                                     $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyAcceptStatement);
+                                    TerConditionIndex++;
                                     var modal = document.getElementById("TAPS_T&C_McloseTNCodel");
                                     modal.style.display = "block";
                                 } else if (termsdata.getAllTermsCondtionsDataResult.Data.length + 1 > TerConditionIndex + 1) {
@@ -7890,10 +7904,10 @@ function showCoursePaymentInaccessible(event, returnFunction) {
                                     document.getElementById("TermCond").checked = false;
                                     $(".nextTNC").html("Next");
                                     $(".closeTNC").html("I Disagree");
-                                    TerConditionIndex++;
                                     $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
                                     $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
                                     $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                                    TerConditionIndex++;
                                     var modal = document.getElementById("TAPS_T&C_Model");
                                     modal.style.display = "block";
                                 }

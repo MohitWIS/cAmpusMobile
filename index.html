@@ -518,14 +518,14 @@
                     </div>
                 
                     <div style="display:none" id="fullPayRadio">
-                        <input type="radio" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
+                        <input type="radio" style="float:left;" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
                         <label for="policyPararadio" id="policyParaPaynow">
                             Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
                             Total Cost= £<span id="costValue"></span> (Incl. VAT).
                         </label><br>
                     </div>
                     <div style="display:none" id="dekoRadio">
-                        <input type="radio" id="dekoPayment" name="fav_language" value="DekoPayment">
+                        <input type="radio" id="dekoPayment" style="float: left;" name="fav_language" value="DekoPayment">
                         <label for="dekoPayment" id="dekoPaymentPara">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
                     </div>
 
@@ -548,12 +548,12 @@
 
                     <br />
                     <div style="padding: 18px;font-size: 14px;">
-                        <p>Deposit -<span id="depsitamontper"></span></p>
-                        <p>Deposit Amount -£<span id="depsitamont"></span></p>
-                        <p>Monthly Repayments - <span id="monthlyamount"></span></p>
+                        <p>Deposit - <span id="depsitamontper"></span></p>
+                        <p>Deposit Amount - £<span id="depsitamont"></span></p>
+                        <p>Monthly Repayments - £<span id="monthlyamount"></span></p>
                         <p>Interest Rate - <span id="rateofint">0% (Fixed)</span></p>
-                        <p>Amount Borrowed -<span id="amontborrow"></span></p>
-                        <p>Total Payable -£<span id="totalpaydeko"></span></p>
+                        <p>Amount Borrowed - £<span id="amontborrow"></span></p>
+                        <p>Total Payable - £<span id="totalpaydeko"></span></p>
 
                     </div>
 
@@ -575,11 +575,11 @@
                 <h3 class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;text-align:center">Payment Options</h3>
                 <hr />
 
-                <div class="Pay_Now_Option_PBC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;" data-dismiss="modal">Pay By Card</div>
+                <div class="Pay_Now_Option_PBC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 10px;" data-dismiss="modal">Pay By Card</div>
 
-                <div class="Pay_Now_Option_OOPBDD" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;" data-dismiss="modal">One-off Payment by Direct Debit</div>
+                <div class="Pay_Now_Option_OOPBDD" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 10px;" data-dismiss="modal">One-off Payment by Direct Debit</div>
 
-                <div class="Pay_Now_Option_IP" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;" data-dismiss="modal">Instant Payment (Mobile Banking)</div>
+                <div class="Pay_Now_Option_IP" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 10px;" data-dismiss="modal">Instant Payment (Mobile Banking)</div>
 
 
 
@@ -1301,7 +1301,7 @@
     <script type="text/javascript" src="https://webservices.securetrading.net/js/v2/st.js"></script>
 
     <script type="text/javascript">
-        /*if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
             // true for mobile device
             console.log("mobile");
         }else{
@@ -1309,7 +1309,7 @@
             alert("This is a Mobile website open it in Mobile phones instead.")
             window.open("https://campus.eteacher.pro/","_self")
             console.log("not mobile");
-        }*/
+        }
         
 
         function getQueryParams(qs) {
