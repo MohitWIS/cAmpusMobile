@@ -6103,84 +6103,89 @@ function submitTermAndCndition() {
                 success: function (data, textStatus, jqXHR) {
                     console.log(data);
                     var UserDeatils = data.GetUserDetailsResult.Data;
-                    console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-                    var urlMethodNew = getBaseUrl();
-                    urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
-                    var selectedExnValue = $('#extentionop').val();
-                    if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
-                        selectedExnValue = "0"
-                    }
-                    var authKey = getAuthKeyUnencrypt();
-                    var portalKey = getPortalKeyUnencrypt();
-                    var additionalParams = resetParams();
-                    var TAPsDetailsforPopUp = TAPsDetails.split("-");
-                    additionalParams.TAPID = TAPsDetailsforPopUp[0];
-                    additionalParams.PaymentMethodId = "10";
-                    var paymentAmountSB = $("#costValue").text();
-                    additionalParams.Amount = paymentAmountSB;
-                    
-                    var STPaymentDetails = {
-                        Email: UserDeatils.emailField,
-                        Firstname: UserDeatils.firstNameField,
-                        Lastname: UserDeatils.lastNameField,
-                        City: UserDeatils.cityField,
-                        AddressLine1: UserDeatils.streetField,
-                        PostalCode: UserDeatils.postalCodeField,
-                        CountryCode: UserDeatils.countryCodeField,
-                        Currency: "GBP",
-                        IsInstantPayment: true,
-                        PaymentAmount: paymentAmountSB,
-                        TotalNoOfPayment: 0
-                    }
-                    additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
-                    additionalParams.ACID = TAPsDetailsforPopUp[4];
-                    additionalParams.coursestatus = TAPsDetailsforPopUp[5];
-                    additionalParams.courseid = TAPsDetailsforPopUp[6];
-                    additionalParams.ValidFor = selectedExnValue;
-                    additionalParams.assessmentitemid = "0";
-                    //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+                    if (UserDeatils != null) {
+                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                        var urlMethodNew = getBaseUrl();
+                        urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                        var selectedExnValue = $('#extentionop').val();
+                        if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                            selectedExnValue = "0"
+                        }
+                        var authKey = getAuthKeyUnencrypt();
+                        var portalKey = getPortalKeyUnencrypt();
+                        var additionalParams = resetParams();
+                        var TAPsDetailsforPopUp = TAPsDetails.split("-");
+                        additionalParams.TAPID = TAPsDetailsforPopUp[0];
+                        additionalParams.PaymentMethodId = "10";
+                        var paymentAmountSB = $("#costValue").text();
+                        additionalParams.Amount = paymentAmountSB;
 
-                    var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
-                    urlMethodNew += params;
-                    $.ajax({
-                        url: urlMethodNew,
-                        beforeSend: function () { $("#coursepage").append(mloadingGif); },
-                        complete: function () { $("#mloader").remove(); },
-                        dataType: "json",
-                        type: "GET",
-                        async: true,
-                        success: function (data, textStatus, jqXHR) {
-                            if (data != null) {
-                                console.log(data);
-                                if (data.BuildPaymentAndPayResult.Data.isGCInstantPaymentField) {
-                                    if (data.BuildPaymentAndPayResult.Data.urlField != null) {
-                                        var SuccessUrl = data.BuildPaymentAndPayResult.Data.urlField;
-                                        TerConditionIndex = 0;
-                                        window.open(SuccessUrl, "_self")
+                        var STPaymentDetails = {
+                            Email: UserDeatils.emailField,
+                            Firstname: UserDeatils.firstNameField,
+                            Lastname: UserDeatils.lastNameField,
+                            City: UserDeatils.cityField,
+                            AddressLine1: UserDeatils.streetField,
+                            PostalCode: UserDeatils.postalCodeField,
+                            CountryCode: UserDeatils.countryCodeField,
+                            Currency: "GBP",
+                            IsInstantPayment: true,
+                            PaymentAmount: paymentAmountSB,
+                            TotalNoOfPayment: 0
+                        }
+                        additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
+                        additionalParams.ACID = TAPsDetailsforPopUp[4];
+                        additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+                        additionalParams.courseid = TAPsDetailsforPopUp[6];
+                        additionalParams.ValidFor = selectedExnValue;
+                        additionalParams.assessmentitemid = "0";
+                        //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+
+                        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
+                        urlMethodNew += params;
+                        $.ajax({
+                            url: urlMethodNew,
+                            beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                            complete: function () { $("#mloader").remove(); },
+                            dataType: "json",
+                            type: "GET",
+                            async: true,
+                            success: function (data, textStatus, jqXHR) {
+                                if (data != null) {
+                                    console.log(data);
+                                    if (data.BuildPaymentAndPayResult.Data.isGCInstantPaymentField) {
+                                        if (data.BuildPaymentAndPayResult.Data.urlField != null) {
+                                            var SuccessUrl = data.BuildPaymentAndPayResult.Data.urlField;
+                                            TerConditionIndex = 0;
+                                            window.open(SuccessUrl, "_self")
+                                        } else {
+                                            alert("Unable to complete the payment. Try after some time.");
+                                            TerConditionIndex = 0;
+                                            location.reload();
+                                        }
                                     } else {
-                                        alert("Unable to complete the payment. Try after some time.");
+                                        alert(data.BuildPaymentAndPayResult.Data.errorDetailField);
                                         TerConditionIndex = 0;
                                         location.reload();
                                     }
-                                } else {
-                                    alert(data.BuildPaymentAndPayResult.Data.errorDetailField);
-                                    TerConditionIndex = 0;
-                                    location.reload();
-                                }
-                                
-                                
-                            }
-                        },
-                        error: function (msg) {
 
-                        }
-                    });
+
+                                }
+                            },
+                            error: function (msg) {
+
+                            }
+                        });
+                    } else {
+                        alert(resources.connectionFail);
+                    }
                 },
                 error: function (msg) {
 
                 }
             });
-        } catch (e) {
+        }
+        catch (e) {
 
         }
         
@@ -6299,24 +6304,29 @@ function submitTermAndCndition() {
                     var TAPsDetailsforPopUp = TAPsDetails.split("-");
                     $("#finalPayDDAmount").html(TAPsDetailsforPopUp[1]);
                     var UserDeatils = data.GetUserDetailsResult.Data;
-                    $("#firstNameDD").val(UserDeatils.firstNameField);
-                    $("#lastNameDD").val(UserDeatils.lastNameField);
-                    $("#emailDD").val(UserDeatils.emailField);
-                    $("#postalCodeDD").val(UserDeatils.postalCodeField);
-                    $("#cityDD").val(UserDeatils.cityField);
-                    $("#address1DD").val(UserDeatils.streetField);
+                    if (UserDeatils != null) {
+                        $("#firstNameDD").val(UserDeatils.firstNameField);
+                        $("#lastNameDD").val(UserDeatils.lastNameField);
+                        $("#emailDD").val(UserDeatils.emailField);
+                        $("#postalCodeDD").val(UserDeatils.postalCodeField);
+                        $("#cityDD").val(UserDeatils.cityField);
+                        $("#address1DD").val(UserDeatils.streetField);
 
-                    for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                        $("#countryId").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                        if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                            $("#countryId").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                        for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
+                            $("#countryId").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
+                            if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
+                                $("#countryId").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                            }
                         }
+                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                        var modalMain = document.getElementById("Pay_Now_Option_Model");
+                        modalMain.style.display = "none";
+                        var modal = document.getElementById("Pay_Now_FinalDD_Model");
+                        modal.style.display = "block";
+                    } else {
+                        alert(resources.connectionFail);
                     }
-                    console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-                    var modalMain = document.getElementById("Pay_Now_Option_Model");
-                    modalMain.style.display = "none";
-                    var modal = document.getElementById("Pay_Now_FinalDD_Model");
-                    modal.style.display = "block";
+                    
                     
                 }
 
@@ -6830,77 +6840,82 @@ function submitTermAndCnditionForExtension() {
                 success: function (data, textStatus, jqXHR) {
                     console.log(data);
                     var UserDeatils = data.GetUserDetailsResult.Data;
-                    console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-                    var urlMethodNew = getBaseUrl();
-                    urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
-                    var selectedExnValue = $('#extentionop').val();
-                    if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
-                        selectedExnValue = "0"
-                    }
-                    var authKey = getAuthKeyUnencrypt();
-                    var portalKey = getPortalKeyUnencrypt();
-                    var additionalParams = resetParams();
-                    var TAPsDetailsforPopUp = TAPsDetails.split("-");
-                    additionalParams.TAPID = 0;
-                    additionalParams.PaymentMethodId = "10";
-                    var AmountToPaidPP = $("#costValue").text();
-                    additionalParams.Amount = AmountToPaidPP;
-                    var STPaymentDetails = {
-                        Email: UserDeatils.emailField,
-                        Firstname: UserDeatils.firstNameField,
-                        Lastname: UserDeatils.lastNameField,
-                        City: UserDeatils.cityField,
-                        AddressLine1: UserDeatils.streetField,
-                        PostalCode: UserDeatils.postalCodeField,
-                        CountryCode: UserDeatils.countryCodeField,
-                        Currency: "GBP",
-                        IsInstantPayment: true,
-                        PaymentAmount: AmountToPaidPP,
-                        TotalNoOfPayment: 0
-                    }
-                    additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
-                    additionalParams.ACID = 0;
-                    additionalParams.coursestatus = TAPsDetailsforPopUp[9];
-                    additionalParams.courseid = TAPsDetailsforPopUp[2];
-                    additionalParams.ValidFor = selectedExnValue;
-                    additionalParams.assessmentitemid = "0";
-                    //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
+                    if (UserDeatils != null) {
+                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                        var urlMethodNew = getBaseUrl();
+                        urlMethodNew += configs.getCustom("CS_SECURE_TRADING_SUCCESS_SAVE");
+                        var selectedExnValue = $('#extentionop').val();
+                        if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
+                            selectedExnValue = "0"
+                        }
+                        var authKey = getAuthKeyUnencrypt();
+                        var portalKey = getPortalKeyUnencrypt();
+                        var additionalParams = resetParams();
+                        var TAPsDetailsforPopUp = TAPsDetails.split("-");
+                        additionalParams.TAPID = 0;
+                        additionalParams.PaymentMethodId = "10";
+                        var AmountToPaidPP = $("#costValue").text();
+                        additionalParams.Amount = AmountToPaidPP;
+                        var STPaymentDetails = {
+                            Email: UserDeatils.emailField,
+                            Firstname: UserDeatils.firstNameField,
+                            Lastname: UserDeatils.lastNameField,
+                            City: UserDeatils.cityField,
+                            AddressLine1: UserDeatils.streetField,
+                            PostalCode: UserDeatils.postalCodeField,
+                            CountryCode: UserDeatils.countryCodeField,
+                            Currency: "GBP",
+                            IsInstantPayment: true,
+                            PaymentAmount: AmountToPaidPP,
+                            TotalNoOfPayment: 0
+                        }
+                        additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
+                        additionalParams.ACID = 0;
+                        additionalParams.coursestatus = TAPsDetailsforPopUp[9];
+                        additionalParams.courseid = TAPsDetailsforPopUp[2];
+                        additionalParams.ValidFor = selectedExnValue;
+                        additionalParams.assessmentitemid = "0";
+                        //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
-                    var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
-                    urlMethodNew += params;
-                    $.ajax({
-                        url: urlMethodNew,
-                        beforeSend: function () { $("#coursepage").append(mloadingGif); },
-                        complete: function () { $("#mloader").remove(); },
-                        dataType: "json",
-                        type: "GET",
-                        async: true,
-                        success: function (data, textStatus, jqXHR) {
-                            if (data != null) {
-                                console.log(data);
-                                if (data.BuildPaymentAndPayResult.Data.isGCInstantPaymentField) {
-                                    if (data.BuildPaymentAndPayResult.Data.urlField != null) {
-                                        var SuccessUrl = data.BuildPaymentAndPayResult.Data.urlField;
-                                        TerConditionIndex = 0;
-                                        window.open(SuccessUrl, "_self")
+                        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
+                        urlMethodNew += params;
+                        $.ajax({
+                            url: urlMethodNew,
+                            beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                            complete: function () { $("#mloader").remove(); },
+                            dataType: "json",
+                            type: "GET",
+                            async: true,
+                            success: function (data, textStatus, jqXHR) {
+                                if (data != null) {
+                                    console.log(data);
+                                    if (data.BuildPaymentAndPayResult.Data.isGCInstantPaymentField) {
+                                        if (data.BuildPaymentAndPayResult.Data.urlField != null) {
+                                            var SuccessUrl = data.BuildPaymentAndPayResult.Data.urlField;
+                                            TerConditionIndex = 0;
+                                            window.open(SuccessUrl, "_self")
+                                        } else {
+                                            alert("Unable to complete the payment. Try after some time.");
+                                            TerConditionIndex = 0;
+                                            location.reload();
+                                        }
                                     } else {
-                                        alert("Unable to complete the payment. Try after some time.");
+                                        alert(data.BuildPaymentAndPayResult.Data.errorDetailField);
                                         TerConditionIndex = 0;
                                         location.reload();
                                     }
-                                } else {
-                                    alert(data.BuildPaymentAndPayResult.Data.errorDetailField);
-                                    TerConditionIndex = 0;
-                                    location.reload();
-                                }
 
+
+                                }
+                            },
+                            error: function (msg) {
 
                             }
-                        },
-                        error: function (msg) {
-
-                        }
-                    });
+                        });
+                    } else {
+                        alert(resources.connectionFail);
+                    }
+                    
                 },
                 error: function (msg) {
 
@@ -7026,24 +7041,29 @@ function submitTermAndCnditionForExtension() {
                     var AmountToPaidPP = $("#costValue").text();
                     $("#finalPayDDAmount").html(AmountToPaidPP);
                     var UserDeatils = data.GetUserDetailsResult.Data;
-                    $("#firstNameDD").val(UserDeatils.firstNameField);
-                    $("#lastNameDD").val(UserDeatils.lastNameField);
-                    $("#emailDD").val(UserDeatils.emailField);
-                    $("#postalCodeDD").val(UserDeatils.postalCodeField);
-                    $("#cityDD").val(UserDeatils.cityField);
-                    $("#address1DD").val(UserDeatils.streetField);
+                    if (UserDeatils != null) {
+                        $("#firstNameDD").val(UserDeatils.firstNameField);
+                        $("#lastNameDD").val(UserDeatils.lastNameField);
+                        $("#emailDD").val(UserDeatils.emailField);
+                        $("#postalCodeDD").val(UserDeatils.postalCodeField);
+                        $("#cityDD").val(UserDeatils.cityField);
+                        $("#address1DD").val(UserDeatils.streetField);
 
-                    for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                        $("#countryId").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                        if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                            $("#countryId").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                        for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
+                            $("#countryId").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
+                            if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
+                                $("#countryId").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                            }
                         }
+                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                        var modalMain = document.getElementById("Pay_Now_Option_Model");
+                        modalMain.style.display = "none";
+                        var modal = document.getElementById("Pay_Now_FinalDD_Model");
+                        modal.style.display = "block";
+                    } else {
+                        alert(resources.connectionFail);
                     }
-                    console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-                    var modalMain = document.getElementById("Pay_Now_Option_Model");
-                    modalMain.style.display = "none";
-                    var modal = document.getElementById("Pay_Now_FinalDD_Model");
-                    modal.style.display = "block";
+                    
 
                 }
 
