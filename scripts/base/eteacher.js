@@ -5884,6 +5884,7 @@ function submitTermAndCndition() {
             $('#policyPararadio').prop('checked', true);
             $("#dekoPaymentCalculator").css("display", "none");
             $("#fullPayRadio").css("display", "block");
+            $(".Pay_Now_Price").css("display", "block");
             if (TAPsDetailsforPopUp[1] >= 266) {
                 $("#totalpaydeko").empty();
                 $("#dekoRadio").css("display", "block");
@@ -6483,6 +6484,7 @@ function submitTermAndCnditionForExtension() {
             $("#fullPayRadio").css("display", "none");
             $("#dekoRadio").css("display", "none");
             $("#dekoPaymentCalculator").css("display", "none");
+            $(".Pay_Now_Price").css("display", "none");
             if (TAPsDetailsforPopUp[7] > 0) {
                 var monvalue = "";
                 $('#extentionop').empty();
@@ -6512,6 +6514,7 @@ function submitTermAndCnditionForExtension() {
                     var optionSelected = $("option:selected", this);
                     var valueSelected = this.value;
                     if (valueSelected != "0") {
+                        $(".Pay_Now_Price").css("display", "block");
                         $("#fullPayRadio").css("display", "block");
                         $("#discountValue").html(TAPsDetailsforPopUp[5]);
                         $("#costValue").html(TAPsDetailsforPopUp[3]);
@@ -6579,6 +6582,7 @@ function submitTermAndCnditionForExtension() {
                         $("#paymentExtDetails").css("display", "none");
                         $("#fullPayRadio").css("display", "none");
                         $("#dekoRadio").css("display", "none");
+                        $(".Pay_Now_Price").css("display", "none");
                     }
                 });
             } else if (TAPsDetailsforPopUp[9] == "PaymentPending") {
@@ -6599,7 +6603,7 @@ function submitTermAndCnditionForExtension() {
                 $("#extFee").html(compairableExtensionFee);
                 $("#costValue").html(disCountValue);
 
-                
+                $(".Pay_Now_Price").css("display", "block");
                 if (compairableExtensionFee >= 266) {
 
                     
@@ -7655,7 +7659,7 @@ function showGuideLinesInaccessible(event, returnFunction) {
         returnFunction(false);
     }
 }
-function showCoursePaymentInaccessible(event, returnFunction) {
+function showCoursePaymentInaccessible( returnFunction) {
     try {
         //alert('in');
         if (naOK === true) {
@@ -7664,7 +7668,7 @@ function showCoursePaymentInaccessible(event, returnFunction) {
             setTimeout(function () {
                 $("#" + id).collapsible("collapse");
             }, 2000);
-            var pClass = $('#' + id).prop('className');
+            var pClass = $('#' + id).parent().prop('className');
             var splifclass = pClass.split(" ");
             console.log(splifclass[0] + "  -  " + splifclass[1]);
             var courseId = id.split("-");
