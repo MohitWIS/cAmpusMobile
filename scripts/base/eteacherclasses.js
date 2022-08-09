@@ -152,10 +152,10 @@ getCoursesListView: function(status) {
                           newCourseStatus = courseStatuswtspace
                        }
 
-                       console.log(course);
+                       //console.log(course);
                       
                        courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
-                       courseStr += "<h3 id='h3-" + courseid +"'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
+                       courseStr += "<h3 id='h3-" + courseid +"'  onclick='showCoursePaymentInaccessible();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                    courseStr += "'><div class='coursetitle " + coursesingleline;
                    courseStr += "'>" + title + "</div>";
                    courseStr += "</div></h3>";
@@ -880,12 +880,12 @@ setCourseModuleList: function(courseStatus, moduleGrpObj) {
             var module;
             if (userModules.length == undefined || userModules.length == 0) {
                 modObj = userModules;
-                module = new Module(this.courseid, modObj.BaseModuleId, modObj.Title, modObj.Status, modObj.BaseModuleTypeId, modObj.ModuleOrder, modObj.Enabled, modObj.Action, modObj.EventName, modObj.ActionId,modObj.actionId,modObj.PracticeIsOptional,modObj.otaTypeId, modObj.EventId, modObj.AssessmentScheduleId, modObj.AssessmentBookingId, modObj.Display, modObj.Accessible, modObj.InAccessibleFunction, modObj.ModuleDescription, "", modObj.ModuleUrl, modObj.ModuleGrouping, modObj.IsRequiresBooking, modObj.FirstTimePackageAccess);
+                module = new Module(this.courseid, modObj.BaseModuleId, modObj.Title, modObj.Status, modObj.BaseModuleTypeId, modObj.ModuleOrder, modObj.Enabled, modObj.Action, modObj.EventName, modObj.ActionId, modObj.actionId, modObj.PracticeIsOptional, modObj.otaTypeId, modObj.EventId, modObj.AssessmentScheduleId, modObj.AssessmentBookingId, modObj.Display, modObj.Accessible, modObj.InAccessibleFunction, modObj.ModuleDescription, "", modObj.ModuleUrl, modObj.ModuleGrouping, modObj.IsRequiresBooking, modObj.FirstTimePackageAccess, modObj.Price);
                 this.modules.push(module);
             } else {
                 for (var x = 0; x < userModules.length; x++) {
                     modObj = userModules[x];
-                    module = new Module(this.courseid, modObj.BaseModuleId, modObj.Title, modObj.Status, modObj.BaseModuleTypeId, modObj.ModuleOrder, modObj.Enabled, modObj.Action, modObj.EventName, modObj.ActionId,modObj.actionId,modObj.PracticeIsOptional,modObj.otaTypeId, modObj.EventId, modObj.AssessmentScheduleId, modObj.AssessmentBookingId, modObj.Display, modObj.Accessible, modObj.InAccessibleFunction, modObj.ModuleDescription, "", modObj.ModuleUrl, modObj.ModuleGrouping, modObj.IsRequiresBooking, modObj.FirstTimePackageAccess);
+                    module = new Module(this.courseid, modObj.BaseModuleId, modObj.Title, modObj.Status, modObj.BaseModuleTypeId, modObj.ModuleOrder, modObj.Enabled, modObj.Action, modObj.EventName, modObj.ActionId, modObj.actionId, modObj.PracticeIsOptional, modObj.otaTypeId, modObj.EventId, modObj.AssessmentScheduleId, modObj.AssessmentBookingId, modObj.Display, modObj.Accessible, modObj.InAccessibleFunction, modObj.ModuleDescription, "", modObj.ModuleUrl, modObj.ModuleGrouping, modObj.IsRequiresBooking, modObj.FirstTimePackageAccess, modObj.Price);
                     this.modules.push(module);
                 }
             }
@@ -1123,7 +1123,7 @@ getModulesListView: function(status, returnFunction) {
                        //console.log(module.isRequiresBooking);
                        if (module.accessible === false) {
                        
-                         modlistStr += "<li id='" + id + "' class='moduleli " + module.inaccessiblefunction;
+                           modlistStr += "<li id='" + id + "' class='moduleli " + module.inaccessiblefunction + " paymentvalues-price-" + module.basemoduleid + "-" + module.price +"-0-0-0-0-0-PaymentPending-0";
                          modlistStr += "'>";
                          modlistStr += "<div class='limodtitleactive'><div class='statuslock " + classStatus + "'></div>";
                          modlistStr += "<div class='modulegroupdiv "+singleClassTab+"'><a id='btn-" + id + "' class='modules ui-alt-icon'>";
@@ -1197,15 +1197,15 @@ getModulesByGrouping: function(moduleGroupingId){
     return groupingModules;
 }
 };
-var Module = function(courseid, basemoduleid, title, status, basemoduletypeid, moduleorder, enabled, action, eventname, actionid,actionIdNew,practiceisoptional,otaTypeId, eventid, assessmentscheduleid, assessmentbookingid, display, accessible, inaccessiblefunction, description, thumbnail, moduleurl, modulegrouping, isRequiresBooking, firstTimePackageAccess) {
+var Module = function (courseid, basemoduleid, title, status, basemoduletypeid, moduleorder, enabled, action, eventname, actionid, actionIdNew, practiceisoptional, otaTypeId, eventid, assessmentscheduleid, assessmentbookingid, display, accessible, inaccessiblefunction, description, thumbnail, moduleurl, modulegrouping, isRequiresBooking, firstTimePackageAccess, price) {
     try {
-        this.init(courseid, basemoduleid, title, status, basemoduletypeid, moduleorder, enabled, action, eventname, actionid,actionIdNew,practiceisoptional,otaTypeId, eventid, assessmentscheduleid, assessmentbookingid, display, accessible, inaccessiblefunction, description, thumbnail, moduleurl, modulegrouping, isRequiresBooking, firstTimePackageAccess);
+        this.init(courseid, basemoduleid, title, status, basemoduletypeid, moduleorder, enabled, action, eventname, actionid, actionIdNew, practiceisoptional, otaTypeId, eventid, assessmentscheduleid, assessmentbookingid, display, accessible, inaccessiblefunction, description, thumbnail, moduleurl, modulegrouping, isRequiresBooking, firstTimePackageAccess, price);
     } catch (e) {
         errorHandler("Module", e);
     }
 };
 Module.prototype = {
-init: function(courseid, basemoduleid, title, status, basemoduletypeid, moduleorder, enabled, action, eventname, actionid, actionIdNew,practiceisoptional,otaTypeId,eventid, assessmentscheduleid, assessmentbookingid, display, accessible, inaccessiblefunction, description, thumbnail, moduleurl, modulegrouping, isRequiresBooking, firstTimePackageAccess) {
+    init: function (courseid, basemoduleid, title, status, basemoduletypeid, moduleorder, enabled, action, eventname, actionid, actionIdNew, practiceisoptional, otaTypeId, eventid, assessmentscheduleid, assessmentbookingid, display, accessible, inaccessiblefunction, description, thumbnail, moduleurl, modulegrouping, isRequiresBooking, firstTimePackageAccess, price) {
     try {
         if (courseid == undefined) {
             courseid = 0;
@@ -1278,6 +1278,9 @@ init: function(courseid, basemoduleid, title, status, basemoduletypeid, moduleor
         }
         if(firstTimePackageAccess == undefined){
             firstTimePackageAccess = false;
+        }
+        if (price == undefined) {
+            price = "";
         }
 
         if (eventid == undefined) {
@@ -1378,6 +1381,7 @@ init: function(courseid, basemoduleid, title, status, basemoduletypeid, moduleor
         this.modulegrouping = modulegrouping;
         this.isRequiresBooking = isRequiresBooking;
         this.firstTimePackageAccess = firstTimePackageAccess;
+        this.price = price;
         this.testData = new Array();
         return this;
     } catch (e) {

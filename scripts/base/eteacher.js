@@ -1537,6 +1537,12 @@ function mlogoutUser() {
             window.open(homePage, "_self")
             //goToPage("#mainhomepage");
         });
+        activeUser.userDB.transaction(function (tx) {
+            var sqlStr = "DROP TABLE UserCourses";
+            tx.executeSql(sqlStr, [], function (d) {
+                console.log(d)
+            });
+        })
         /*if (alert(text) == true) {
             hidePleaseWait();
             courseListContent = "";
@@ -6756,7 +6762,13 @@ function submitTermAndCnditionForExtension() {
             additionalParams.ACID = 0;
             additionalParams.ValidFor = selectedExnValue;
             additionalParams.coursestatus = "";
-            additionalParams.courseid = TAPsDetailsforPopUp[2];
+            if (TAPsDetailsforPopUp[1] == "price") {
+                additionalParams.courseid = "0";
+                additionalParams.basemoduleid = TAPsDetailsforPopUp[2];
+            } else {
+                additionalParams.courseid = TAPsDetailsforPopUp[2];
+            }
+            //additionalParams.courseid = TAPsDetailsforPopUp[2];
             additionalParams.assessmentitemid = "0";
             //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
@@ -6876,7 +6888,13 @@ function submitTermAndCnditionForExtension() {
                         additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
                         additionalParams.ACID = 0;
                         additionalParams.coursestatus = TAPsDetailsforPopUp[9];
-                        additionalParams.courseid = TAPsDetailsforPopUp[2];
+                        if (TAPsDetailsforPopUp[1] == "price") {
+                            additionalParams.courseid = "0";
+                            additionalParams.basemoduleid = TAPsDetailsforPopUp[2];
+                        } else {
+                            additionalParams.courseid = TAPsDetailsforPopUp[2];
+                        }
+                        //additionalParams.courseid = TAPsDetailsforPopUp[2];
                         additionalParams.ValidFor = selectedExnValue;
                         additionalParams.assessmentitemid = "0";
                         //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
@@ -7136,7 +7154,13 @@ function submitTermAndCnditionForExtension() {
                 additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
                 additionalParams.ACID = 0;
                 additionalParams.coursestatus = TAPsDetailsforPopUp[9];
-                additionalParams.courseid = TAPsDetailsforPopUp[2];
+                if (TAPsDetailsforPopUp[1] == "price") {
+                    additionalParams.courseid = "0";
+                    additionalParams.basemoduleid = TAPsDetailsforPopUp[2];
+                } else {
+                    additionalParams.courseid = TAPsDetailsforPopUp[2];
+                }
+                //additionalParams.courseid = TAPsDetailsforPopUp[2];
                 additionalParams.ValidFor = selectedExnValue;
                 additionalParams.assessmentitemid = "0";
                 //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
@@ -7288,7 +7312,14 @@ function stSubmitCallbackExtn(data) {
         additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
         additionalParams.ACID = 0;
         additionalParams.coursestatus = TAPsDetailsforPopUp[9];
-        additionalParams.courseid = TAPsDetailsforPopUp[2];
+        var baseOrCourse = "";
+        if (TAPsDetailsforPopUp[1] == "price") {
+            additionalParams.courseid = "0";
+            additionalParams.basemoduleid = TAPsDetailsforPopUp[2];
+        } else {
+            additionalParams.courseid = TAPsDetailsforPopUp[2];
+        }
+        
         additionalParams.ValidFor = selectedExnValue;
         additionalParams.assessmentitemid = "0";
         //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
@@ -7659,7 +7690,7 @@ function showGuideLinesInaccessible(event, returnFunction) {
         returnFunction(false);
     }
 }
-function showCoursePaymentInaccessible( returnFunction) {
+function showCoursePaymentInaccessible(event, returnFunction) {
     try {
         //alert('in');
         if (naOK === true) {
@@ -7668,7 +7699,7 @@ function showCoursePaymentInaccessible( returnFunction) {
             setTimeout(function () {
                 $("#" + id).collapsible("collapse");
             }, 2000);
-            var pClass = $('#' + id).parent().prop('className');
+            var pClass = $('#' + id).prop('className');
             var splifclass = pClass.split(" ");
             console.log(splifclass[0] + "  -  " + splifclass[1]);
             var courseId = id.split("-");
@@ -8043,36 +8074,188 @@ function showModuleRequiresBooking(event, returnFunction) {
 function showModulePaymentInaccessible(event, returnFunction) {
     try {
         if (naOK === true) {
-            naOK = false;
+            naOK = true;
             event.preventDefault();
             event.stopPropagation();
             hidePleaseWait;
-            msgStr = resources.modulePayment;
-            msgTitle = resources.moduleAccess;
-            msgBtnValue = resources.btnOk;
-            if (supressWarningMsgs === false) {
-                var modal = document.getElementById("Confirm_Model");
-                $("#boxTitle").empty();
-                $("#box-string").empty();
-                $("#addbutton").empty();
-                $("#boxTitle").html(msgTitle);
-                $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='showModulePaymentInaccessible37' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+            var id = $(event.currentTarget).attr("id");
+            var pClass = $('#' + id).prop('className');
+            var splifclass = pClass.split(" ");
+            console.log(splifclass[0] + "  -  " + splifclass[1]);
+            TAPsDetails = splifclass[2];
+            var TAPsDetailsforPopUp = TAPsDetails.split("-");
+            if (splifclass[1] == "modulepaymentrequired") {
+                var modal = document.getElementById("TAPS_Model");
+                modal.style.display = "none";
+                $("#extebsionOption").css("display", "none");
+                var urlMethod = getBaseUrl();
+                urlMethod += configs.getCustom("CS_TERMS_ALL_CONDITION");
+                var authKey = getAuthKeyUnencrypt();
+                var portalKey = getPortalKeyUnencrypt();
+                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                urlMethod += params;
+                $.ajax({
+                    url: urlMethod,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    success: function (data, textStatus, jqXHR) {
+                        var termsdata = data;
+                        var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                        termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                        document.getElementById("iframeforTC").src = termsurl;
+                        console.log(termsdata.getAllTermsCondtionsDataResult.Data.length);
+                        if (termsdata.getAllTermsCondtionsDataResult.Data.length > 0) {
+                            TerConditionIndex = 1;
+                            $(".nextTNC").html("Next");
+                            $(".closeTNC").html("I Disagree");
+                            $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                            $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                            $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                            var modal = document.getElementById("TAPS_T&C_Model");
+                            modal.style.display = "block";
+                        } else {
+                            $(".nextTNC").html("I Agree");
+                            $(".closeTNC").html("I Disagree");
+                            $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                            $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                            $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                            var modal = document.getElementById("TAPS_T&C_Model");
+                            modal.style.display = "block";
+                        }
 
-                modal.style.display = "block";
-                $(document).off("vclick", "#showModulePaymentInaccessible37");
-                $(document).on("vclick", "#showModulePaymentInaccessible37", function (event) {
-                    modal.style.display = "none";
-                    hidePleaseWait();
-                    naOK = true;
-                    returnFunction(true);
+
+                    },
+                    error: function (msg) {
+
+                    }
                 });
-                /*navigator.notification.confirm(msgStr, function() {
-                                               hidePleaseWait();
-                                               naOK = true;
-                                               returnFunction(true);
-                                               }, msgTitle, msgBtnValue);*/
+
+
+
+
+
+                $(document).off("vclick", ".closeTNC");
+                //$(".payNowTPAs").off("vclick");
+                $(document).on("vclick", ".closeTNC", function (event) {
+                    //$(".payNowTPAs").on("vclick", function(event) {
+                    event.preventDefault();
+                    TerConditionIndex = 0;
+                    var modal = document.getElementById("TAPS_T&C_Model");
+                    modal.style.display = "none";
+                });
+
+                $(document).off("vclick", ".nextTNC");
+                //$(".payNowTPAs").off("vclick");
+                $(document).on("vclick", ".nextTNC", function (event) {
+                    //$(".payNowTPAs").on("vclick", function(event) {
+                    event.preventDefault();
+                    //var modal = document.getElementById("TAPS_Model");
+                    //modal.style.display = "none";
+                    console.log(TAPsDetails);
+                    var agreeChecked = $('#TermCond').is(":checked");
+                    if (agreeChecked) {
+
+
+                        var urlMethod = getBaseUrl();
+                        urlMethod += configs.getCustom("CS_TERMS_ALL_CONDITION");
+                        var authKey = getAuthKeyUnencrypt();
+                        var portalKey = getPortalKeyUnencrypt();
+                        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                        urlMethod += params;
+                        $.ajax({
+                            url: urlMethod,
+                            dataType: "json",
+                            type: "GET",
+                            async: true,
+                            success: function (data, textStatus, jqXHR) {
+                                var termsdata = data;
+
+                                console.log(termsdata.getAllTermsCondtionsDataResult.Data.length);
+                                if (termsdata.getAllTermsCondtionsDataResult.Data.length == TerConditionIndex + 1) {
+                                    var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                                    document.getElementById("iframeforTC").src = termsurl;
+                                    document.getElementById("TermCond").checked = false;
+                                    $(".nextTNC").html("I Agree");
+                                    $(".closeTNC").html("I Disagree");
+                                    $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyName);
+                                    $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyConfirmStatement);
+                                    $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[TerConditionIndex].PolicyAcceptStatement);
+                                    TerConditionIndex++;
+                                    var modal = document.getElementById("TAPS_T&C_McloseTNCodel");
+                                    modal.style.display = "block";
+                                } else if (termsdata.getAllTermsCondtionsDataResult.Data.length + 1 > TerConditionIndex + 1) {
+                                    var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&index=" + TerConditionIndex;
+                                    document.getElementById("iframeforTC").src = termsurl;
+                                    document.getElementById("TermCond").checked = false;
+                                    $(".nextTNC").html("Next");
+                                    $(".closeTNC").html("I Disagree");
+                                    $("#policyTile").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyName);
+                                    $("#policyPara").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyConfirmStatement);
+                                    $("#termCon").html(termsdata.getAllTermsCondtionsDataResult.Data[0].PolicyAcceptStatement);
+                                    TerConditionIndex++;
+                                    var modal = document.getElementById("TAPS_T&C_Model");
+                                    modal.style.display = "block";
+                                }
+                                else {
+                                    var finalSubmit = TerConditionIndex - 1;
+                                    termsParamsObjNew.policyVersionID = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyVersionID;
+                                    termsParamsObjNew.PolicyTypeID = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyTypeID;
+                                    termsParamsObjNew.PolicyRole = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyRole;
+                                    termsParamsObjNew.PolicyRoleLength = termsdata.getAllTermsCondtionsDataResult.Data[finalSubmit].PolicyRoleLength;
+                                    termsParamsObjNew.studentId = activeUser.userId;
+                                    if (TAPsDetails.indexOf("course") > 0) {
+                                        submitTermAndCnditionForExtension();
+                                    } else {
+                                        $("#extebsionOption").css("display", "none")
+                                        $("#paymentExtDetails").css("display", "none")
+                                        submitTermAndCnditionForExtension();
+                                    }
+
+                                }
+                            },
+                            error: function (msg) {
+
+                            }
+                        });
+
+                    } else {
+                        alert("Please accept accept the Privacy Policy and Cookie Policy and the statement.")
+                    }
+
+                });
             }
+            else {
+                msgStr = resources.modulePayment;
+                msgTitle = resources.moduleAccess;
+                msgBtnValue = resources.btnOk;
+                if (supressWarningMsgs === false) {
+                    var modal = document.getElementById("Confirm_Model");
+                    $("#boxTitle").empty();
+                    $("#box-string").empty();
+                    $("#addbutton").empty();
+                    $("#boxTitle").html(msgTitle);
+                    $("#box-string").html(msgStr);
+                    $("#addbutton").html("<div id='showModulePaymentInaccessible37' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+
+                    modal.style.display = "block";
+                    $(document).off("vclick", "#showModulePaymentInaccessible37");
+                    $(document).on("vclick", "#showModulePaymentInaccessible37", function (event) {
+                        modal.style.display = "none";
+                        hidePleaseWait();
+                        naOK = true;
+                        returnFunction(true);
+                    });
+                    /*navigator.notification.confirm(msgStr, function() {
+                                                   hidePleaseWait();
+                                                   naOK = true;
+                                                   returnFunction(true);
+                                                   }, msgTitle, msgBtnValue);*/
+                }
+            }
+            
         }
     } catch (e) {
         errorHandler("showModulePaymentInaccessible", e);
@@ -12134,11 +12317,11 @@ function setTriggerActiveModule(returnFunction) {
             if (activeModuleGroup !== undefined) {
 
                 var modgroupid = "#modulegroup-" + activeCourse.courseid + "-" + activeModuleGroup.modulegroupid;
-                if ($("#course-" + activeCourse.courseid).hasClass("freeaccess")) {
+                /*if ($("#course-" + activeCourse.courseid).hasClass("freeaccess")) {
                 } else {
                     $(modgroupid).trigger("vclick");
-                }
-                //$(modgroupid).trigger("vclick");
+                }*/
+                $(modgroupid).trigger("vclick");
 
                 if (!(newmoduleid > 0) && activeUser.savedPosition.nodekey === "AssessmentSummary") {
                     btnId = $("#modulegrouping-" + activeModuleGroup.modulegroupid + "-" + 3);
