@@ -15,7 +15,7 @@ var resources = {
     detailsbtntxt: "DETAILS",
     liveOTABtn: "Live ,Practice ,Cancel",
     liveOTA: "You have already passed a practice exam. Do you wish to practice again or take the live exam?",
-    liveOTATrue: "Do you wish to practice or take the live assessment?",
+    liveOTATrue: "This is a practice attempt. To do the live exam, please use the cAmpus app.",
     leaveOTA: "Are you sure you wish to leave this assessment? NB: your answers will not be saved and you will be marked as referred on your assessment.",
     bookbtntxt: "BOOK",
     exmTimeOver: "Your Exam Time is over. And your OTA Exam has been submitted.",

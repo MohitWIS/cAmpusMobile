@@ -12,7 +12,7 @@ init: function() {
     try {
         this.coursesDB = openDatabase("Database", "1.0", "ETEACHER", 10000);
         this.coursesDB.transaction(function(tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS ETEACHER_COURSE (id unique, courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable)");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS ETEACHER_COURSE (id unique, courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,allowextension,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable,allowextension)");
                                    });
         this.courses = new Array();
         this.loadCourses();
@@ -26,7 +26,7 @@ loadCourses: function() {
           tx.executeSql("SELECT * FROM ETEACHER_COURSE", [], function(tx, results) {
             var len = results.rows.length;
             for (var i = 0; i < len; i++) {
-                var savedCourse = new Course(results.rows.item(i).courseid, results.rows.item(i).title, results.rows.item(i).status, results.rows.item(i).coursestatusid, results.rows.item(i).buypackage, results.rows.item(i).freeaccess, results.rows.item(i).coursecost, results.rows.item(i).coursediscounttype, results.rows.item(i).coursediscountvalue, results.rows.item(i).maxextensionterm, results.rows.item(i).validfor, results.rows.item(i).minimumextensionfee, results.rows.item(i).purchasedtapid, results.rows.item(i).isBuypackageavailable);
+                var savedCourse = new Course(results.rows.item(i).courseid, results.rows.item(i).title, results.rows.item(i).status, results.rows.item(i).coursestatusid, results.rows.item(i).buypackage, results.rows.item(i).freeaccess, results.rows.item(i).coursecost, results.rows.item(i).allowextension, results.rows.item(i).coursediscounttype, results.rows.item(i).coursediscountvalue, results.rows.item(i).maxextensionterm, results.rows.item(i).validfor, results.rows.item(i).minimumextensionfee, results.rows.item(i).purchasedtapid, results.rows.item(i).isBuypackageavailable);
               this.courses.push(savedCourse);
             }
           }, null);
@@ -86,7 +86,7 @@ refreshCourses: function(updatePostion, returnFunction) {
                                   var course;
                                   if (usercourses.length == undefined) {
                                       courseobj = usercourses;
-                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
+                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.AllowExtension, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
                                   that.courses.push(course);
                                   //if (course.accessible) {
                                   //course.setCourseModuleList(course.status, courseobj);
@@ -95,7 +95,7 @@ refreshCourses: function(updatePostion, returnFunction) {
                                   } else {
                                   for (var i = 0; i < usercourses.length; i++) {
                                   courseobj = usercourses[i];
-                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
+                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.AllowExtension, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
                                   that.courses.push(course);
                                   //if (course.accessible) {
                                   //course.setCourseModuleList(course.status, courseobj);
@@ -154,8 +154,8 @@ getCoursesListView: function(status) {
 
                        //console.log(course);
                       
-                       courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
-                       courseStr += "<h3 id='h3-" + courseid +"'  onclick='showCoursePaymentInaccessible();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
+                       courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + " " + course.allowextension + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
+                       courseStr += "<h3 id='h3-" + courseid +"'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                    courseStr += "'><div class='coursetitle " + coursesingleline;
                    courseStr += "'>" + title + "</div>";
                    courseStr += "</div></h3>";
@@ -198,6 +198,9 @@ save: function(course) {
         if (course.coursecost == undefined) {
             course.coursecost = "";
         }
+        if (!course.allowextension) {
+            course.allowextension = "allowextensionFalse";
+        }
         if (course.coursediscounttype == undefined) {
             course.coursediscounttype = "";
         }
@@ -221,7 +224,7 @@ save: function(course) {
         }
         this.usersDB.transaction(function(tx) {
                                  tx.executeSql("DELETE * FROM ETEACHER_COURSE WHERE courseid=" + course.courseid);
-            tx.executeSql("INSERT INTO ETEACHER_COURSE(courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable) VALUES (course.courseid, course.title, course.status, course.coursestatusid,course.buypackage,course.freeaccess,course.coursecost,course.coursediscounttype,course.coursediscountvalue,course.maxextensionterm,course.validfor,course.minimumextensionfee,course.purchasedtapid,course.isBuypackageavailable)");
+            tx.executeSql("INSERT INTO ETEACHER_COURSE(courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,allowextension,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable) VALUES (course.courseid, course.title, course.status, course.coursestatusid,course.buypackage,course.freeaccess,course.coursecost,course.allowextension,course.coursediscounttype,course.coursediscountvalue,course.maxextensionterm,course.validfor,course.minimumextensionfee,course.purchasedtapid,course.isBuypackageavailable)");
                                  });
     } catch (e) {
         errorHandler("Courses.save", e);
@@ -340,15 +343,15 @@ getNextCourse: function(courseId) {
     }
 }
 };
-var Course = function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
+var Course = function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
     try {
-        this.init(courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable);
+        this.init(courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable);
     } catch (e) {
         errorHandler("Course", e);
     }
 };
 Course.prototype = {
-    init: function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
+    init: function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
     try {
         this.modulegroups = [];
         if (courseid == undefined) {
@@ -394,6 +397,9 @@ Course.prototype = {
         }
         if (coursecost == undefined) {
             coursecost = 0;
+        }
+        if (!allowextension) {
+            allowextension = "allowextensionFalse";
         }
         if (coursediscounttype == undefined) {
             coursediscounttype = "";
@@ -441,6 +447,7 @@ Course.prototype = {
         this.buypackage = buypackage;
         this.freeaccess = freeaccess;
         this.coursecost = coursecost;
+        this.allowextension = allowextension;
         this.coursediscounttype = coursediscounttype;
         this.coursediscountvalue = coursediscountvalue;
         this.maxextensionterm = maxextensionterm;
@@ -1372,7 +1379,8 @@ Module.prototype = {
         
         this.PayToBookAction = "";
         
-        this.PayToBookPhoneNumber= "";
+        this.PayToBookPhoneNumber = "";
+        this.PayToBookPrice = "";
         this.scheduledates = new Array();
         this.schedulefulldates = new Array();
         this.hasbooking = false;
@@ -1916,7 +1924,8 @@ getAssessmentSchedules: function(returnFunction) {
                                                   //window.localStorage.removeItem("GetAssessmentSchedules");
                                                   //window.localStorage.setItem("GetAssessmentSchedules",JSON.stringify(ret));
                                                   that.PayToBookAction= ret.PayToBookAction;
-                                                  that.PayToBookPhoneNumber = ret.PhoneNumber;
+                                                      that.PayToBookPhoneNumber = ret.PhoneNumber;
+                                                      that.PayToBookPrice = ret.PayToBookAmount;
                                                   //window.localStorage.removeItem("BookingMessage");
                                                   //window.localStorage.setItem("BookingMessage",ret.BookingMessage);
                                                   
@@ -2243,6 +2252,7 @@ getAssessmentSchedulesListView: function(returnFunction) {
                 //console.log(this.PayToBookPhoneNumber);
 
                 var MobNo = this.PayToBookPhoneNumber;
+                var PayToBookAmount = this.PayToBookPrice;
                 var CalltoPay= MobNo.replace(/ /g,"");
                 //alert(this.BookingMessage);
                 var GetAssessmentSchedules = window.localStorage.getItem("GetAssessmentSchedules");
@@ -2277,8 +2287,8 @@ getAssessmentSchedulesListView: function(returnFunction) {
                         title = schedule.venuename;
                     }
                     schedulesStr += schedule.starttime + ", " + title;
-                    schedulesStr += "</div>";
-                    schedulesStr += "<div class='bookbtn' style='background-color:#55c7a6;padding-top: 6.1px;width: auto;padding-left: 5px;padding-right: 5px;float:right !important;' id="+CalltoPay+"><a class='schedulebookbtn paynbook ";
+                      schedulesStr += "</div>";
+                      schedulesStr += "<div class='bookbtn' style='background-color:#55c7a6;padding-top: 6.1px;width: auto;padding-left: 5px;padding-right: 5px;float:right !important;' id=" + CalltoPay + "><a class='schedulebookbtn paynbook " + "paymentvaluesPayNBook-price-" + schedule.assessmentitemid + "-" + PayToBookAmount + "-0-0-0-0-0-PaymentPending-0-" + schedule.basemoduleid;
 
                     schedulesStr += schedule.restrictbooking===true ? 'restrictbooking' : '';
                     schedulesStr += " ui-btn ui-btn-h' data-theme='h' href='#' id='book-" + schedule.assessmentscheduleid + "-" + schedule.assessmentitemid + "'>" + resources.bookbtntxtPayToBook + "</a></div>";

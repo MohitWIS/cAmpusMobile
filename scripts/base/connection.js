@@ -329,7 +329,7 @@ function getSSOLoginData(getLocal, encData, returnFunction) {
                                 success: function (data, textStatus, jqXHR) {
                                     var coursesResponseObj = data;
                                     if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
-                                        saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function (ret) { });
+                                        //saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function (ret) { });
                                     } else {
                                         //returnFunction(0);
                                     }
@@ -512,7 +512,7 @@ function getFirstLoginData(getLocal, returnFunction) {
                    success: function(data, textStatus, jqXHR) {
                    var coursesResponseObj = data;
                    if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
-                   saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
+                   //saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
                    } else {
                    //returnFunction(0);
                    }
@@ -640,7 +640,7 @@ function getCoursesData(getLocal, returnFunction) {
                    success: function(data, textStatus, jqXHR) {
                    coursesResponseObj = data;
                    if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
-                   saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
+                   //saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
                    coursesObj = coursesResponseObj.CoursesGetForUserResult;
                    returnFunction(coursesObj);
                    } else {
@@ -727,7 +727,7 @@ function getFirstCoursesData(getLocal, returnFunction) {
                    success: function(data, textStatus, jqXHR) {
                    coursesResponseObj = data;
                    if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
-                   saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
+                   //saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
                    coursesObj = coursesResponseObj.CoursesGetForUserResult;
                    returnFunction(coursesObj);
                    } else {
@@ -2723,7 +2723,7 @@ function setupLocalData(returnFunction) {
             
             activeUser.userDB.transaction(function(tx) {
                                           tx.executeSql("CREATE TABLE IF NOT EXISTS UserAuthenticate (id integer primary key autoincrement, params text, data text)");
-                                          tx.executeSql("CREATE TABLE IF NOT EXISTS UserCourses (id integer primary key autoincrement, params text, data text)");
+                                          //tx.executeSql("CREATE TABLE IF NOT EXISTS UserCourses (id integer primary key autoincrement, params text, data text)");
                                           tx.executeSql("CREATE TABLE IF NOT EXISTS UserLessons (id integer primary key autoincrement, params text, data text)");
                                           tx.executeSql("CREATE TABLE IF NOT EXISTS SCOTheoryView  (id integer primary key autoincrement, params text, data text)");
                                           tx.executeSql("CREATE TABLE IF NOT EXISTS Guidelines  (id integer primary key autoincrement, params text, data text)");
