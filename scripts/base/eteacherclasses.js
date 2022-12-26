@@ -147,7 +147,8 @@ getCoursesListView: function(status) {
                        var courseStatuswtspace = course.status;
                        var newCourseStatus = "";
                        if (courseStatuswtspace == "Payment Pending") {
-                          newCourseStatus = courseStatuswtspace.replace(/ /g, '');
+                           //newCourseStatus = courseStatuswtspace.replace(/ /g, '');
+                           newCourseStatus = 2;
                        } else {
                           newCourseStatus = courseStatuswtspace
                        }
@@ -155,7 +156,9 @@ getCoursesListView: function(status) {
                        //console.log(course);
                       
                        courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + " " + course.allowextension + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
-                       courseStr += "<h3 id='h3-" + courseid +"'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
+                       //courseStr += "<h3 id='h3-" + courseid + "'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
+                       //for testing
+                       courseStr += "<h3 id='h3-" + courseid + "'  onclick='showCoursePaymentInaccessible();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                    courseStr += "'><div class='coursetitle " + coursesingleline;
                    courseStr += "'>" + title + "</div>";
                    courseStr += "</div></h3>";

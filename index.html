@@ -520,10 +520,22 @@
                     <div style="display:none" id="fullPayRadio">
                         <input type="radio" style="float:left;" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
                         <label for="policyPararadio" id="policyParaPaynow">
-                            Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
+                            Pay in full now and recieve a prompt payment discount of £<span id="installDiscountValue"></span> (Incl. VAT).
                             Total Cost= £<span id="costValue"></span> (Incl. VAT).
                         </label><br>
                     </div>
+                    <div style="display:none" id="installPayRadio">
+                        <input type="radio" style="float:left;" id="installpolicyPararadio" name="fav_language" value="policyParaRadio">
+                        <label for="installpolicyPararadio" id="installPay">
+                            Pay in full now and Total Cost= £<span id="installCostValue"></span> (Incl. VAT) per <span id="monthsSelect"></span> months.
+                        </label>
+                        <div id="istallOption" style="display:none">
+                            <span>Request Installment Months For:</span>
+                            <select id="installMonth">
+                                <option value="0">-select months-</option>
+                            </select>
+                        </div>
+                    </div><br />
                     <div style="display:none" id="dekoRadio">
                         <input type="radio" id="dekoPayment" style="float: left;" name="fav_language" value="DekoPayment">
                         <label for="dekoPayment" id="dekoPaymentPara">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
@@ -542,7 +554,7 @@
 
                     <br />
                     <p style="margin: 0px;padding-left: 18px;">Select the term of your loan. Months</p>
-                    <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="8" step="1">
+                    <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="7" step="1">
                     <div style="text-align:center"><span id="monthdekooutour"></span><span> months</span></div>
 
 
