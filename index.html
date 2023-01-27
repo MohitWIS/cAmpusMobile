@@ -5,17 +5,18 @@
     <meta charset="utf-8" />
     <meta name=viewport content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 " />
     <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'  https://webservices.securetrading.net https://*.googleapis.com https://maps.googleapis.com https://maps.gstatic.com www.google-analytics.com ajax.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'  https://webservices.securetrading.net https://songbirdstag.cardinalcommerce.com https://*.googleapis.com https://maps.googleapis.com https://maps.gstatic.com www.google-analytics.com ajax.googleapis.com;">
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.theme.css" />
     <link rel="stylesheet" type="text/css" href="css/base/mediaelementplayer.min.css" />
     <link rel="stylesheet" type="text/css" href="css/base/datebox.css" />
-    <link rel="stylesheet" type="text/css" href="css/base/eteacher.css"/>
-    <link rel="stylesheet" type="text/css" href="css/base/eteacher.mobile.css"/>
-    <link rel="stylesheet" type="text/css" href="css/client/client.css"/>
-    <link rel="stylesheet" type="text/css" href="css/base/jquery-ui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/base/google_icon.css"/>
+    
+    <link rel="stylesheet" type="text/css" href="css/base/eteacher.css" />
+    <link rel="stylesheet" type="text/css" href="css/base/eteacher.mobile.css" />
+    <link rel="stylesheet" type="text/css" href="css/client/client.css" />
+    <link rel="stylesheet" type="text/css" href="css/base/jquery-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/base/google_icon.css" />
 
 </head>
 <body class="ui-body-h">
@@ -422,25 +423,31 @@
                 <div id="first_Time" style="display:none;">
                     <h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;">Congratulations</h5>
                     <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;">
-                        <span >Thanks for enrolling on the</span> <span id="course_Name_First"></span>
-                        <span > course. You can now study the online theory for free.</span>
+                        <span>On registering your interest in the</span> <span id="course_Name_First"></span>
+                        <span> course.</span>
+                        <!--<span>Thanks for enrolling on the</span> <span id="course_Name_First"></span>
+    <span> course. You can now study the online theory for free.</span>-->
                     </p>
-                    <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;"><span translate="" class="ng-scope">If you wish to qualify and get support, you will need to purchase a Training & Assessment Package.</span></p>
+                    <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;display:none;"><span class="ng-scope">If you wish to qualify and get support, you will need to purchase a Training & Assessment Package.</span></p>
                 </div>
-                <h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;" translate="">Purchase Your Training &amp; Assessment Package</h5>
+                <h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;" translate="">Select Your Study Option</h5>
+                <!--<h5 class="modal-title ng-scope" style="font-family:'Poppins';font-size: 15px;margin-top: 0px;font-weight: 900;" translate="">Purchase Your Training &amp; Assessment Package</h5>-->
                 <p class="ng-binding" style="font-family: 'Poppins';font-size: 15px;">
                     <!--<span >To be assessed and recieve your final certificate, you will purchase a Training &amp;/or Assessment package. For the</span> <span id="course_Name"></span>
-                    <span >, you have the following packages to choose from:</span>-->
+        <span >, you have the following packages to choose from:</span>-->
                     <span>Thanks for registering your details. To enrol on the </span> <span id="course_Name"></span>
-                    <span>course, please choose your Training & Assessment Package (study option) and click ‘Buy Now’.</span>
+                    <span>course, please select your study option and click ‘Buy Now’.</span>
+                    <!--<span>course, please choose your Training & Assessment Package (study option) and click ‘Buy Now’.</span>-->
                 </p>
 
                 <div>
 
                     <!-- ngIf: trainingAssessmentPackageData.AccessmentCenters.length > 0 -->
                 </div>
+                <p id="assessment_center_text">Please select the Training & Assessment Centre you wish to study with?</p>
             </div>
             <div class="closeTAPsLates" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: black;margin: 11px;width: 70%;margin-left: 12%;display:none;" data-dismiss="modal" translate="">Decide Later</div>
+            
             <select name="assessment" id="assessment_center">
                 <option value="">Select an Assessment Center:</option>
 
@@ -475,16 +482,47 @@
                 </p>
 
                 <input style="float:left" type="checkbox" id="TermCond" name="TermCond" value="TermCond">
-                <label id="termCon" for="TermCond">  </label>
+                <label style="padding-left:21px;" id="termCon" for="TermCond">  </label>
                 <div>
 
                     <!-- ngIf: trainingAssessmentPackageData.AccessmentCenters.length > 0 -->
                 </div>
             </div>
 
-            <hr>
-            <div class="nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;" data-dismiss="modal" translate="">Next</div>
+            <!--<hr>-->
+            <div class="nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;    margin-top: 5.5px;" data-dismiss="modal" translate="">Next</div>
             <div class="closeTNC" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: black;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">I Disagree</div>
+
+        </div>
+    </div>
+
+
+    <div id="Install_T&C_Model" class="modal" style="display:none !important;">
+
+        <div class="modal-content">
+
+            <div class="box-header" style="padding:20px 20px 0 20px;">
+                <h3 id="Install_policyTile" class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;" translate=""></h3>
+                <div style="border: 1px solid black;">
+                    <div style="width: 100%; overflow: hidden; overflow-y: auto; padding: 0px;">
+                        <iframe style="background-color: White; width: 100%; height: 35vh;" frameborder="0" id="Install_iframeforTC" src=""></iframe>
+                    </div>
+                </div>
+                <p id="Install_policyPara" class="ng-binding" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 11px;">
+
+                </p>
+
+                <input style="float:left" type="checkbox" id="Install_TermCond" name="Install_TermCond" value="Install_TermCond">
+                <label id="Install_termCon" for="Install_TermCond" style="font-size: 14px;padding-left: 21px;">  </label>
+                <div>
+
+                    <!-- ngIf: trainingAssessmentPackageData.AccessmentCenters.length > 0 -->
+                </div>
+            </div>
+
+           
+            <div class="Install_nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;margin-top: 5.5px;" data-dismiss="modal" translate="">I Agree</div>
+            <div class="Install_closeTNC" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: black;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">I Disagree</div>
 
         </div>
     </div>
@@ -493,89 +531,90 @@
 
         <div class="modal-content">
             <span class="close_Pay_Now_Price_Model" style="color: black;float: right;font-size: 28px;font-weight: bold;padding: 0px 10px;">×</span>
-            <div class="box-header" style="padding:20px 20px 0 20px;">
+            <div class="box-header" style="padding:20px 20px 0 20px;font-size: 14px;">
                 <h3 class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;">Payment Options</h3>
                 <hr />
                 <!--<p id="policyPara" class="ng-binding" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 11px;">
-        Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
-        Total Cost= £<span id="costValue"></span> (Incl. VAT).
-    </p>-->
-                    <div id="extebsionOption" style="display:none">
-                        <span>Request Extension For:</span>
-                        <select id="extentionop">
+                    Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
+                    Total Cost= £<span id="costValue"></span> (Incl. VAT).
+                </p>-->
+                <div id="extebsionOption" style="display:none">
+                    <span>Request Extension For:</span>
+                    <select id="extentionop">
+                        <option value="0">-select months-</option>
+                    </select>
+                </div>
+
+                <div id="paymentExtDetails" style="display:none">
+                    <h3>Payment</h3>
+                    <span>Please review your extension payment option below. To continue studying, click the Pay Now button below once you have selected your payment option.</span>
+                    <h3>Information</h3>
+                    <p>Extension Fee - £<span id="extFee"></span></p>
+                    <p>Prompt Payment Price - £<span id="extPPprice"></span></p>
+                    <p>Extension Term - <span id="extTerm"></span> months</p>
+                    <hr />
+                </div>
+
+                <div style="display:none" id="fullPayRadio">
+                    <input type="radio" style="float:left;" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
+                    <label for="policyPararadio" id="policyParaPaynow" style="padding-left:21px;font-size: 14px;">
+                        Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
+                        <!--Pay in full now and recieve a prompt payment discount of £<span id="installDiscountValue"></span> (Incl. VAT).-->
+                        Total Cost= £<span id="costValue"></span> (Incl. VAT).
+                    </label><br>
+                </div>
+                <div style="display:none" id="installPayRadio">
+                    <input type="radio" style="float:left;" id="installpolicyPararadio" name="fav_language" value="policyParaRadio">
+                    <label for="installpolicyPararadio" id="installPay" style="padding-left:21px;font-size: 14px;">
+                        Pay Monthly from £<span id="installCostValue"></span> /month. Total Cost = £<span id="totalCost"></span><span id="monthsSelect" style="display:none;"></span> (Incl. VAT).
+                    </label>
+                    <div id="istallOption" style="display:none;padding-left:21px;font-size: 14px;">
+                        <span>Number of Months:</span>
+                        <select id="installMonth">
                             <option value="0">-select months-</option>
                         </select>
                     </div>
-
-                    <div id="paymentExtDetails" style="display:none">
-                        <h2>Payment</h2>
-                        <span>Please review your extension payment option below. To continue studying, click the Pay Now button below once you have selected your payment option.</span>
-                        <h2>Information</h2>
-                        <p>Extension Fee - £<span id="extFee"></span></p>
-                        <p>Prompt Payment Price - £<span id="extPPprice"></span></p>
-                        <p>Extension Term - <span id="extTerm"></span> months</p>
-                        <hr />
-                    </div>
-                
-                    <div style="display:none" id="fullPayRadio">
-                        <input type="radio" style="float:left;" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
-                        <label for="policyPararadio" id="policyParaPaynow">
-                            Pay in full now and recieve a prompt payment discount of £<span id="installDiscountValue"></span> (Incl. VAT).
-                            Total Cost= £<span id="costValue"></span> (Incl. VAT).
-                        </label><br>
-                    </div>
-                    <div style="display:none" id="installPayRadio">
-                        <input type="radio" style="float:left;" id="installpolicyPararadio" name="fav_language" value="policyParaRadio">
-                        <label for="installpolicyPararadio" id="installPay">
-                            Pay in full now and Total Cost= £<span id="installCostValue"></span> (Incl. VAT) per <span id="monthsSelect"></span> months.
-                        </label>
-                        <div id="istallOption" style="display:none">
-                            <span>Request Installment Months For:</span>
-                            <select id="installMonth">
-                                <option value="0">-select months-</option>
-                            </select>
-                        </div>
-                    </div><br />
-                    <div style="display:none" id="dekoRadio">
-                        <input type="radio" id="dekoPayment" style="float: left;" name="fav_language" value="DekoPayment">
-                        <label for="dekoPayment" id="dekoPaymentPara">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
-                    </div>
-
+                </div><br />
+                <div style="display:none;" id="dekoRadio">
+                    <input type="radio" id="dekoPayment" style="float: left;" name="fav_language" value="DekoPayment">
+                    <label for="dekoPayment" id="dekoPaymentPara" style="padding-left:21px;font-size: 14px;">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
                 </div>
-
-
-                <div id="dekoPaymentCalculator" style="display:none;">
-                    <br />
-                    <br />
-
-                    <p style="margin: 0px;padding-left: 18px;">Move the slider to select your deposit amount.</p>
-                    <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="9" step="1">
-                    <div style="text-align:center"><span id="amountdekooutput"></span><span>%</span></div>
-
-                    <br />
-                    <p style="margin: 0px;padding-left: 18px;">Select the term of your loan. Months</p>
-                    <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="7" step="1">
-                    <div style="text-align:center"><span id="monthdekooutour"></span><span> months</span></div>
-
-
-                    <br />
-                    <div style="padding: 18px;font-size: 14px;">
-                        <p>Deposit - <span id="depsitamontper"></span></p>
-                        <p>Deposit Amount - £<span id="depsitamont"></span></p>
-                        <p>Monthly Repayments - £<span id="monthlyamount"></span></p>
-                        <p>Interest Rate - <span id="rateofint">0% (Fixed)</span></p>
-                        <p>Amount Borrowed - £<span id="amontborrow"></span></p>
-                        <p>Total Payable - £<span id="totalpaydeko"></span></p>
-
-                    </div>
-
-                </div>
-
-                <hr>
-                <div class="Pay_Now_Price" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;" data-dismiss="modal" translate="">Pay Now</div>
-
 
             </div>
+
+
+            <div id="dekoPaymentCalculator" style="display:none;width: 90%;padding-left: 5%;font-size: 14px;">
+                <br />
+                <br />
+
+                <p style="margin: 0px;padding-left: 18px;">Move the slider to select your deposit amount.</p>
+                <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="9" step="1">
+                <div style="text-align:center"><span id="amountdekooutput"></span><span>%</span></div>
+
+                <br />
+                <p style="margin: 0px;padding-left: 18px;">Select the term of your loan. Months</p>
+                <input style="width:87%; margin-left:5%;" id="monthdeko" list="markers" type="range" min="0" value="0" max="7" step="1">
+                <div style="text-align:center"><span id="monthdekooutour"></span><span> months</span></div>
+
+
+                <br />
+                <div style="padding: 18px;font-size: 14px;">
+                    <p>Deposit - <span id="depsitamontper"></span></p>
+                    <p>Deposit Amount - £<span id="depsitamont"></span></p>
+                    <p>Monthly Repayments - £<span id="monthlyamount"></span></p>
+                    <p>Interest Rate - <span id="rateofint">0% (Fixed)</span></p>
+                    <p>Amount Borrowed - £<span id="amontborrow"></span></p>
+                    <p>Total Payable - £<span id="totalpaydeko"></span></p>
+
+                </div>
+
+            </div>
+
+            <!--<hr>-->
+            <div class="Pay_Now_Price" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;" data-dismiss="modal" translate="">Pay Now</div>
+
+
+        </div>
     </div>
 
 
@@ -1310,7 +1349,7 @@
     <script type="text/javascript" src="scripts/base/helpdesk.js"></script>
     <!--<script type="text/javascript" src="scripts/base/viewerUpper.js"></script>-->
     <script type="text/javascript" src="localization/resources_en.js"></script>
-    <script type="text/javascript" src="https://webservices.securetrading.net/js/v2/st.js"></script>
+    <script type="text/javascript" src="https://webservices.securetrading.net/js/v3/st.js"></script>
 
     <script type="text/javascript">
         /*if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -1322,7 +1361,7 @@
             window.open("https://campus.eteacher.pro/","_self")
             console.log("not mobile");
         }*/
-        
+
 
         function getQueryParams(qs) {
             qs = qs.split('+').join(' ');
@@ -1356,7 +1395,7 @@
             initStart();
         }
 
-                                    //document.addEventListener('deviceready', deviceReady, false);
+                                        //document.addEventListener('deviceready', deviceReady, false);
 
     </script>
 </body>

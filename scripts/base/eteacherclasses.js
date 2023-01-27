@@ -156,11 +156,12 @@ getCoursesListView: function(status) {
                        //console.log(course);
                       
                        courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + " " + course.allowextension + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
+                       //for live
                        //courseStr += "<h3 id='h3-" + courseid + "'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                        //for testing
-                       courseStr += "<h3 id='h3-" + courseid + "'  onclick='showCoursePaymentInaccessible();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
+                       courseStr += "<h3 id='h3-" + courseid + "'  onclick='showCoursePaymentInaccessible(event);' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                    courseStr += "'><div class='coursetitle " + coursesingleline;
-                   courseStr += "'>" + title + "</div>";
+                       courseStr += "'>" + title + "</div>";
                    courseStr += "</div></h3>";
                    courseStr += "<div class='modulegroupsli'><ul data-role='listview' class='ulgroups' data-theme='h' data-inset='false'>";
                    courseStr += course.getModuleGroupListView(course.status);
@@ -759,6 +760,12 @@ getModuleGroupListView: function(status) {
                           title = title.substring(0, 94) + "...";
                       }
                     }
+
+                    if (window.screen.width < 470) {
+                        
+                            title = title.substring(0, 34) + "...";
+                        
+                    }
                     var modStatusDisplay="";
                     if (status===courseStatus.Suspended || status===courseStatus.Payment || status===courseStatus.PaymentPending){
                         modStatusDisplay="coursepaymentrequired";
@@ -1129,11 +1136,17 @@ getModulesListView: function(status, returnFunction) {
                               title = title.substring(0, 94) + "...";
                           }
                       }
-                       
+                           if (window.screen.width < 470) {
+
+                               title = title.substring(0, 34) + "...";
+
+                           }
                        //console.log(module.isRequiresBooking);
                        if (module.accessible === false) {
                        
-                           modlistStr += "<li id='" + id + "' class='moduleli " + module.inaccessiblefunction + " paymentvalues-price-" + module.basemoduleid + "-" + module.price +"-0-0-0-0-0-PaymentPending-0";
+                           modlistStr += "<li id='" + id + "' class='moduleli " + module.inaccessiblefunction + " paymentvalues-price-" + module.basemoduleid + "-" + module.price + "-0-0-0-0-0-2-0";
+                           //payment pending issue
+                           //modlistStr += "<li id='" + id + "' class='moduleli " + module.inaccessiblefunction + " paymentvalues-price-" + module.basemoduleid + "-" + module.price + "-0-0-0-0-0-PaymentPending-0";
                          modlistStr += "'>";
                          modlistStr += "<div class='limodtitleactive'><div class='statuslock " + classStatus + "'></div>";
                          modlistStr += "<div class='modulegroupdiv "+singleClassTab+"'><a id='btn-" + id + "' class='modules ui-alt-icon'>";
@@ -2291,7 +2304,9 @@ getAssessmentSchedulesListView: function(returnFunction) {
                     }
                     schedulesStr += schedule.starttime + ", " + title;
                       schedulesStr += "</div>";
-                      schedulesStr += "<div class='bookbtn' style='background-color:#55c7a6;padding-top: 6.1px;width: auto;padding-left: 5px;padding-right: 5px;float:right !important;' id=" + CalltoPay + "><a class='schedulebookbtn paynbook " + "paymentvaluesPayNBook-price-" + schedule.assessmentitemid + "-" + PayToBookAmount + "-0-0-0-0-0-PaymentPending-0-" + schedule.basemoduleid;
+                      schedulesStr += "<div class='bookbtn' style='background-color:#55c7a6;padding-top: 6.1px;width: auto;padding-left: 5px;padding-right: 5px;float:right !important;' id=" + CalltoPay + "><a class='schedulebookbtn paynbook " + "paymentvaluesPayNBook-price-" + schedule.assessmentitemid + "-" + PayToBookAmount + "-0-0-0-0-0-2-0-" + schedule.basemoduleid;
+                      //payment pending issue
+                      //schedulesStr += "<div class='bookbtn' style='background-color:#55c7a6;padding-top: 6.1px;width: auto;padding-left: 5px;padding-right: 5px;float:right !important;' id=" + CalltoPay + "><a class='schedulebookbtn paynbook " + "paymentvaluesPayNBook-price-" + schedule.assessmentitemid + "-" + PayToBookAmount + "-0-0-0-0-0-PaymentPending-0-" + schedule.basemoduleid;
 
                     schedulesStr += schedule.restrictbooking===true ? 'restrictbooking' : '';
                     schedulesStr += " ui-btn ui-btn-h' data-theme='h' href='#' id='book-" + schedule.assessmentscheduleid + "-" + schedule.assessmentitemid + "'>" + resources.bookbtntxtPayToBook + "</a></div>";

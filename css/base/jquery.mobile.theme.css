@@ -35,9 +35,10 @@ select,
 textarea,
 button,
 .ui-btn {
-	font-size: 1em;
-	line-height: 1.3;
-	 font-family: 'Poppins', Calibri, sans-serif /*{global-font-family}*/;
+    font-size: 1em;
+    line-height: 1.1;
+    /*line-height: 1.3;*/
+    font-family: 'Poppins', Calibri, sans-serif /*{global-font-family}*/;
 }
 legend,
 .ui-input-text input,
@@ -49,7 +50,7 @@ legend,
 .ui-mobile label,
 div.ui-controlgroup-label {
 	font-weight: normal;
-	font-size: 16px;
+	font-size: 14px;
 }
 /* Separators
 -----------------------------------------------------------------------------------------------------------*/
@@ -268,7 +269,8 @@ html .ui-panel-page-container-h {
 	background-color: #ffffff /*{a-body-background-color}*/;
 	border: none /*{a-body-border}*/;
 	color: #3b3b3b /*{a-body-color}*/;
-	text-shadow: 0 /*{a-body-shadow-x}*/ 0 /*{a-body-shadow-y}*/ 0 /*{a-body-shadow-radius}*/ #3b3b3b /*{a-body-shadow-color}*/;
+	text-shadow: none;
+    /*text-shadow: 0 0 0 #3b3b3b;*/
 }
 .ui-body-h {
 	border-width: 1px;

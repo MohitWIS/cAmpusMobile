@@ -116,7 +116,12 @@ input, textarea {
 .coursesli .clientheader a{padding-top: .5%;
     padding-bottom: 1% !important;}
 .limodtitlediv{padding-top: 1%;}
-.modulegroupdiv{max-width: 75%;padding-top:0; min-height:3.2em;}
+.modulegroupdiv {
+    max-width: 75%;
+    padding-top: 0;
+    min-height: 3.2em;
+    transform: translateY(13px);
+}
 .coursetitle{padding-top: 2%;
     padding-bottom: 1%;
     overflow: hidden;

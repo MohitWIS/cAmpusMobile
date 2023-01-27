@@ -1369,7 +1369,10 @@ div.ui-input-search.ui-body-inherit.ui-corner-all.ui-shadow-inset.ui-input-has-c
     background-image: url(images/lessons.png);
 }
 
-.coursetitlediv, .sectiontitlediv{background-color: #41424C;}
+.coursetitlediv, .sectiontitlediv {
+    background-color: #41424C;
+    display: flex;
+}
 .sectiontitlediv{float: left;
     padding-left: 2%;
     padding-top: 1%;
@@ -5424,8 +5427,8 @@ ul .off {
     }
 
 
-    .modulegroupdiv{
-        padding-top: 20px !important;
+    .modulegroupdiv {
+        /*padding-top: 20px !important;*/
     }
 
     .tabmodulegroupdiv{
@@ -5480,7 +5483,7 @@ ul .off {
         text-align: center;
         width: 80%;
             margin-left: 6%;
-            margin-top: 50px;
+            margin-top: 15px;
 }
 
 .font-size{

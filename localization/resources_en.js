@@ -157,8 +157,8 @@ var resources = {
     sectionAccess: "Lesson Structure Access",
     sectionIncomplete: "You must complete all pre-requisite sections before accessing this section.",
     pdfviewimgtxt: "View Theory PDF",
-    helpdeskimgtxt: "Learner Support",
-    helpdeskimgtxtCaps: "LEARNER SUPPORT",
+    helpdeskimgtxt: "Learner Success",
+    helpdeskimgtxtCaps: "LEARNER SUCCESS",
     jobboardimgtxtCaps: "JOB BOARD",
     //helpdeskimgtxt: "Help Desk",
     jobApplicationSuccess: "Your job application has been successfully submitted.",
@@ -347,7 +347,7 @@ var resources = {
     downloadFolder: "You may access the file from your Downloads folder. Tap here to view now.",
     btnViewCancel: "VIEW,CANCEL",
     RequiresBooking: "INFO",
-    RequiresBookingMsg: "You do not need to book this assessment. Please submit your work to Learner Support and it will be assigned to a tutor for marking.",
+    RequiresBookingMsg: "You do not need to book this assessment. Please submit your work to Learner Success and it will be assigned to a tutor for marking.",
     AttendBtn:  "ATTEND",
     noCurrentBooking: "No Current Bookings"
 };

@@ -9,7 +9,7 @@
         </item>
         <item>
             <const>CS_VERSION_NO</const>
-            <value>12.12</value>
+            <value>13.05</value>
         </item>
         <item>
             <const>CS_SUPPORT_EMAIL</const>
@@ -294,6 +294,10 @@
             <value>UserService.svc/UserSyncPositionSet</value>
         </item>
         <item>
+            <const>CS_SITE_URL_GETCREDITTERMCNDITION</const>
+            <value>UserService.svc/getTermsConditions</value>
+        </item>
+        <item>
             <const>CS_SITE_URL_GETUSERSYNCPOSITION</const>
             <value>UserService.svc/UserSyncPositionGet</value>
         </item>
@@ -358,12 +362,20 @@
             <value>UserService.svc/userAcceptPolicyBeforePayment</value>
         </item>
         <item>
+            <const>CS_TERMS_ACCEPT_CREDIT_CONDITION</const>
+            <value>UserService.svc/userAcceptCreditPolicy</value>
+        </item>
+        <item>
             <const>CS_SECURE_TRADING_JWT</const>
             <value>CourseService.svc/getJwtSecureTrading</value>
         </item>
         <item>
             <const>CS_SECURE_TRADING_SUCCESS_SAVE</const>
             <value>CourseService.SVC/BuildPaymentAndPay</value>
+        </item>
+        <item>
+            <const>CS_SECURE_TRADING_CREDIT_SUCCESS_SAVE</const>
+            <value>UserStreamingService.svc/BuildRecurringPaymentAndPay</value>
         </item>
         <item>
             <const>CS_USER_INFO_DETAILS</const>
@@ -422,7 +434,7 @@
         </item>
         <item>
             <const>CS_payment_TERMS_URL</const>
-            <value>https://studentdesktop.eteacher.pro/data/TermsAndConditions.aspx</value>
+            <value>http://test.studentdesktop.eteacher.pro/data/TermsAndConditions.aspx</value>
         </item>
         <item>
             <const>CS_OTA_getYuduPath</const>

@@ -15,7 +15,7 @@ var resourcessupport = {
     helptitleset4: 'View PDF',
     helptitleset5: 'Podcast',
     helptitleset6: 'Logout',
-    helptitleset7: 'Learner Support',
+    helptitleset7: 'Learner Success',
     //helptitleset7: 'Help Desk',
     helptitleset8: 'Help',
     helptitleset10: 'Close',
