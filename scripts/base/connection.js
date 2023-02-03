@@ -7,6 +7,7 @@ var aesMode = "ECB";
 var aesKey;
 var authKey;
 var portalKey;
+var isAddressInfoMissing;
 var serviceKey;
 uploadfiledata="";
 helpdeskuploadfilename="";
@@ -510,7 +511,8 @@ function getFirstLoginData(getLocal, returnFunction) {
                    type: "GET",
                    async: true,
                    success: function(data, textStatus, jqXHR) {
-                   var coursesResponseObj = data;
+                       var coursesResponseObj = data;
+                       isAddressInfoMissing = coursesResponseObj.CoursesGetForUserResult.UserSyncPosition.isAddressInfoMissingField;
                    if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
                    //saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
                    } else {
@@ -638,7 +640,8 @@ function getCoursesData(getLocal, returnFunction) {
                    type: "GET",
                    async: true,
                    success: function(data, textStatus, jqXHR) {
-                   coursesResponseObj = data;
+                       coursesResponseObj = data;
+                       isAddressInfoMissing = coursesResponseObj.CoursesGetForUserResult.UserSyncPosition.isAddressInfoMissingField;
                    if (coursesResponseObj != undefined && coursesResponseObj.CoursesGetForUserResult != undefined) {
                    //saveLocalDataStore("UserCourses", "", JSON.stringify(coursesResponseObj), function(ret) {});
                    coursesObj = coursesResponseObj.CoursesGetForUserResult;

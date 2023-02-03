@@ -382,6 +382,10 @@
             <value>UserService.svc/GetUserDetails</value>
         </item>
         <item>
+            <const>CS_USER_UPDATE_DETAILS</const>
+            <value>UserStreamingService.svc/submitUserInfo</value>
+        </item>
+        <item>
             <const>CS_GET_MYAVAILABLEECLASSES</const>
             <value>CourseService.svc/getMyAvailableEClassesNew</value>
         </item>
