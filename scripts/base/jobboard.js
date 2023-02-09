@@ -365,7 +365,7 @@ var test = "";
                 $(document).off("vclick",".alreadyUploaded");
                 $(document).on("vclick",".alreadyUploaded", function(event) {
                     console.log(activeUser.userId);
-                    var linkCv = "http://test.studentdesktop.eteacher.pro/data/GetCV.aspx?UId="+activeUser.userId;
+                    var linkCv = "http://studentdesktop.eteacher.pro/data/GetCV.aspx?UId="+activeUser.userId;
                     androidPDFView(linkCv);
                 });
 

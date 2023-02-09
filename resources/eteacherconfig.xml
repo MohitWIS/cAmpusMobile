@@ -318,6 +318,10 @@
             <value>UserService.svc/PDFFileDownload</value>
         </item>
         <item>
+            <const>CS_SITE_URL_GETREGION</const>
+            <value>UserService.svc/getRegionList</value>
+        </item>
+        <item>
             <const>CS_SITE_URL_PLAYLISTS</const>
             <value>UserService.svc/UserPlaylistsGet</value>
         </item>

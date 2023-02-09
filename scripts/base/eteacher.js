@@ -5519,6 +5519,9 @@ function setCoursesListView() {
 
             $(".coursepaymentrequired").off("vclick");
             $(".coursepaymentrequired").on("vclick", function (event) {
+                var id = $(event.currentTarget).attr("id");
+                var pClass = $('#' + id).prop('className');
+                var splifclass = pClass.split(" ");
                 if ($(".coursesli").hasClass("assessmentPackagelist")) {
 
                 } else {
@@ -5532,8 +5535,8 @@ function setCoursesListView() {
                         urlMethod += params;
                         $.ajax({
                             url: urlMethod,
-                            beforeSend: function () { $("#coursepage").append(mloadingGif); },
-                            complete: function () { $("#mloader").remove(); },
+                            //beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                            //complete: function () { $("#mloader").remove(); },
                             dataType: "json",
                             type: "GET",
                             async: true,
@@ -5558,9 +5561,9 @@ function setCoursesListView() {
 
 
                                         for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                                            if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                                            if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
                                             }
                                         }
                                         for (var i = 0; i < UserDeatils.regionInfoField.length; i++) {
@@ -5569,8 +5572,43 @@ function setCoursesListView() {
                                                 $("#countryIdRegonA").val(UserDeatils.regionInfoField[i].regionIDField).trigger("change");
                                             }
                                         }
-                                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                                        $(".updateAddressModel").removeClass().addClass("updateAddressModel");
+                                        $(".updateAddressModel").addClass(splifclass[1]);
+                                        //$(".updateAddressModel").addClass(splifclass[2]);
+                                        $(".updateAddressModel").addClass(splifclass[3]);
+                                        $(".updateAddressModel").addClass(splifclass[4]);
+                                        $(".updateAddressModel").addClass(splifclass[5]);
+                                        $(".updateAddressModel").attr('id', id);
+                                        $(".updateAddressModel").addClass(id);
 
+                                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                                        $('#countryIdA').change(function (e) {
+                                            e.preventDefault();
+                                            var countryCodeForRegion = $(this).find(":selected").val();
+                                            var urlMethod = getBaseUrl();
+                                            var selectedExnValue = $('#extentionop').val();
+                                            urlMethod += configs.getCustom("CS_SITE_URL_GETREGION");
+                                            var params = "?countryCode=" + countryCodeForRegion;
+                                            urlMethod += params;
+                                            $.ajax({
+                                                url: urlMethod,
+                                                // beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                                                //complete: function () { $("#mloader").remove(); },
+                                                dataType: "json",
+                                                type: "GET",
+                                                async: true,
+                                                success: function (data, textStatus, jqXHR) {
+                                                    var newRegion = data.getRegionListResult.Data;
+                                                    if (newRegion != null) {
+                                                        $("#countryIdRegonA").empty();
+                                                        for (var i = 0; i < newRegion.length; i++) {
+                                                            $("#countryIdRegonA").append(new Option(newRegion[i].regionNameField, newRegion[i].regionIDField));
+                                                        }
+                                                    }
+
+                                                }
+                                            });
+                                        });
                                     } else {
                                         alert(resources.connectionFail);
                                     }
@@ -5633,8 +5671,8 @@ function setCoursesListView() {
                         urlMethod += params;
                         $.ajax({
                             url: urlMethod,
-                            beforeSend: function () { $("#coursepage").append(mloadingGif); },
-                            complete: function () { $("#mloader").remove(); },
+                           // beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                            //complete: function () { $("#mloader").remove(); },
                             dataType: "json",
                             type: "GET",
                             async: true,
@@ -5658,9 +5696,9 @@ function setCoursesListView() {
 
 
                                         for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                                            if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                                            if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
                                             }
                                         }
                                         for (var i = 0; i < UserDeatils.regionInfoField.length; i++) {
@@ -5669,8 +5707,39 @@ function setCoursesListView() {
                                                 $("#countryIdRegonA").val(UserDeatils.regionInfoField[i].regionIDField).trigger("change");
                                             }
                                         }
+                                        $(".updateAddressModel").removeClass().addClass("updateAddressModel");
+                                        $(".updateAddressModel").addClass("assessmentPaymentUpdate");
+                                        $(".updateAddressModel").addClass("freeaccess");
+                                        var id = $(event.currentTarget).attr("id");
+                                        $(".updateAddressModel").addClass(id);
                                         console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-
+                                        $('#countryIdA').change(function (e) {
+                                            e.preventDefault();
+                                            var countryCodeForRegion = $(this).find(":selected").val();
+                                            var urlMethod = getBaseUrl();
+                                            var selectedExnValue = $('#extentionop').val();
+                                            urlMethod += configs.getCustom("CS_SITE_URL_GETREGION");
+                                            var params = "?countryCode=" + countryCodeForRegion;
+                                            urlMethod += params;
+                                            $.ajax({
+                                                url: urlMethod,
+                                                // beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                                                //complete: function () { $("#mloader").remove(); },
+                                                dataType: "json",
+                                                type: "GET",
+                                                async: true,
+                                                success: function (data, textStatus, jqXHR) {
+                                                    var newRegion = data.getRegionListResult.Data;
+                                                    if (newRegion != "" || newRegion != null) {
+                                                        $("#countryIdRegonA").empty();
+                                                        for (var i = 0; i < newRegion.length; i++) {
+                                                            $("#countryIdRegonA").append(new Option(newRegion[i].regionNameField, newRegion[i].regionIDField));
+                                                        }
+                                                    }
+                                                    
+                                                }
+                                            });
+                                        });
                                     } else {
                                         alert(resources.connectionFail);
                                     }
@@ -5684,7 +5753,7 @@ function setCoursesListView() {
 
                             }
                         });
-
+                        
                     } else {
                         var id = $(event.currentTarget).attr("id");
                         if ($(".assessmentPackagelist").hasClass("freeaccess")) {
@@ -5766,11 +5835,17 @@ function setCoursesListView() {
                 modal.style.display = "none";
             });
 
+            
+            
+
             $(document).off("vclick", ".updateAddressModel");
             $(document).on("vclick", ".updateAddressModel", function (event) {
                 event.preventDefault();
-                //var modal = document.getElementById("Pay_Now_Address_Model");
-                //modal.style.display = "none";
+                
+                /*var clssCheck = $(".updateAddressModel").attr("class");
+                var classes = clssCheck.split(" ");
+                var id = classes[1];
+                showCoursePaymentInaccessible(event, function (ret) { });*/
                 var firstNameA = $("#firstNameA").val();
                 var lastNameA = $("#lastNameA").val();
                 var emailA = $("#emailA").val();
@@ -5780,6 +5855,8 @@ function setCoursesListView() {
                 var postalCodeA = $("#postalCodeA").val();
                 var countryIdA = $('#countryIdA').find(":selected").val();
                 var countryIdRegonA = $('#countryIdRegonA').find(":selected").val();
+                
+                
                 if (jQuery.trim(firstNameA).length > 0 && jQuery.trim(lastNameA).length > 0 && jQuery.trim(emailA).length > 0 && jQuery.trim(houseNoA).length > 0 && jQuery.trim(streetA).length > 0 && jQuery.trim(cityA).length > 0 && jQuery.trim(postalCodeA).length > 0 && jQuery.trim(countryIdA).length > 0 && jQuery.trim(countryIdRegonA).length > 0) {
                     var country_Region_Select = document.getElementById("countryIdRegonA");
                     var country_Region_Select_Value = country_Region_Select.value;
@@ -5794,7 +5871,7 @@ function setCoursesListView() {
                     UserDeatilsForPayment.cityField = cityA;
                     UserDeatilsForPayment.postalCodeField = postalCodeA;
                     
-                    UserDeatilsForPayment.countryCodeField = country_Select_Value;
+                    UserDeatilsForPayment.countryField = country_Select_Value;
                     UserDeatilsForPayment.regionField = country_Region_Select_Value;
 
                     UserDeatilsForPayment.countryInfoField = UserDeatilsForPayment.ethnicityInfoField = UserDeatilsForPayment.hearAboutUsInfoField = UserDeatilsForPayment.regionInfoField = null;
@@ -5821,8 +5898,88 @@ function setCoursesListView() {
                             var updatedData = data;
                             if (updatedData.submitUserInfoResult) {
                                 alert("Profile has updated successfully");
-                                $(".assessmentPackagelist").trigger("vclick");
+                                //$(".assessmentPackagelist").trigger("vclick");
                                 //location.reload();
+                                isAddressInfoMissing = false;
+                                if ($(".updateAddressModel").hasClass("assessmentPaymentUpdate")) {
+                                    var modal = document.getElementById("Pay_Now_Address_Model");
+                                    modal.style.display = "none";
+                                    var clssCheck = $(".updateAddressModel").attr("class");
+                                    var classes = clssCheck.split(" ");
+                                    var id = classes[3];
+                                    if ($(".updateAddressModel").hasClass("freeaccess")) {
+                                        $("#" + id).collapsible("collapse");
+                                        coController.coCheckNetworkAvaliable(false, function (ret) {
+                                            if (ret === false || deviceIsOnline === false) {
+                                                msgStr = resources.connectionFail;
+                                                msgTitle = resources.connError;
+                                                msgBtnValue = resources.btnOk;
+                                                var modal = document.getElementById("Confirm_Model");
+                                                $("#boxTitle").empty();
+                                                $("#box-string").empty();
+                                                $("#addbutton").empty();
+                                                $("#boxTitle").html(msgTitle);
+                                                $("#box-string").html(msgStr);
+                                                $("#addbutton").html("<div id='assessmentPackagelist5512' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+
+                                                modal.style.display = "block";
+                                                $(document).off("vclick", "#assessmentPackagelist5512");
+                                                $(document).on("vclick", "#assessmentPackagelist5512", function (event) {
+                                                    modal.style.display = "none";
+                                                });
+                                                /*navigator.notification.confirm(msgStr, function () {
+                                
+                                                }, msgTitle, msgBtnValue);*/
+                                            }
+                                            else {
+                                                setTimeout(function () {
+                                                    $("#" + id).collapsible("collapse");
+                                                }, 2000);
+                                                //$("#" + id).collapsible("collapse");
+                                                var ids = id.split("-");
+                                                var courseid = ids[1];
+                                                $("#addTPAs").empty();
+                                                $("#course_Name").empty();
+                                                $("#assessment_center").empty();
+                                                var modal = document.getElementById("TAPS_Model");
+                                                getAssessmentPackageData(courseid, 0, function (ret) {
+                                                    $("#addTPAs").append(ret);
+
+                                                    modal.style.display = "block";
+                                                    $('#TAPS_Model').animate({ scrollTop: 0 }, 'slow');
+                                                });
+
+                                                getAssessmentCenterData(courseid, 0, function (ret) {
+                                                    if (ret != "") {
+                                                        $("#assessment_center").append(ret);
+                                                    }
+                                                    else {
+                                                        $("#assessment_center-button").css("display", "none");
+                                                        $("#assessment_center_text").css("display", "none");
+                                                    }
+
+                                                    //var modal = document.getElementById("TAPS_Model");
+                                                    //modal.style.display = "block";
+                                                });
+
+
+
+                                                window.onclick = function (event) {
+                                                    if (event.target == modal) {
+                                                        modal.style.display = "none";
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    var modal = document.getElementById("Pay_Now_Address_Model");
+                                    modal.style.display = "none";
+                                    var clssCheck = $(".updateAddressModel").attr("class");
+                                    var classes = clssCheck.split(" ");
+                                    var id = classes[1];
+                                    showCoursePaymentInaccessible(event, function (ret) { });
+                                }
                             } else {
                                 alert("Unable  to updated profile, please try again");
                                 location.reload();
@@ -6166,7 +6323,7 @@ function submitTermAndCndition() {
                     $("#monthsSelect").html(valueSelected);
                     var newTotalCost = perMonthValue * valueSelected;
                     $("#totalCost").empty();
-                    $("#totalCost").html(newTotalCost);
+                    $("#totalCost").html(newTotalCost.toFixed(2).replace(/\.00$/, ""));
                 });
                 function ParseFloat(str, val) {
                     str = str.toString();
@@ -6362,8 +6519,8 @@ function submitTermAndCndition() {
                 urlMethod += params;
                 $.ajax({
                     url: urlMethod,
-                    beforeSend: function () { $("#coursepage").append(mloadingGif); },
-                    complete: function () { $("#mloader").remove(); },
+                    //beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                    //complete: function () { $("#mloader").remove(); },
                     dataType: "json",
                     type: "GET",
                     async: true,
@@ -6389,9 +6546,9 @@ function submitTermAndCndition() {
                                 
 
                                 for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                                    $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                                    if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                                        $("#countryIdA").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                                    $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                                    if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                        $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
                                     }
                                 }
                                 for (var i = 0; i < UserDeatils.regionInfoField.length; i++) {
@@ -6401,7 +6558,33 @@ function submitTermAndCndition() {
                                     }
                                 }
                                 console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-                                
+                                $('#countryIdA').change(function (e) {
+                                    e.preventDefault();
+                                    var countryCodeForRegion = $(this).find(":selected").val();
+                                    var urlMethod = getBaseUrl();
+                                    var selectedExnValue = $('#extentionop').val();
+                                    urlMethod += configs.getCustom("CS_SITE_URL_GETREGION");
+                                    var params = "?countryCode=" + countryCodeForRegion;
+                                    urlMethod += params;
+                                    $.ajax({
+                                        url: urlMethod,
+                                        // beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                                        //complete: function () { $("#mloader").remove(); },
+                                        dataType: "json",
+                                        type: "GET",
+                                        async: true,
+                                        success: function (data, textStatus, jqXHR) {
+                                            var newRegion = data.getRegionListResult.Data;
+                                            if (newRegion != "" || newRegion != null) {
+                                                $("#countryIdRegonA").empty();
+                                                for (var i = 0; i < newRegion.length; i++) {
+                                                    $("#countryIdRegonA").append(new Option(newRegion[i].regionNameField, newRegion[i].regionIDField));
+                                                }
+                                            }
+
+                                        }
+                                    });
+                                });
                             } else {
                                 alert(resources.connectionFail);
                             }
@@ -6522,7 +6705,7 @@ function submitTermAndCndition() {
             UserDeatilsForPayment.cityField = cityA;
             UserDeatilsForPayment.postalCodeField = postalCodeA;
             UserDeatilsForPayment.regionField = country_Region_Select_Value;
-            UserDeatilsForPayment.countryCodeField = country_Select_Value;
+            UserDeatilsForPayment.countryField = country_Select_Value;
 
             UserDeatilsForPayment.countryInfoField = UserDeatilsForPayment.ethnicityInfoField = UserDeatilsForPayment.hearAboutUsInfoField = UserDeatilsForPayment.regionInfoField = null;
             console.log(UserDeatilsForPayment);
@@ -6548,7 +6731,86 @@ function submitTermAndCndition() {
                     var updatedData = data;
                     if (updatedData.submitUserInfoResult) {
                         alert("Profile has updated successfully");
-                        location.reload();
+                        isAddressInfoMissing = false;
+                        if ($(".updateAddressModel").hasClass("assessmentPaymentUpdate")) {
+                            var modal = document.getElementById("Pay_Now_Address_Model");
+                            modal.style.display = "none";
+                            var clssCheck = $(".updateAddressModel").attr("class");
+                            var classes = clssCheck.split(" ");
+                            var id = classes[3];
+                            if ($(".updateAddressModel").hasClass("freeaccess")) {
+                                $("#" + id).collapsible("collapse");
+                                coController.coCheckNetworkAvaliable(false, function (ret) {
+                                    if (ret === false || deviceIsOnline === false) {
+                                        msgStr = resources.connectionFail;
+                                        msgTitle = resources.connError;
+                                        msgBtnValue = resources.btnOk;
+                                        var modal = document.getElementById("Confirm_Model");
+                                        $("#boxTitle").empty();
+                                        $("#box-string").empty();
+                                        $("#addbutton").empty();
+                                        $("#boxTitle").html(msgTitle);
+                                        $("#box-string").html(msgStr);
+                                        $("#addbutton").html("<div id='assessmentPackagelist5512' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+
+                                        modal.style.display = "block";
+                                        $(document).off("vclick", "#assessmentPackagelist5512");
+                                        $(document).on("vclick", "#assessmentPackagelist5512", function (event) {
+                                            modal.style.display = "none";
+                                        });
+                                        /*navigator.notification.confirm(msgStr, function () {
+                        
+                                        }, msgTitle, msgBtnValue);*/
+                                    }
+                                    else {
+                                        setTimeout(function () {
+                                            $("#" + id).collapsible("collapse");
+                                        }, 2000);
+                                        //$("#" + id).collapsible("collapse");
+                                        var ids = id.split("-");
+                                        var courseid = ids[1];
+                                        $("#addTPAs").empty();
+                                        $("#course_Name").empty();
+                                        $("#assessment_center").empty();
+                                        var modal = document.getElementById("TAPS_Model");
+                                        getAssessmentPackageData(courseid, 0, function (ret) {
+                                            $("#addTPAs").append(ret);
+
+                                            modal.style.display = "block";
+                                            $('#TAPS_Model').animate({ scrollTop: 0 }, 'slow');
+                                        });
+
+                                        getAssessmentCenterData(courseid, 0, function (ret) {
+                                            if (ret != "") {
+                                                $("#assessment_center").append(ret);
+                                            }
+                                            else {
+                                                $("#assessment_center-button").css("display", "none");
+                                                $("#assessment_center_text").css("display", "none");
+                                            }
+
+                                            //var modal = document.getElementById("TAPS_Model");
+                                            //modal.style.display = "block";
+                                        });
+
+
+
+                                        window.onclick = function (event) {
+                                            if (event.target == modal) {
+                                                modal.style.display = "none";
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            var modal = document.getElementById("Pay_Now_Address_Model");
+                            modal.style.display = "none";
+                            var clssCheck = $(".updateAddressModel").attr("class");
+                            var classes = clssCheck.split(" ");
+                            var id = classes[1];
+                            showCoursePaymentInaccessible(event, function (ret) { });
+                        }
                     } else {
                         alert("Unable  to updated profile, please try again");
                         location.reload();
@@ -7013,9 +7275,9 @@ function submitTermAndCndition() {
                         $("#address1DD").val(UserDeatils.streetField);
 
                         for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                            $("#countryId").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                            if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                                $("#countryId").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                            if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
                             }
                         }
                         console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
@@ -7287,7 +7549,7 @@ function submitTermAndCnditionForExtension() {
                                 $("#monthsSelect").html(valueSelected);
                                 var newTotalCost = perMonthValue * valueSelected;
                                 $("#totalCost").empty();
-                                $("#totalCost").html(newTotalCost);
+                                $("#totalCost").html(newTotalCost.toFixed(2).replace(/\.00$/, ""));
                             });
                             function ParseFloat(str, val) {
                                 str = str.toString();
@@ -7406,7 +7668,7 @@ function submitTermAndCnditionForExtension() {
                         $("#monthsSelect").html(valueSelected);
                         var newTotalCost = perMonthValue * valueSelected;
                         $("#totalCost").empty();
-                        $("#totalCost").html(newTotalCost);
+                        $("#totalCost").html(newTotalCost.toFixed(2).replace(/\.00$/, ""));
                     });
                     function ParseFloat(str, val) {
                         str = str.toString();
@@ -7659,8 +7921,8 @@ function submitTermAndCnditionForExtension() {
                 urlMethod += params;
                 $.ajax({
                     url: urlMethod,
-                    beforeSend: function () { $("#coursepage").append(mloadingGif); },
-                    complete: function () { $("#mloader").remove(); },
+                    //beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                    //complete: function () { $("#mloader").remove(); },
                     dataType: "json",
                     type: "GET",
                     async: true,
@@ -7685,9 +7947,9 @@ function submitTermAndCnditionForExtension() {
 
 
                                 for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                                    $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                                    if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                                        $("#countryIdA").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                                    $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                                    if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                        $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
                                     }
                                 }
                                 for (var i = 0; i < UserDeatils.regionInfoField.length; i++) {
@@ -7697,7 +7959,33 @@ function submitTermAndCnditionForExtension() {
                                     }
                                 }
                                 console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
-
+                                $('#countryIdA').change(function (e) {
+                                    e.preventDefault();
+                                    var countryCodeForRegion = $(this).find(":selected").val();
+                                    var urlMethod = getBaseUrl();
+                                    var selectedExnValue = $('#extentionop').val();
+                                    urlMethod += configs.getCustom("CS_SITE_URL_GETREGION");
+                                    var params = "?countryCode=" + countryCodeForRegion;
+                                    urlMethod += params;
+                                    $.ajax({
+                                        url: urlMethod,
+                                        // beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                                        //complete: function () { $("#mloader").remove(); },
+                                        dataType: "json",
+                                        type: "GET",
+                                        async: true,
+                                        success: function (data, textStatus, jqXHR) {
+                                            var newRegion = data.getRegionListResult.Data;
+                                            if (newRegion != "" || newRegion != null) {
+                                                $("#countryIdRegonA").empty();
+                                                for (var i = 0; i < newRegion.length; i++) {
+                                                    $("#countryIdRegonA").append(new Option(newRegion[i].regionNameField, newRegion[i].regionIDField));
+                                                }
+                                            }
+                                                    
+                                        }
+                                    });
+                                });
                             } else {
                                 alert(resources.connectionFail);
                             }
@@ -7800,6 +8088,7 @@ function submitTermAndCnditionForExtension() {
         event.preventDefault();
         //var modal = document.getElementById("Pay_Now_Address_Model");
         //modal.style.display = "none";
+        
         var firstNameA = $("#firstNameA").val();
         var lastNameA = $("#lastNameA").val();
         var emailA = $("#emailA").val();
@@ -7809,6 +8098,9 @@ function submitTermAndCnditionForExtension() {
         var postalCodeA = $("#postalCodeA").val();
         var countryIdA = $('#countryIdA').find(":selected").val();
         var countryIdRegonA = $('#countryIdRegonA').find(":selected").val();
+
+        
+
         if (jQuery.trim(firstNameA).length > 0 && jQuery.trim(lastNameA).length > 0 && jQuery.trim(emailA).length > 0 && jQuery.trim(houseNoA).length > 0 && jQuery.trim(streetA).length > 0 && jQuery.trim(cityA).length > 0 && jQuery.trim(postalCodeA).length > 0 && jQuery.trim(countryIdA).length > 0 && jQuery.trim(countryIdRegonA).length > 0) {
             var country_Region_Select = document.getElementById("countryIdRegonA");
             var country_Region_Select_Value = country_Region_Select.value;
@@ -7823,7 +8115,7 @@ function submitTermAndCnditionForExtension() {
             UserDeatilsForPayment.cityField = cityA;
             UserDeatilsForPayment.postalCodeField = postalCodeA;
             UserDeatilsForPayment.regionField = country_Region_Select_Value;
-            UserDeatilsForPayment.countryCodeField = country_Select_Value;
+            UserDeatilsForPayment.countryField = country_Select_Value;
 
             UserDeatilsForPayment.countryInfoField = UserDeatilsForPayment.ethnicityInfoField = UserDeatilsForPayment.hearAboutUsInfoField = UserDeatilsForPayment.regionInfoField = null;
 
@@ -7848,7 +8140,86 @@ function submitTermAndCnditionForExtension() {
                     var updatedData = data;
                     if (updatedData.submitUserInfoResult) {
                         alert("Profile has updated successfully");
-                        location.reload();
+                        isAddressInfoMissing = false;
+                        if ($(".updateAddressModel").hasClass("assessmentPaymentUpdate")) {
+                            var modal = document.getElementById("Pay_Now_Address_Model");
+                            modal.style.display = "none";
+                            var clssCheck = $(".updateAddressModel").attr("class");
+                            var classes = clssCheck.split(" ");
+                            var id = classes[3];
+                            if ($(".updateAddressModel").hasClass("freeaccess")) {
+                                $("#" + id).collapsible("collapse");
+                                coController.coCheckNetworkAvaliable(false, function (ret) {
+                                    if (ret === false || deviceIsOnline === false) {
+                                        msgStr = resources.connectionFail;
+                                        msgTitle = resources.connError;
+                                        msgBtnValue = resources.btnOk;
+                                        var modal = document.getElementById("Confirm_Model");
+                                        $("#boxTitle").empty();
+                                        $("#box-string").empty();
+                                        $("#addbutton").empty();
+                                        $("#boxTitle").html(msgTitle);
+                                        $("#box-string").html(msgStr);
+                                        $("#addbutton").html("<div id='assessmentPackagelist5512' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+
+                                        modal.style.display = "block";
+                                        $(document).off("vclick", "#assessmentPackagelist5512");
+                                        $(document).on("vclick", "#assessmentPackagelist5512", function (event) {
+                                            modal.style.display = "none";
+                                        });
+                                        /*navigator.notification.confirm(msgStr, function () {
+                        
+                                        }, msgTitle, msgBtnValue);*/
+                                    }
+                                    else {
+                                        setTimeout(function () {
+                                            $("#" + id).collapsible("collapse");
+                                        }, 2000);
+                                        //$("#" + id).collapsible("collapse");
+                                        var ids = id.split("-");
+                                        var courseid = ids[1];
+                                        $("#addTPAs").empty();
+                                        $("#course_Name").empty();
+                                        $("#assessment_center").empty();
+                                        var modal = document.getElementById("TAPS_Model");
+                                        getAssessmentPackageData(courseid, 0, function (ret) {
+                                            $("#addTPAs").append(ret);
+
+                                            modal.style.display = "block";
+                                            $('#TAPS_Model').animate({ scrollTop: 0 }, 'slow');
+                                        });
+
+                                        getAssessmentCenterData(courseid, 0, function (ret) {
+                                            if (ret != "") {
+                                                $("#assessment_center").append(ret);
+                                            }
+                                            else {
+                                                $("#assessment_center-button").css("display", "none");
+                                                $("#assessment_center_text").css("display", "none");
+                                            }
+
+                                            //var modal = document.getElementById("TAPS_Model");
+                                            //modal.style.display = "block";
+                                        });
+
+
+
+                                        window.onclick = function (event) {
+                                            if (event.target == modal) {
+                                                modal.style.display = "none";
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            var modal = document.getElementById("Pay_Now_Address_Model");
+                            modal.style.display = "none";
+                            var clssCheck = $(".updateAddressModel").attr("class");
+                            var classes = clssCheck.split(" ");
+                            var id = classes[1];
+                            showCoursePaymentInaccessible(event, function (ret) { });
+                        }
                     } else {
                         alert("Unable  to updated profile, please try again");
                         location.reload();
@@ -8336,9 +8707,9 @@ function submitTermAndCnditionForExtension() {
                         $("#address1DD").val(UserDeatils.streetField);
 
                         for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
-                            $("#countryId").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryCodeField));
-                            if (UserDeatils.countryCodeField == UserDeatils.countryInfoField[i].countryCodeField) {
-                                $("#countryId").val(UserDeatils.countryInfoField[i].countryCodeField).trigger("change");
+                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                            if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
                             }
                         }
                         console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
@@ -9024,7 +9395,7 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                 $("#first_Time").css("display", "none");
             }*/
             /*if(ret.firstTimeAccessField){*/
-            if (!ret.firstTimeAccessField) {
+            if (ret.firstTimeAccessField) {
                 if (ret.packageListField != null) {
                     for (var i = 0; i < ret.packageListField.length; i++) {
                         var buyLater = (Math.round(ret.packageListField[i].buyLaterField * 100) / 100).toFixed(2);
@@ -9060,14 +9431,19 @@ function getAssessmentPackageData(courseid, ACID, returnFunction) {
                         TAPs_details += '<div class="box-body ng-scope" style="padding: 0px 20px 20px 20px;"><div> <div >';
                         TAPs_details += '<h5 style="font-size: 15px;font-family:Poppins;">' + ret.packageListField[i].tAPNameField + '</h5>';
                         TAPs_details += '<p style="font-size: 15px;font-family: Poppins;">' + ret.packageListField[i].tAPDescriptionField + '</p>';
-                        TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy Now </span><span style="padding-right:0px;" class="ng-binding">£' + buyNow + '</span></span>';
+                        TAPs_details += '<span style="font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Now From: </span><span style="padding-right:0px;" class="ng-binding">£' + buyNow + '</span></span>';
                         if (buyNow != buyLater) {
-                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                            if (ret.packageListField[i].tAPBuyNowDiscountAmountField == 0 || ret.packageListField[i].tAPBuyNowDiscountAmountField == null) {
+
+                            } else {
+                                TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div>';
+                            }
+                            
                         } else {
-                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;display:none;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div></div>';
+                            TAPs_details += '<div style="float:right;font-size: 15px;font-family: Poppins;font-weight: bold;display:none;"><span >Buy later </span><span style="padding-right:20px;" class="ng-binding">£' + buyLater + '</span></div>';
                         }
                         TAPs_details += '<div style="text-align:center;" ><p class="payNowTPAs" id=' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].buyNowField + '-' + ret.packageListField[i].promptDiscountField + '-' + ret.packageListField[i].tAPBuyNowDiscountAmountField + '-' + ret.packageListField[i].aCIDField + '-' + ret.courseStatusField + '-' + ret.courseIdField + '-' + ret.packageListField[i].buyNowRegularField + '-' + ret.packageListField[i].tAPTermField +  '>Buy Now </p>';
-                        TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div><hr>';
+                        TAPs_details += '<span style="text-decoration: underline;" id=viewdates-' + courseid + '-' + ret.packageListField[i].tAPIDField + '-' + ret.packageListField[i].aCIDField + ' class="viewDatesTPAs">View Dates</span></div></div></div></div><hr>';
                     }
                 }
                 else {
