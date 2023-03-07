@@ -6849,12 +6849,31 @@ function submitTermAndCndition() {
                 var TAPsDetailsforPopUp = TAPsDetails.split("-");
                 var susccessValue = "";
 
-                var AmountToPaid = $("#installCostValue").text();
+                var AmountToPaid = "";
+                var selectedExnValue = "";
+                var installMonthValue = "";
+                if (TAPsDetailsforPopUp[11] == "1" || TAPsDetailsforPopUp[12] == "2") {
+                    AmountToPaid = TAPsDetailsforPopUp[3];
+                    selectedExnValue = $('#extentionop').val();
+                    installMonthValue = TAPsDetailsforPopUp[7];
+                    if (installMonthValue == "0") {
+                        installMonthValue = "2";
+                    }
+                } else {
+                    AmountToPaid = $("#installCostValue").text();
+                    selectedExnValue = $('#extentionop').val();
+                    installMonthValue = $('#installMonth').val();
+                    if (installMonthValue == "0") {
+                        installMonthValue = "2";
+                    }
+                }
+
+                /*var AmountToPaid = $("#installCostValue").text();
                 var selectedExnValue = $('#extentionop').val();
                 var installMonthValue = $('#installMonth').val();
                 if (installMonthValue == "0") {
                     installMonthValue = "2";
-                }
+                }*/
 
                 var totalAmount = AmountToPaid * installMonthValue;
                 var urlMethod = getBaseUrl();
@@ -7433,42 +7452,47 @@ function submitTermAndCnditionForExtension() {
         async: true,
         success: function (data, textStatus, jqXHR) {
             var acceptData = data;
-
+            
             var modal = document.getElementById("TAPS_T&C_Model");
             modal.style.display = "none";
             TerConditionIndex = 0;
             console.log(acceptData);
             var TAPsDetailsforPopUp = TAPsDetails.split("-");
-            var Pay_Now_Price_Model = document.getElementById("Pay_Now_Price_Model");
-            Pay_Now_Price_Model.style.display = "block";
-            $("#paymentExtDetails").css("display", "none");
-            $("#fullPayRadio").css("display", "none");
-            $("#installPayRadio").css("display", "none");
-            $("#dekoRadio").css("display", "none");
-            $("#dekoPaymentCalculator").css("display", "none");
-            $(".Pay_Now_Price").css("display", "none");
-            if (TAPsDetailsforPopUp[7] > 0) {
-                var monvalue = "";
-                $('#extentionop').empty();
-                for (var i = 0; i <= TAPsDetailsforPopUp[7]; i++) {
-                    if (i == 0) {
-                        monvalue = "-select-"
-                    } else if (i == 1) {
-                        monvalue = i + " month"
-                    } else {
-                        monvalue = i + " months"
-                    }
-                   
-                    $('#extentionop').append($("<option></option>").attr("value", i).text(monvalue)); 
-                }
-                if (TAPsDetailsforPopUp[9] != "2") {
-                    $("#extebsionOption").css("display", "block");
-                }
-                
+            if (TAPsDetailsforPopUp[11] == "1" && TAPsDetailsforPopUp[12] == "2") {
+
             } else {
-                $("#extebsionOption").css("display", "none");
-                $("#fullPayRadio").css("display", "block");
+                var Pay_Now_Price_Model = document.getElementById("Pay_Now_Price_Model");
+                Pay_Now_Price_Model.style.display = "block";
+                $("#paymentExtDetails").css("display", "none");
+                $("#fullPayRadio").css("display", "none");
+                $("#installPayRadio").css("display", "none");
+                $("#dekoRadio").css("display", "none");
+                $("#dekoPaymentCalculator").css("display", "none");
+                $(".Pay_Now_Price").css("display", "none");
+                if (TAPsDetailsforPopUp[7] > 0) {
+                    var monvalue = "";
+                    $('#extentionop').empty();
+                    for (var i = 0; i <= TAPsDetailsforPopUp[7]; i++) {
+                        if (i == 0) {
+                            monvalue = "-select-"
+                        } else if (i == 1) {
+                            monvalue = i + " month"
+                        } else {
+                            monvalue = i + " months"
+                        }
+
+                        $('#extentionop').append($("<option></option>").attr("value", i).text(monvalue));
+                    }
+                    if (TAPsDetailsforPopUp[9] != "2") {
+                        $("#extebsionOption").css("display", "block");
+                    }
+
+                } else {
+                    $("#extebsionOption").css("display", "none");
+                    $("#fullPayRadio").css("display", "block");
+                }
             }
+            
 
             if (TAPsDetailsforPopUp[9] == 6) {
                 $('#extentionop').on('change', function (e) {
@@ -7493,7 +7517,7 @@ function submitTermAndCnditionForExtension() {
                         $("#extTerm").html(valueSelected);
                         var compairableExtensionFee = parseFloat(parseFloat(TAPsDetailsforPopUp[3]) / parseInt(TAPsDetailsforPopUp[7])) * parseInt(valueSelected);
 
-                        
+
                         $("#extFee").html(compairableExtensionFee.toFixed(2));
                         var cost = ""
                         if (compairableExtensionFee.toFixed(2) < 266) {
@@ -7520,7 +7544,7 @@ function submitTermAndCnditionForExtension() {
                             $('#installMonth').empty();
                             //$("#totalCost").html(parseFloat(promtPayment).toFixed(2));
 
-                            
+
                             var newTotalCostU = parseFloat(perMonthValue * TAPsDetailsforPopUp[7]).toFixed(2).replace(/\.00$/, "");
                             $("#totalCost").empty();
                             $("#totalCost").html(newTotalCostU);
@@ -7560,11 +7584,11 @@ function submitTermAndCnditionForExtension() {
                             $("#istallOption").css("display", "none");
                             $("#installPayRadio").css("display", "none");
                         }
-                        
+
 
                         if (TAPsDetailsforPopUp[10] >= compairableExtensionFee) {
                             $("#extFee").empty();
-                            
+
                             promtPayment = parseFloat(TAPsDetailsforPopUp[10]);
                             $("#extFee").html(promtPayment);
                         }
@@ -7604,105 +7628,255 @@ function submitTermAndCnditionForExtension() {
                         $(".Pay_Now_Price").css("display", "none");
                     }
                 });
-            } else if (TAPsDetailsforPopUp[9] == "2") {
-                $("#fullPayRadio").css("display", "block");
-                $("#discountValue").html(TAPsDetailsforPopUp[5]);
-                $("#costValue").html(TAPsDetailsforPopUp[3]);
-                $("#totalCost").html(TAPsDetailsforPopUp[3]);
-                //$('#policyPararadio').prop('checked', true);
-                //$("#dekoPaymentCalculator").css("display", "none");
-                $("#paymentExtDetails").css("display", "none");
-                $("#extFee").empty();
-                $("#extPPprice").empty();
-                $("#costValue").empty();
-                $("#installCostValue").empty();
-                $("#discountValue").empty();
-                $("#costValueDeko").empty();
-                
-                var compairableExtensionFee = TAPsDetailsforPopUp[3];
-                var disCountValue = parseFloat(compairableExtensionFee) - parseFloat(TAPsDetailsforPopUp[5]);
-                $("#extFee").html(compairableExtensionFee);
-                $("#costValue").html(disCountValue);
+            } else if (TAPsDetailsforPopUp[9] == "2" || TAPsDetailsforPopUp[9] == "Suspended") {
+                if (TAPsDetailsforPopUp[11] == "1" && TAPsDetailsforPopUp[12] == "2") {
+                    var installMonthValue = TAPsDetailsforPopUp[7];
+                    console.log(isAddressInfoMissing);
+                    if (isAddressInfoMissing) {
+                        var urlMethod = getBaseUrl();
+                        var selectedExnValue = $('#extentionop').val();
+                        urlMethod += configs.getCustom("CS_USER_INFO_DETAILS");
+                        var authKey = getAuthKeyUnencrypt();
+                        var portalKey = getPortalKeyUnencrypt();
+                        var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey);
+                        urlMethod += params;
+                        $.ajax({
+                            url: urlMethod,
+                            //beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                            //complete: function () { $("#mloader").remove(); },
+                            dataType: "json",
+                            type: "GET",
+                            async: true,
+                            success: function (data, textStatus, jqXHR) {
+                                if (data != null) {
+                                    console.log(data);
+                                    var modalMain = document.getElementById("Pay_Now_Price_Model");
+                                    modalMain.style.display = "none";
+                                    var modal = document.getElementById("Pay_Now_Address_Model");
+                                    modal.style.display = "block";
+                                    var TAPsDetailsforPopUp = TAPsDetails.split("-");
+                                    $("#finalPayDDAmount").html(TAPsDetailsforPopUp[1]);
+                                    var UserDeatils = data.GetUserDetailsResult.Data;
+                                    if (UserDeatils != null) {
+                                        $("#firstNameA").val(UserDeatils.firstNameField);
+                                        $("#lastNameA").val(UserDeatils.lastNameField);
+                                        $("#emailA").val(UserDeatils.emailField);
+                                        $("#houseNoA").val(UserDeatils.unitField);
+                                        $("#streetA").val(UserDeatils.streetField);
+                                        $("#cityA").val(UserDeatils.cityField);
+                                        $("#postalCodeA").val(UserDeatils.postalCodeField);
 
-                $(".Pay_Now_Price").css("display", "block");
-                if (compairableExtensionFee <= 265) {
-                    $("#installPayRadio").css("display", "block");
-                    $("#istallOption").css("display", "none");
-                    $("#dekoRadio").css("display", "none");
-                    //var perMonthValue = parseFloat(TAPsDetailsforPopUp[3] / 2).toFixed(2) ;
-                    //$("#installCostValue").html(perMonthValue);
 
-                    var fLoatValuePerMonthU = TAPsDetailsforPopUp[3] / TAPsDetailsforPopUp[7];
-                    var perMonthValue = ParseFloat(fLoatValuePerMonthU, 2).toFixed(2).replace(/\.00$/, "");
-                    $("#installCostValue").html(perMonthValue);
+                                        for (var i = 0; i < UserDeatils.countryInfoField.length; i++) {
+                                            $("#countryIdA").append(new Option(UserDeatils.countryInfoField[i].countryTextField, UserDeatils.countryInfoField[i].countryValueField));
+                                            if (UserDeatils.countryField == UserDeatils.countryInfoField[i].countryValueField) {
+                                                $("#countryIdA").val(UserDeatils.countryInfoField[i].countryValueField).trigger("change");
+                                            }
+                                        }
+                                        for (var i = 0; i < UserDeatils.regionInfoField.length; i++) {
+                                            $("#countryIdRegonA").append(new Option(UserDeatils.regionInfoField[i].regionNameField, UserDeatils.regionInfoField[i].regionIDField));
+                                            if (UserDeatils.regionField == UserDeatils.regionInfoField[i].regionIDField) {
+                                                $("#countryIdRegonA").val(UserDeatils.regionInfoField[i].regionIDField).trigger("change");
+                                            }
+                                        }
+                                        console.log("emailid= " + UserDeatils.emailField + "firstNameField= " + UserDeatils.firstNameField + "lastNameField= " + UserDeatils.lastNameField + "cityField= " + UserDeatils.cityField + "postalCodeField= " + UserDeatils.postalCodeField + "countryField= " + UserDeatils.countryField);
+                                        $('#countryIdA').change(function (e) {
+                                            e.preventDefault();
+                                            var countryCodeForRegion = $(this).find(":selected").val();
+                                            var urlMethod = getBaseUrl();
+                                            var selectedExnValue = $('#extentionop').val();
+                                            urlMethod += configs.getCustom("CS_SITE_URL_GETREGION");
+                                            var params = "?countryCode=" + countryCodeForRegion;
+                                            urlMethod += params;
+                                            $.ajax({
+                                                url: urlMethod,
+                                                // beforeSend: function () { $("#coursepage").append(mloadingGif); },
+                                                //complete: function () { $("#mloader").remove(); },
+                                                dataType: "json",
+                                                type: "GET",
+                                                async: true,
+                                                success: function (data, textStatus, jqXHR) {
+                                                    var newRegion = data.getRegionListResult.Data;
+                                                    if (newRegion != "" || newRegion != null) {
+                                                        $("#countryIdRegonA").empty();
+                                                        for (var i = 0; i < newRegion.length; i++) {
+                                                            $("#countryIdRegonA").append(new Option(newRegion[i].regionNameField, newRegion[i].regionIDField));
+                                                        }
+                                                    }
 
-                    $("#monthsSelect").html("2");
-                    $('#installMonth').empty();
+                                                }
+                                            });
+                                        });
+                                    } else {
+                                        alert(resources.connectionFail);
+                                    }
 
-                    var newTotalCostU = parseFloat(perMonthValue * TAPsDetailsforPopUp[7]).toFixed(2).replace(/\.00$/, "");
-                    $("#totalCost").empty();
-                    $("#totalCost").html(newTotalCostU);
-                    
-                    for (var i = 0; i <= TAPsDetailsforPopUp[7]; i++) {
-                        if (i == 0) {
-                            monvalue = "-select months-"
-                        } else if( i >= 2) {
-                            monvalue = i + " months"
+
+                                }
+
+
+                            },
+                            error: function (msg) {
+
+                            }
+                        });
+
+                    } else {
+                        console.log(isAddressInfoMissing);
+                        var installMonthValue = TAPsDetailsforPopUp[7];
+                        if (installMonthValue == "0") {
+                            alert("Please select number of Months");
+                        } else {
+                            var urlMethod = getBaseUrl();
+                            urlMethod += configs.getCustom("CS_SITE_URL_GETCREDITTERMCNDITION");
+                            var authKey = getAuthKeyUnencrypt();
+                            var portalKey = getPortalKeyUnencrypt();
+                            var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"PolicyTypeID":"18"}';
+                            urlMethod += params;
+                            $.ajax({
+                                url: urlMethod,
+                                dataType: "json",
+                                type: "GET",
+                                async: true,
+                                success: function (data, textStatus, jqXHR) {
+                                    var termsdata = data;
+                                    var termsurl = configs.getCustom("CS_payment_TERMS_URL");
+
+                                    if (installMonthValue == "0") {
+                                        installMonthValue = "2";
+                                    }
+                                    policyVersionIDField = termsdata.getTermsConditionsResult.Data.policyVersionIDField;
+                                    var TAPsDetailsforPopUp = TAPsDetails.split("-");
+                                    //var Amountdeko = $("#totalCost").text();
+                                    //var fLoatValuePerMonth = Amountdeko / installMonthValue;
+                                    var fLoatValuePerMonth = TAPsDetailsforPopUp[3];
+                                    var costPerMonth = ParseFloat(fLoatValuePerMonth, 2).toFixed(2).replace(/\.00$/, "");
+                                    //var costPerMonth = parseFloat(Amountdeko / installMonthValue).toFixed(2);
+                                    var actualAmount = parseFloat(costPerMonth * installMonthValue).toFixed(2);
+                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&ptid=18&index=" + TerConditionIndex + "&months=" + installMonthValue + "&cost=" + actualAmount + "&initAmount=" + costPerMonth;
+                                    document.getElementById("Install_iframeforTC").src = termsurl;
+                                    console.log(termsdata.getTermsConditionsResult.Data.length);
+                                    $("#Install_policyTile").html(termsdata.getTermsConditionsResult.Data.policyNameField);
+                                    document.getElementById("Install_policyPara").innerHTML = termsdata.getTermsConditionsResult.Data.policyConfirmStatementField;
+                                    //$("#Install_policyPara").html("<div>termsdata.getTermsConditionsResult.Data.policyConfirmStatementField</div>");
+                                    $("#Install_termCon").html(termsdata.getTermsConditionsResult.Data.policyAcceptStatementField);
+                                    var modalT = document.getElementById("Pay_Now_Price_Model");
+                                    modalT.style.display = "none";
+                                    var modal = document.getElementById("Install_T&C_Model");
+                                    modal.style.display = "block";
+                                },
+                                error: function (msg) {
+
+                                }
+                            });
+
+                            function ParseFloat(str, val) {
+                                str = str.toString();
+                                str = str.slice(0, (str.indexOf(".")) + val + 1);
+                                return Number(str);
+                            }
                         }
-                        if (i != 1) {
-                            $('#installMonth').append($("<option></option>").attr("value", i).text(monvalue));
-                        }
-                        
                     }
+                } else {
+                    $("#fullPayRadio").css("display", "block");
+                    $("#discountValue").html(TAPsDetailsforPopUp[5]);
+                    $("#costValue").html(TAPsDetailsforPopUp[3]);
+                    $("#totalCost").html(TAPsDetailsforPopUp[3]);
+                    //$('#policyPararadio').prop('checked', true);
+                    //$("#dekoPaymentCalculator").css("display", "none");
+                    $("#paymentExtDetails").css("display", "none");
+                    $("#extFee").empty();
+                    $("#extPPprice").empty();
+                    $("#costValue").empty();
+                    $("#installCostValue").empty();
+                    $("#discountValue").empty();
+                    $("#costValueDeko").empty();
 
-                    $('#installMonth').on('change', function (e) {
-                        e.preventDefault();
-                        var valueSelected = this.value;
-                        var fLoatValuePerMonth = TAPsDetailsforPopUp[3] / valueSelected;
-                        perMonthValue = ParseFloat(fLoatValuePerMonth, 2);
-                        //perMonthValue = parseFloat(TAPsDetailsforPopUp[3] / valueSelected).toFixed(2);
-                        $("#installCostValue").empty();
+                    var compairableExtensionFee = TAPsDetailsforPopUp[3];
+                    var disCountValue = parseFloat(compairableExtensionFee) - parseFloat(TAPsDetailsforPopUp[5]);
+                    $("#extFee").html(compairableExtensionFee);
+                    $("#costValue").html(disCountValue);
+
+                    $(".Pay_Now_Price").css("display", "block");
+                    if (compairableExtensionFee <= 265) {
+                        $("#installPayRadio").css("display", "block");
+                        $("#istallOption").css("display", "none");
+                        $("#dekoRadio").css("display", "none");
+                        //var perMonthValue = parseFloat(TAPsDetailsforPopUp[3] / 2).toFixed(2) ;
+                        //$("#installCostValue").html(perMonthValue);
+
+                        var fLoatValuePerMonthU = TAPsDetailsforPopUp[3] / TAPsDetailsforPopUp[7];
+                        var perMonthValue = ParseFloat(fLoatValuePerMonthU, 2).toFixed(2).replace(/\.00$/, "");
                         $("#installCostValue").html(perMonthValue);
 
-                        $("#monthsSelect").empty();
-                        $("#monthsSelect").html(valueSelected);
-                        var newTotalCost = perMonthValue * valueSelected;
+                        $("#monthsSelect").html("2");
+                        $('#installMonth').empty();
+
+                        var newTotalCostU = parseFloat(perMonthValue * TAPsDetailsforPopUp[7]).toFixed(2).replace(/\.00$/, "");
                         $("#totalCost").empty();
-                        $("#totalCost").html(newTotalCost.toFixed(2).replace(/\.00$/, ""));
-                    });
-                    function ParseFloat(str, val) {
-                        str = str.toString();
-                        str = str.slice(0, (str.indexOf(".")) + val + 1);
-                        return Number(str);
-                    }
-                } else {
-                    $("#istallOption").css("display", "none");
-                    $("#installPayRadio").css("display", "none");
-                }
-                if (compairableExtensionFee >= 266) {
+                        $("#totalCost").html(newTotalCostU);
 
-                    
-                    $("#discountValue").html(TAPsDetailsforPopUp[5]);
-                    $("#totalpaydeko").empty();
-                    $("#dekoRadio").css("display", "block");
+                        for (var i = 0; i <= TAPsDetailsforPopUp[7]; i++) {
+                            if (i == 0) {
+                                monvalue = "-select months-"
+                            } else if (i >= 2) {
+                                monvalue = i + " months"
+                            }
+                            if (i != 1) {
+                                $('#installMonth').append($("<option></option>").attr("value", i).text(monvalue));
+                            }
 
-                    //$("#costValueDeko").html(TAPsDetailsforPopUp[3]);
-                    $("#costValueDeko").html(compairableExtensionFee);
-                    if ($('#dekoPayment').is(':checked')) {
-                        var pertodekoOnchange = $("#amountdekooutput").text();
-                        var monthsToDekoOnChange = $("#monthdekooutour").text();
-                        $("#depsitamontper").text(pertodekoOnchange + "%");
-                        var depoammountOnChange = compairableExtensionFee * pertodekoOnchange / 100;
-                        $("#depsitamont").text(depoammountOnChange);
-                        getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, compairableExtensionFee);
+                        }
+
+                        $('#installMonth').on('change', function (e) {
+                            e.preventDefault();
+                            var valueSelected = this.value;
+                            var fLoatValuePerMonth = TAPsDetailsforPopUp[3] / valueSelected;
+                            perMonthValue = ParseFloat(fLoatValuePerMonth, 2);
+                            //perMonthValue = parseFloat(TAPsDetailsforPopUp[3] / valueSelected).toFixed(2);
+                            $("#installCostValue").empty();
+                            $("#installCostValue").html(perMonthValue);
+
+                            $("#monthsSelect").empty();
+                            $("#monthsSelect").html(valueSelected);
+                            var newTotalCost = perMonthValue * valueSelected;
+                            $("#totalCost").empty();
+                            $("#totalCost").html(newTotalCost.toFixed(2).replace(/\.00$/, ""));
+                        });
+                        function ParseFloat(str, val) {
+                            str = str.toString();
+                            str = str.slice(0, (str.indexOf(".")) + val + 1);
+                            return Number(str);
+                        }
+                    } else {
+                        $("#istallOption").css("display", "none");
+                        $("#installPayRadio").css("display", "none");
                     }
-                } else {
-                    $("#dekoRadio").css("display", "none");
-                    $("#dekoPaymentCalculator").css("display", "none");
+                    if (compairableExtensionFee >= 266) {
+
+
+                        $("#discountValue").html(TAPsDetailsforPopUp[5]);
+                        $("#totalpaydeko").empty();
+                        $("#dekoRadio").css("display", "block");
+
+                        //$("#costValueDeko").html(TAPsDetailsforPopUp[3]);
+                        $("#costValueDeko").html(compairableExtensionFee);
+                        if ($('#dekoPayment').is(':checked')) {
+                            var pertodekoOnchange = $("#amountdekooutput").text();
+                            var monthsToDekoOnChange = $("#monthdekooutour").text();
+                            $("#depsitamontper").text(pertodekoOnchange + "%");
+                            var depoammountOnChange = compairableExtensionFee * pertodekoOnchange / 100;
+                            $("#depsitamont").text(depoammountOnChange);
+                            getCalculatedValues(depoammountOnChange, monthsToDekoOnChange, compairableExtensionFee);
+                        }
+                    } else {
+                        $("#dekoRadio").css("display", "none");
+                        $("#dekoPaymentCalculator").css("display", "none");
+                    }
                 }
             }
-            
-            
+
+
         },
         error: function (msg) {
 
@@ -8257,13 +8431,25 @@ function submitTermAndCnditionForExtension() {
             } else {
                 var TAPsDetailsforPopUp = TAPsDetails.split("-");
                 var susccessValue = "";
-
-                var AmountToPaid = $("#installCostValue").text();
-                var selectedExnValue = $('#extentionop').val();
-                var installMonthValue = $('#installMonth').val();
-                if (installMonthValue == "0") {
-                    installMonthValue = "2";
+                var AmountToPaid = "";
+                var selectedExnValue = "";
+                var installMonthValue = "";
+                if (TAPsDetailsforPopUp[11] == "1" || TAPsDetailsforPopUp[12] == "2") {
+                    AmountToPaid = TAPsDetailsforPopUp[3];
+                    selectedExnValue = $('#extentionop').val();
+                    installMonthValue = TAPsDetailsforPopUp[7];
+                    if (installMonthValue == "0") {
+                        installMonthValue = "2";
+                    }
+                } else {
+                    AmountToPaid = $("#installCostValue").text();
+                    selectedExnValue = $('#extentionop').val();
+                    installMonthValue = $('#installMonth').val();
+                    if (installMonthValue == "0") {
+                        installMonthValue = "2";
+                    }
                 }
+                
 
                 var totalAmount = AmountToPaid * installMonthValue;
                 var urlMethod = getBaseUrl();
@@ -9834,7 +10020,7 @@ function showCoursePaymentInaccessible(event, returnFunction) {
                     }
 
                 });
-            } else if (checkForTapcourse[9] == "2") {
+            } else if (checkForTapcourse[9] == "2" || checkForTapcourse[9] == "Suspended") {
                 var modal = document.getElementById("TAPS_Model");
                 modal.style.display = "none";
                 $("#extebsionOption").css("display", "none");

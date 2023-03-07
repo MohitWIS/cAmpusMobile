@@ -1482,11 +1482,12 @@
         }
         var query = getQueryParams(document.location.search);
         var encData = query.encData;
-        window.localStorage.removeItem("encData");
+        
         //alert(encData);
         if (encData != undefined) {
             deviceReadyInit();
             initStart();
+            window.localStorage.removeItem("encData");
             window.localStorage.setItem("encData", encData);
             SSOloginUser();
             var uri = window.location.href.toString();

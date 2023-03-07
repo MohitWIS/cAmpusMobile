@@ -79,6 +79,7 @@ function getLoginData(getLocal, returnFunction) {
                          }
                          });
         } else {
+            window.localStorage.removeItem("encData");
             var urlMethod = getBaseUrl();
             urlMethod += configs.getCustom("CS_SITE_URL_LOGIN");
             var authKey = getAuthKeyUnencrypt();
@@ -430,6 +431,7 @@ function getFirstLoginData(getLocal, returnFunction) {
                          }
                          });
         } else {
+            window.localStorage.removeItem("encData");
             var urlMethod = getBaseUrl();
             urlMethod += configs.getCustom("CS_SITE_URL_LOGIN");
             var authKey = getAuthKeyUnencrypt();

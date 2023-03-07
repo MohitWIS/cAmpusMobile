@@ -12,7 +12,7 @@ init: function() {
     try {
         this.coursesDB = openDatabase("Database", "1.0", "ETEACHER", 10000);
         this.coursesDB.transaction(function(tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS ETEACHER_COURSE (id unique, courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,allowextension,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable,allowextension)");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS ETEACHER_COURSE (id unique, courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,allowextension,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable,allowextension,PaymentMethodId,PaymentOptionId)");
                                    });
         this.courses = new Array();
         this.loadCourses();
@@ -26,7 +26,7 @@ loadCourses: function() {
           tx.executeSql("SELECT * FROM ETEACHER_COURSE", [], function(tx, results) {
             var len = results.rows.length;
             for (var i = 0; i < len; i++) {
-                var savedCourse = new Course(results.rows.item(i).courseid, results.rows.item(i).title, results.rows.item(i).status, results.rows.item(i).coursestatusid, results.rows.item(i).buypackage, results.rows.item(i).freeaccess, results.rows.item(i).coursecost, results.rows.item(i).allowextension, results.rows.item(i).coursediscounttype, results.rows.item(i).coursediscountvalue, results.rows.item(i).maxextensionterm, results.rows.item(i).validfor, results.rows.item(i).minimumextensionfee, results.rows.item(i).purchasedtapid, results.rows.item(i).isBuypackageavailable);
+                var savedCourse = new Course(results.rows.item(i).courseid, results.rows.item(i).title, results.rows.item(i).status, results.rows.item(i).coursestatusid, results.rows.item(i).buypackage, results.rows.item(i).freeaccess, results.rows.item(i).coursecost, results.rows.item(i).allowextension, results.rows.item(i).coursediscounttype, results.rows.item(i).coursediscountvalue, results.rows.item(i).maxextensionterm, results.rows.item(i).validfor, results.rows.item(i).minimumextensionfee, results.rows.item(i).purchasedtapid, results.rows.item(i).isBuypackageavailable, results.rows.item(i).PaymentMethodId, results.rows.item(i).PaymentOptionId);
               this.courses.push(savedCourse);
             }
           }, null);
@@ -86,7 +86,7 @@ refreshCourses: function(updatePostion, returnFunction) {
                                   var course;
                                   if (usercourses.length == undefined) {
                                       courseobj = usercourses;
-                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.AllowExtension, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
+                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.AllowExtension, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable, courseobj.PaymentMethodId, courseobj.PaymentOptionId);
                                   that.courses.push(course);
                                   //if (course.accessible) {
                                   //course.setCourseModuleList(course.status, courseobj);
@@ -95,7 +95,7 @@ refreshCourses: function(updatePostion, returnFunction) {
                                   } else {
                                   for (var i = 0; i < usercourses.length; i++) {
                                   courseobj = usercourses[i];
-                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.AllowExtension, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable);
+                                      course = new Course(courseobj.CourseId, courseobj.Title, courseobj.Status, courseobj.CourseStatusId, courseobj.Display, courseobj.Accessible, courseobj.InAccessibleFunction, courseobj.BuyPackage, courseobj.FreeAccess, courseobj.CourseCost, courseobj.AllowExtension, courseobj.CourseDiscountType, courseobj.CourseDiscountValue, courseobj.MaxExtensionTerm, courseobj.ValidFor, courseobj.MinimumExtensionFee, courseobj.PurchasedTapId, courseobj.IsBuyPackageAvailable, courseobj.PaymentMethodId, courseobj.PaymentOptionId);
                                   that.courses.push(course);
                                   //if (course.accessible) {
                                   //course.setCourseModuleList(course.status, courseobj);
@@ -155,7 +155,7 @@ getCoursesListView: function(status) {
 
                        //console.log(course);
                       
-                       courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + " " + course.allowextension + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
+                       courseStr += "<div  id='" + courseid + "' data-role='collapsible'  class='coursesli paymentValues-" + courseid + "-" + course.coursecost + "-" + course.coursediscounttype + "-" + course.coursediscountvalue + "-" + course.purchasedtapid + "-" + course.validfor + "-" + course.isBuypackageavailable + "-" + newCourseStatus + "-" + course.minimumextensionfee + "-" + course.PaymentMethodId + "-" + course.PaymentOptionId + " " + course.inaccessiblefunction + " " + course.buypackage + " " + course.freeaccess + " " + course.allowextension + "'  data-theme='h' data-content-theme='h' data-iconpos='right'>";
                        //for live
                        courseStr += "<h3 id='h3-" + courseid + "'  onclick='assessmentPackage();' class='divider clientheader'><div class='coursetitlediv'><div id='cert" + courseid + "' class='";
                        //for testing
@@ -217,6 +217,12 @@ save: function(course) {
         if (course.validfor == undefined) {
             course.validfor = "";
         }
+        if (course.PaymentMethodId == undefined) {
+            course.PaymentMethodId = "";
+        }
+        if (course.PaymentOptionId == undefined) {
+            course.PaymentOptionId = "";
+        }
         if (course.minimumextensionfee == undefined) {
             course.minimumextensionfee = "";
         }
@@ -228,7 +234,7 @@ save: function(course) {
         }
         this.usersDB.transaction(function(tx) {
                                  tx.executeSql("DELETE * FROM ETEACHER_COURSE WHERE courseid=" + course.courseid);
-            tx.executeSql("INSERT INTO ETEACHER_COURSE(courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,allowextension,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable) VALUES (course.courseid, course.title, course.status, course.coursestatusid,course.buypackage,course.freeaccess,course.coursecost,course.allowextension,course.coursediscounttype,course.coursediscountvalue,course.maxextensionterm,course.validfor,course.minimumextensionfee,course.purchasedtapid,course.isBuypackageavailable)");
+            tx.executeSql("INSERT INTO ETEACHER_COURSE(courseid, title, status, coursestatusid,buypackage,freeaccess,coursecost,allowextension,coursediscounttype,coursediscountvalue,maxextensionterm,validfor,minimumextensionfee,purchasedtapid,isBuypackageavailable,PaymentMethodId,PaymentOptionId) VALUES (course.courseid, course.title, course.status, course.coursestatusid,course.buypackage,course.freeaccess,course.coursecost,course.allowextension,course.coursediscounttype,course.coursediscountvalue,course.maxextensionterm,course.validfor,course.minimumextensionfee,course.purchasedtapid,course.isBuypackageavailable,course.PaymentMethodId,course.PaymentOptionId)");
                                  });
     } catch (e) {
         errorHandler("Courses.save", e);
@@ -347,15 +353,15 @@ getNextCourse: function(courseId) {
     }
 }
 };
-var Course = function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
+var Course = function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable, PaymentMethodId, PaymentOptionId) {
     try {
-        this.init(courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable);
+        this.init(courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable, PaymentMethodId, PaymentOptionId);
     } catch (e) {
         errorHandler("Course", e);
     }
 };
 Course.prototype = {
-    init: function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable) {
+    init: function (courseid, title, status, coursestatusid, display, accessible, inaccessiblefunction, buypackage, freeaccess, coursecost, allowextension, coursediscounttype, coursediscountvalue, maxextensionterm, validfor, minimumextensionfee, purchasedtapid, isBuypackageavailable, PaymentMethodId, PaymentOptionId) {
     try {
         this.modulegroups = [];
         if (courseid == undefined) {
@@ -417,6 +423,12 @@ Course.prototype = {
         if (validfor == undefined) {
             validfor = 0;
         }
+        if (PaymentMethodId == undefined) {
+            PaymentMethodId = 0;
+        }
+        if (PaymentMethodId == undefined) {
+            PaymentMethodId = 0;
+        }
         if (minimumextensionfee == undefined) {
             minimumextensionfee = 0;
         }
@@ -456,6 +468,8 @@ Course.prototype = {
         this.coursediscountvalue = coursediscountvalue;
         this.maxextensionterm = maxextensionterm;
         this.validfor = validfor;
+        this.PaymentMethodId = PaymentMethodId;
+        this.PaymentOptionId = PaymentOptionId;
         this.minimumextensionfee = minimumextensionfee;
         this.purchasedtapid = purchasedtapid;
         this.isBuypackageavailable = isBuypackageavailable;
