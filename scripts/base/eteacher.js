@@ -5522,8 +5522,8 @@ function setCoursesListView() {
                 var id = $(event.currentTarget).attr("id");
                 var pClass = $('#' + id).prop('className');
                 var splifclass = pClass.split(" ");
-                if ($(".coursesli").hasClass("assessmentPackagelist")) {
-
+                if ($('#' + id).hasClass("assessmentPackagelist")) {
+                    consolr.log("in")
                 } else {
                     if (isAddressInfoMissing) {
                         var urlMethod = getBaseUrl();
@@ -7753,7 +7753,7 @@ function submitTermAndCnditionForExtension() {
                                     var costPerMonth = ParseFloat(fLoatValuePerMonth, 2).toFixed(2).replace(/\.00$/, "");
                                     //var costPerMonth = parseFloat(Amountdeko / installMonthValue).toFixed(2);
                                     var actualAmount = parseFloat(costPerMonth * installMonthValue).toFixed(2);
-                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&ptid=18&index=" + TerConditionIndex + "&months=" + installMonthValue + "&cost=" + actualAmount + "&initAmount=" + costPerMonth;
+                                    termsurl += "?pid=" + userPortalId + "&uid=" + activeUser.userId + "&ptid=18&index=" + TerConditionIndex + "&months=" + installMonthValue + "&cost=" + actualAmount + "&initAmount=" + costPerMonth + "&depositAmount=" + TAPsDetailsforPopUp[13];
                                     document.getElementById("Install_iframeforTC").src = termsurl;
                                     console.log(termsdata.getTermsConditionsResult.Data.length);
                                     $("#Install_policyTile").html(termsdata.getTermsConditionsResult.Data.policyNameField);
@@ -9401,7 +9401,7 @@ function stSubmitCallbackExtnCredit(data) {
         var portalKey = getPortalKeyUnencrypt();
         var additionalParams = resetParams();
         var TAPsDetailsforPopUp = TAPsDetails.split("-");
-        additionalParams.TAPID = 0;
+        additionalParams.TAPID = TAPsDetailsforPopUp[6];
         additionalParams.PaymentMethodId = "1";
         
         additionalParams.Amount = finalPaySCAmount;
