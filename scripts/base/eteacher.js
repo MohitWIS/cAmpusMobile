@@ -5412,7 +5412,7 @@ function populateCourses(updatePosition) {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='populateCourses35' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                    $("#addbutton").html("<div id='populateCourses35' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#populateCourses35");
@@ -6880,7 +6880,7 @@ function submitTermAndCndition() {
                 urlMethod += configs.getCustom("CS_TERMS_ACCEPT_CREDIT_CONDITION");
                 var authKey = getAuthKeyUnencrypt();
                 var portalKey = getPortalKeyUnencrypt();
-                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"policyVersionID":"' + policyVersionIDField+'", "RecurringMonths": ' + installMonthValue + ', "Amount":' + totalAmount + ',"RecurringAmount":' + AmountToPaid + ',"FirstName":"' + learnerSignature + '"}';
+                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"policyVersionID":"' + policyVersionIDField + '", "RecurringMonths": ' + installMonthValue + ', "Amount":' + totalAmount + ',"RecurringAmount":' + AmountToPaid + ',"FirstName":"' + learnerSignature + '","DepositAmount":' + TAPsDetailsforPopUp[13] +'}';
                 urlMethod += params;
                 $.ajax({
                     url: urlMethod,
@@ -6903,6 +6903,11 @@ function submitTermAndCndition() {
                         var TAPsDetailsforPopUp = TAPsDetails.split("-");
                         additionalParams.Amount = AmountToPaid;
                         additionalParams.RecurringMonths = installMonthValue;
+                        additionalParams.DepositAmount = TAPsDetailsforPopUp[13];
+                        var payButtonTittle = "Submit";
+                        if (TAPsDetailsforPopUp[13] > 0) {
+                            payButtonTittle = "Activate";
+                        }
                         var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
                         urlMethod += params;
                         $.ajax({
@@ -6912,21 +6917,25 @@ function submitTermAndCndition() {
                             async: true,
                             success: function (data, textStatus, jqXHR) {
                                 if (data != null) {
-
-                                    $("#finalPaySCAmount").html(AmountToPaid);
+                                    //var amountFixedVal = AmountToPaid.toFixed(2);
+                                    var amountFixedVal = parseFloat(AmountToPaid).toFixed(2).replace(/\.00$/, "");
+                                    $("#finalPaySCAmount").html(amountFixedVal);
                                     var jwtToken = data.getJwtSecureTradingResult.Data;
                                     console.log(jwtToken);
                                     var token = jwtToken.Token;
                                     var livestatus = parseInt(jwtToken.IsLive);
                                     var modal = document.getElementById("Pay_Now_FinalSC_Model");
                                     modal.style.display = "block";
-                                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:block;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;width: 89%;border:none;font-weight: bold;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
+                                    $("#PayNowTranslation").empty();
+                                    $("#PayNowTranslation").html(payButtonTittle);
+                                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:block;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 14px;width: 89%;border:none;font-weight: bold;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
                                     if ($(".coursesli").hasClass("assessmentPackagelist")) {
                                         var st = SecureTrading({
                                             panIcon: true,
                                             jwt: token,
                                             livestatus: livestatus,
                                             submitCallback: stSubmitCallbackCredit,
+                                            translations: { 'Pay': payButtonTittle },
                                             animatedCard: true,
                                             submitOnSuccess: false,
                                         });
@@ -6936,6 +6945,7 @@ function submitTermAndCndition() {
                                             jwt: token,
                                             livestatus: livestatus,
                                             submitCallback: stSubmitCallbackExtnCredit,
+                                            translations: { 'Pay': payButtonTittle },
                                             animatedCard: true,
                                             submitOnSuccess: false,
                                         });
@@ -7224,6 +7234,11 @@ function submitTermAndCndition() {
 
         additionalParams.Amount = $("#costValue").text();
         additionalParams.RecurringMonths = "0";
+        additionalParams.DepositAmount = TAPsDetailsforPopUp[13];
+        var payButtonTittle = "Submit";
+        if (TAPsDetailsforPopUp[13] > 0) {
+            payButtonTittle = "Activate";
+        }
         var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey)+"&param=" + JSON.stringify(additionalParams);
         urlMethod += params;
         $.ajax({
@@ -7234,19 +7249,24 @@ function submitTermAndCndition() {
             success: function (data, textStatus, jqXHR) {
                 if (data != null) {
                     var amounttoBe = $("#costValue").text();
-                    $("#finalPaySCAmount").html(amounttoBe);
+                   // var amountFixedVal = amounttoBe.toFixed(2);
+                    var amountFixedVal = parseFloat(amounttoBe).toFixed(2).replace(/\.00$/, "");
+                    $("#finalPaySCAmount").html(amountFixedVal);
                     var jwtToken = data.getJwtSecureTradingResult.Data;
                     console.log(jwtToken);
                     var token = jwtToken.Token;
                     var livestatus = parseInt(jwtToken.IsLive);
                     var modal = document.getElementById("Pay_Now_FinalSC_Model");
                     modal.style.display = "block";
-                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:none;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;width: 89%;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
+                    $("#PayNowTranslation").empty();
+                    $("#PayNowTranslation").html(payButtonTittle);
+                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:none;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 14px;width: 89%;border: none;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
                     var st = SecureTrading({
                         panIcon: true,
                         jwt: token,
                         livestatus: livestatus,
                         submitCallback: stSubmitCallback,
+                        translations: { 'Pay': payButtonTittle },
                         animatedCard: true,
                         submitOnSuccess: false,
                     });
@@ -7772,7 +7792,10 @@ function submitTermAndCnditionForExtension() {
 
                             function ParseFloat(str, val) {
                                 str = str.toString();
-                                str = str.slice(0, (str.indexOf(".")) + val + 1);
+                                if (str.indexOf(".") != -1) {
+                                    str = str.slice(0, (str.indexOf(".")) + val + 1);
+                                }
+                                //str = str.slice(0, (str.indexOf(".")) + val + 1);
                                 return Number(str);
                             }
                         }
@@ -7907,7 +7930,7 @@ function submitTermAndCnditionForExtension() {
         input.oninput();
 
 
-        var valuesAmount = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+        var valuesAmount = [0,5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
         var inputDeko = document.getElementById('amountdeko'),
             outputDeko = document.getElementById('amountdekooutput');
         inputDeko.oninput = function () {
@@ -8456,7 +8479,7 @@ function submitTermAndCnditionForExtension() {
                 urlMethod += configs.getCustom("CS_TERMS_ACCEPT_CREDIT_CONDITION");
                 var authKey = getAuthKeyUnencrypt();
                 var portalKey = getPortalKeyUnencrypt();
-                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"policyVersionID":"' + policyVersionIDField+'", "RecurringMonths": ' + installMonthValue + ', "Amount":' + totalAmount + ',"RecurringAmount":' + AmountToPaid + ',"FirstName":"' + learnerSignature+'"}';
+                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"policyVersionID":"' + policyVersionIDField + '", "RecurringMonths": ' + installMonthValue + ', "Amount":' + totalAmount + ',"RecurringAmount":' + AmountToPaid + ',"FirstName":"' + learnerSignature + '","DepositAmount":' + TAPsDetailsforPopUp[13]+'}';
                 urlMethod += params;
                 $.ajax({
                     url: urlMethod,
@@ -8479,6 +8502,11 @@ function submitTermAndCnditionForExtension() {
                         var TAPsDetailsforPopUp = TAPsDetails.split("-");
                         additionalParams.Amount = AmountToPaid;
                         additionalParams.RecurringMonths = installMonthValue;
+                        additionalParams.DepositAmount = TAPsDetailsforPopUp[13];
+                        var payButtonTittle = "Submit";
+                        if (TAPsDetailsforPopUp[13] > 0) {
+                            payButtonTittle = "Activate";
+                        }
                         var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
                         urlMethod += params;
                         $.ajax({
@@ -8488,21 +8516,24 @@ function submitTermAndCnditionForExtension() {
                             async: true,
                             success: function (data, textStatus, jqXHR) {
                                 if (data != null) {
-
-                                    $("#finalPaySCAmount").html(AmountToPaid);
+                                    var amountFixedVal = parseFloat(AmountToPaid).toFixed(2).replace(/\.00$/, "");
+                                    $("#finalPaySCAmount").html(amountFixedVal);
                                     var jwtToken = data.getJwtSecureTradingResult.Data;
                                     console.log(jwtToken);
                                     var token = jwtToken.Token;
                                     var livestatus = parseInt(jwtToken.IsLive);
                                     var modal = document.getElementById("Pay_Now_FinalSC_Model");
                                     modal.style.display = "block";
-                                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:none;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;width: 89%;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
+                                    $("#PayNowTranslation").empty();
+                                    $("#PayNowTranslation").html(payButtonTittle);
+                                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:none;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 14px;width: 89%;border: none;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
                                     if ($(".coursesli").hasClass("assessmentPackagelist")) {
                                         var st = SecureTrading({
                                             panIcon: true,
                                             jwt: token,
                                             livestatus: livestatus,
                                             submitCallback: stSubmitCallbackCredit,
+                                            translations: { 'Pay': payButtonTittle },
                                             animatedCard: true,
                                             submitOnSuccess: false,
                                         });
@@ -8512,6 +8543,7 @@ function submitTermAndCnditionForExtension() {
                                             jwt: token,
                                             livestatus: livestatus,
                                             submitCallback: stSubmitCallbackExtnCredit,
+                                            translations: { 'Pay': payButtonTittle },
                                             animatedCard: true,
                                             submitOnSuccess: false,
                                         });
@@ -8822,6 +8854,11 @@ function submitTermAndCnditionForExtension() {
         var TAPsDetailsforPopUp = TAPsDetails.split("-");
         additionalParams.Amount = AmountToPaid;
         additionalParams.RecurringMonths = "0";
+        additionalParams.DepositAmount = TAPsDetailsforPopUp[13];
+        var payButtonTittle = "Submit";
+        if (TAPsDetailsforPopUp[13] > 0) {
+            payButtonTittle = "Activate";
+        }
         var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
         urlMethod += params;
         $.ajax({
@@ -8831,20 +8868,24 @@ function submitTermAndCnditionForExtension() {
             async: true,
             success: function (data, textStatus, jqXHR) {
                 if (data != null) {
-
-                    $("#finalPaySCAmount").html(AmountToPaid);
+                    //var amountFixedVal = AmountToPaid.toFixed(2);
+                    var amountFixedVal = parseFloat(AmountToPaid).toFixed(2).replace(/\.00$/, "");
+                    $("#finalPaySCAmount").html(amountFixedVal);
                     var jwtToken = data.getJwtSecureTradingResult.Data;
                     console.log(jwtToken);
                     var token = jwtToken.Token;
                     var livestatus = parseInt(jwtToken.IsLive);
                     var modal = document.getElementById("Pay_Now_FinalSC_Model");
                     modal.style.display = "block";
-                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:none;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;width: 89%;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
+                    $("#PayNowTranslation").empty();
+                    $("#PayNowTranslation").html(payButtonTittle);
+                    $("#stformadd").html('<form id="st-form"><div id="st-card-number" class="st-card-number"></div ><div id="st-expiration-date" class="st-expiration-date"></div><div id="st-security-code" class="st-security-code"></div><div id="st-animated-card" class="st-animated-card-wrapper"></div><div id="st-notification-frame" style="display:none;"></div><button type="submit" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 14px;width: 89%;border: none;" id="st-form__submit" class="st-form__submit">Pay securely</button></form >')
                     var st = SecureTrading({
                         panIcon: true,
                         jwt: token,
                         livestatus: livestatus,
                         submitCallback: stSubmitCallbackExtn,
+                        translations: { 'Pay': payButtonTittle },
                         animatedCard: true,
                         submitOnSuccess: false,
                     });
@@ -14586,7 +14627,7 @@ function triggerLoad(updatePosition) {
                         $("#addbutton").empty();
                         $("#boxTitle").html(msgTitle);
                         $("#box-string").html(msgStr);
-                        $("#addbutton").html("<div id='triggerLoad97' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                        $("#addbutton").html("<div id='triggerLoad97' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                         modal.style.display = "block";
                         $(document).off("vclick", "#triggerLoad97");
@@ -14726,7 +14767,7 @@ function triggerSection() {
                             $("#addbutton").empty();
                             $("#boxTitle").html(msgTitle);
                             $("#box-string").html(msgStr);
-                            $("#addbutton").html("<div id='triggerSection38' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                            $("#addbutton").html("<div id='triggerSection38' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                             modal.style.display = "block";
                             $(document).off("vclick", "#triggerSection38");

@@ -9,7 +9,7 @@
         </item>
         <item>
             <const>CS_VERSION_NO</const>
-            <value>13.05</value>
+            <value>13.06</value>
         </item>
         <item>
             <const>CS_SUPPORT_EMAIL</const>
@@ -26,7 +26,7 @@
 
         <item>
             <const>CS_SITE_URL_BASE</const>
-            <value>http://test.mobilestudentdesktop.eteacher.pro/</value>
+            <value>https://mobilestudentdesktop.eteacher.pro/</value>
         </item>
         <item>
             <const>CS_APP_LANGUAGE</const>
@@ -442,7 +442,7 @@
         </item>
         <item>
             <const>CS_payment_TERMS_URL</const>
-            <value>http://test.studentdesktop.eteacher.pro/data/TermsAndConditions.aspx</value>
+            <value>https://studentdesktop.eteacher.pro/data/TermsAndConditions.aspx</value>
         </item>
         <item>
             <const>CS_OTA_getYuduPath</const>

@@ -12,6 +12,50 @@
     url('fonts/Varela.svg#webfont') format('svg');*/
 }
 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type='range'] {
+        overflow: hidden;
+        width: 80px;
+        -webkit-appearance: none;
+        background-color: white;
+        border: 1px solid black;
+    }
+
+        input[type='range']::-webkit-slider-runnable-track {
+            height: 10px;
+            -webkit-appearance: none;
+            color: #13bba4;
+            margin-top: -1px;
+        }
+
+        input[type='range']::-webkit-slider-thumb {
+            width: 10px;
+            -webkit-appearance: none;
+            height: 10px;
+            cursor: ew-resize;
+            background: #434343;
+            box-shadow: -80px 0 0 80px #a46eab;
+        }
+}
+/** FF*/
+input[type="range"]::-moz-range-progress {
+    background-color: red;
+}
+
+input[type="range"]::-moz-range-track {
+    background-color: white;
+    border:1px solid black;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+    background-color: red;
+}
+
+input[type="range"]::-ms-fill-upper {
+    background-color: white;
+    border: 1px solid black;
+}
+
 #progressBar {
     width: 100%;
     margin: -1px auto;

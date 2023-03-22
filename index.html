@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name=viewport content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 " />
     <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'  https://webservices.securetrading.net https://songbirdstag.cardinalcommerce.com https://*.googleapis.com https://maps.googleapis.com https://maps.gstatic.com www.google-analytics.com ajax.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'  https://webservices.securetrading.net https://songbirdstag.cardinalcommerce.com https://songbird.cardinalcommerce.com https://*.googleapis.com https://maps.googleapis.com https://maps.gstatic.com www.google-analytics.com ajax.googleapis.com;">
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.theme.css" />
@@ -446,7 +446,7 @@
                 </div>
                 <p id="assessment_center_text">Please select the Training & Assessment Centre you wish to study with?</p>
             </div>
-            <div class="closeTAPsLates" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: black;margin: 11px;width: 70%;margin-left: 12%;display:none;" data-dismiss="modal" translate="">Decide Later</div>
+            <div class="closeTAPsLates" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: white;margin: 11px;width: 70%;margin-left: 12%;display:none;" data-dismiss="modal" translate="">Decide Later</div>
 
             <select name="assessment" id="assessment_center">
                 <option value="">Select an Assessment Center:</option>
@@ -461,7 +461,7 @@
                     </div>
                 </div>-->
             </div>
-            <div class="closeTAPs" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: black;margin: 11px;width: 70%;margin-left: 12%;" data-dismiss="modal" translate="">Decide Later</div>
+            <div class="closeTAPs" style="padding: 10px;text-align: center;background-color: #EEBEBE;color: white;margin: 11px;width: 70%;margin-left: 12%;" data-dismiss="modal" translate="">Decide Later</div>
         </div>
     </div>
 
@@ -490,8 +490,8 @@
             </div>
 
             <!--<hr>-->
-            <div class="nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;    margin-top: 5.5px;" data-dismiss="modal" translate="">Next</div>
-            <div class="closeTNC" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: black;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">I Disagree</div>
+            <div class="nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;    margin-top: 5.5px;" data-dismiss="modal" translate="">Next</div>
+            <div class="closeTNC" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: white;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">I Disagree</div>
 
         </div>
     </div>
@@ -521,8 +521,8 @@
             </div>
 
 
-            <div class="Install_nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;margin-top: 5.5px;" data-dismiss="modal" translate="">I Agree</div>
-            <div class="Install_closeTNC" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: black;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">I Disagree</div>
+            <div class="Install_nextTNC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;margin-top: 5.5px;" data-dismiss="modal" translate="">I Agree</div>
+            <div class="Install_closeTNC" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: white;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">I Disagree</div>
 
         </div>
     </div>
@@ -556,7 +556,7 @@
                 </div>
 
                 <div style="display:none" id="fullPayRadio">
-                    <input type="radio" style="float:left;" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
+                    <input type="radio" style="float:left;accent-color: #a46eab;" id="policyPararadio" name="fav_language" value="policyParaRadio" checked>
                     <label for="policyPararadio" id="policyParaPaynow" style="padding-left:21px;font-size: 14px;">
                         Pay in full now and recieve a prompt payment discount of £<span id="discountValue"></span> (Incl. VAT).
                         <!--Pay in full now and recieve a prompt payment discount of £<span id="installDiscountValue"></span> (Incl. VAT).-->
@@ -564,7 +564,7 @@
                     </label><br>
                 </div>
                 <div style="display:none" id="installPayRadio">
-                    <input type="radio" style="float:left;" id="installpolicyPararadio" name="fav_language" value="policyParaRadio">
+                    <input type="radio" style="float:left;accent-color: #a46eab;" id="installpolicyPararadio" name="fav_language" value="policyParaRadio">
                     <label for="installpolicyPararadio" id="installPay" style="padding-left:21px;font-size: 14px;">
                         Pay Monthly from £<span id="installCostValue"></span> /month. Total Cost = £<span id="totalCost"></span><span id="monthsSelect" style="display:none;"></span> (Incl. VAT).
                     </label>
@@ -576,7 +576,7 @@
                     </div>
                 </div><br />
                 <div style="display:none;" id="dekoRadio">
-                    <input type="radio" id="dekoPayment" style="float: left;" name="fav_language" value="DekoPayment">
+                    <input type="radio" id="dekoPayment" style="float: left;accent-color: #a46eab;" name="fav_language" value="DekoPayment">
                     <label for="dekoPayment" id="dekoPaymentPara" style="padding-left:21px;font-size: 14px;">Finance through Deko Total Cost= £<span id="costValueDeko"></span> (Incl. VAT).</label>
                 </div>
 
@@ -588,7 +588,7 @@
                 <br />
 
                 <p style="margin: 0px;padding-left: 18px;">Move the slider to select your deposit amount.</p>
-                <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="9" step="1">
+                <input style="width:87%; margin-left:5%;" id="amountdeko" type="range" min="0" value="0" max="10" step="1">
                 <div style="text-align:center"><span id="amountdekooutput"></span><span>%</span></div>
 
                 <br />
@@ -611,7 +611,7 @@
             </div>
 
             <!--<hr>-->
-            <div class="Pay_Now_Price" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 14px;" data-dismiss="modal" translate="">Pay Now</div>
+            <div class="Pay_Now_Price" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 14px;" data-dismiss="modal" translate="">Pay Now</div>
 
 
         </div>
@@ -626,11 +626,11 @@
                 <h3 class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;text-align:center">Payment Options</h3>
                 <hr />
 
-                <div class="Pay_Now_Option_PBC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 10px;" data-dismiss="modal">Pay By Card</div>
+                <div class="Pay_Now_Option_PBC" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 10px;" data-dismiss="modal">Pay By Card</div>
 
-                <div class="Pay_Now_Option_OOPBDD" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 10px;" data-dismiss="modal">One-off Payment by Direct Debit</div>
+                <div class="Pay_Now_Option_OOPBDD" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 10px;" data-dismiss="modal">One-off Payment by Direct Debit</div>
 
-                <div class="Pay_Now_Option_IP" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 10px;" data-dismiss="modal">Instant Payment (Mobile Banking)</div>
+                <div class="Pay_Now_Option_IP" style="padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 10px;" data-dismiss="modal">Instant Payment (Mobile Banking)</div>
 
 
 
@@ -666,7 +666,7 @@
             <span class="close_Pay_Now_FinalSC_Model" style="color: black;float: right;font-size: 28px;font-weight: bold;padding: 0px 10px;">×</span>
             <div class="box-header" style="padding:20px 20px 0 20px;">
                 <h3 class="modal-title ng-scope" style="font-family:'Poppins';margin-top: 0px;font-weight: 900;">Payment</h3>
-                <p>Please enter your card details below and click 'Pay Now'</p>
+                <p>Please enter your card details below and click '<span id="PayNowTranslation"></span>'</p>
                 <hr />
                 <p>Total Cost : £<span id="finalPaySCAmount"></span></p>
                 <div id="stformadd">
@@ -913,8 +913,8 @@
 
                 </div>
 
-                <div class="paynowDD" style="margin-top: 11px !important;padding: 10px;text-align: center;background-color: #55c7a6!important;color: black;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;" data-dismiss="modal" translate="">Pay Now</div>
-                <div class="cancelDD" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: black;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">Cancel</div>
+                <div class="paynowDD" style="margin-top: 11px !important;padding: 10px;text-align: center;background-color: #55c7a6!important;color: white;margin: 2px;width: 39%;/* margin-left: 12%; */float: right;margin-right: 12px;" data-dismiss="modal" translate="">Pay Now</div>
+                <div class="cancelDD" style="padding: 10px;text-align: center;background-color: #E6896A!important;color: white;margin: 11px;/* float: right; */width: 36%;/* margin-left: 12%; *//* position: absolute; */" data-dismiss="modal" translate="">Cancel</div>
 
             </div>
 
