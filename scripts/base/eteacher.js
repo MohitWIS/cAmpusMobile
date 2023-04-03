@@ -1516,7 +1516,7 @@ function mlogoutUser() {
         $("#addbutton").empty();
         $("#boxTitle").html(msgTitle);
         $("#box-string").html(msgStr);
-        $("#addbutton").html("<div id='logoutSuccess' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #EEBEBE;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+        $("#addbutton").html("<div id='logoutSuccess' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #EEBEBE;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
         modal.style.display = "block";
         $(document).off("vclick", "#logoutSuccess");
@@ -2107,7 +2107,7 @@ function ShowAcceptanceData() {
             $("#addbutton").empty();
             $("#boxTitle").html(resources.termsagree + " " + termsdata.getTermsCondtionsDataResult.Data.PolicyName);
             $("#box-string").html(termsdata.getTermsCondtionsDataResult.Data.PolicyConfirmStatement + "\n" + termsdata.getTermsCondtionsDataResult.Data.PolicyAcceptStatement);
-            $("#addbutton").html("<div id='agree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 20%;margin-left: 15%;display: inline-block;' data-dismiss='modal'>" + resources.termsagree + "</div><div id='disagree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 27%;margin-right: 17%;float: right;' data-dismiss='modal'>" + resources.termsnotagreed + "</div>");
+            $("#addbutton").html("<div id='agree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 20%;margin-left: 15%;display: inline-block;' data-dismiss='modal'>" + resources.termsagree + "</div><div id='disagree1' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 27%;margin-right: 17%;float: right;' data-dismiss='modal'>" + resources.termsnotagreed + "</div>");
             
 
             modal.style.display = "block";
@@ -2185,7 +2185,7 @@ function AgreeTermaAndCondt(button) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='termsconnectionfail' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='termsconnectionfail' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#termsconnectionfail");
@@ -3706,7 +3706,7 @@ function loginUser() {
             $("#addbutton").empty();
             $("#boxTitle").html(msgTitle);
             $("#box-string").html(err);
-            $("#addbutton").html("<div id='loginUser36' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+            $("#addbutton").html("<div id='loginUser36' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
             modal.style.display = "block";
             $(document).off("vclick", "#loginUser36");
@@ -3736,7 +3736,7 @@ function loginUser() {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='loginUser66' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                    $("#addbutton").html("<div id='loginUser66' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#loginUser66");
@@ -3783,7 +3783,7 @@ function loginCallback(ret) {
             $("#addbutton").empty();
             $("#boxTitle").html(msgTitle);
             $("#box-string").html(msgStr);
-            $("#addbutton").html("<div id='loginFail09' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+            $("#addbutton").html("<div id='loginFail09' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
             modal.style.display = "block";
             $(document).off("vclick", "#loginFail09");
@@ -3806,7 +3806,7 @@ function loginCallback(ret) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='loginFail30' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='loginFail30' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#loginFail30");
@@ -3828,7 +3828,7 @@ function loginCallback(ret) {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='loginFail54' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                    $("#addbutton").html("<div id='loginFail54' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#loginFail54");
@@ -3858,7 +3858,7 @@ function loginCallback(ret) {
                         $("#addbutton").empty();
                         $("#boxTitle").html(resources.devicelimitexceeded);
                         $("#box-string").html(msgStr);
-                        $("#addbutton").html("<div id='devicelimitexceededYes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 23%;display: inline-block;' data-dismiss='modal'>" + resources.logoutyes + "</div><div id='devicelimitexceededNo' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 17%;margin-right: 23%;float: right;' data-dismiss='modal'>" + resources.logoutno + "</div>");
+                        $("#addbutton").html("<div id='devicelimitexceededYes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 23%;display: inline-block;' data-dismiss='modal'>" + resources.logoutyes + "</div><div id='devicelimitexceededNo' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: 17%;margin-right: 23%;float: right;' data-dismiss='modal'>" + resources.logoutno + "</div>");
 
                         modal.style.display = "block";
                         $(document).off("vclick", "#devicelimitexceededYes");
@@ -9145,7 +9145,7 @@ function stSubmitCallback(data) {
             perMonthPrice: parseFloat(TAPsDetailsforPopUp[7] / selectedInstallValue).toFixed(2),
             ...data
         } */
-        additionalParams.PaymentInfoObj = encodeURIComponent(JSON.stringify(STPaymentDetails));
+        additionalParams.PaymentInfoObj = JSON.stringify(STPaymentDetails);
         additionalParams.ACID = TAPsDetailsforPopUp[4];
         additionalParams.coursestatus = TAPsDetailsforPopUp[5];
         additionalParams.courseid = TAPsDetailsforPopUp[6];
@@ -9333,8 +9333,16 @@ function stSubmitCallbackCredit(data) {
             }
         } else {
             STPaymentDetails = {
+                //Acknowledge: "SUCCESS",
+                //Transactionreference: paymentCallBack.transactionreference
                 Acknowledge: "SUCCESS",
-                Transactionreference: paymentCallBack.transactionreference
+                Transactionreference: paymentCallBack.transactionreference,
+                PaymentMethodID: "1",
+                RegularAmount: finalPaySCAmount * additionalParams.RecurringMonths,
+                ValidFor: additionalParams.RecurringMonths,
+                noOfPayments: additionalParams.RecurringMonths,
+                perMonthPrice: finalPaySCAmount,
+                ...data
             }
         }
 
@@ -9414,7 +9422,7 @@ function stSubmitCallbackExtnCredit(data) {
         if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
             selectedExnValue = "0"
         }
-
+        var additionalParams = resetParams();
         var selectedInstallValue = "0"; 
         if ($("#installpolicyPararadio").is(":checked")) {
             selectedInstallValue = $('#installMonth').val();
@@ -9432,15 +9440,22 @@ function stSubmitCallbackExtnCredit(data) {
                 ...data
             }
         } else {
+            delete data.jwt;
             STPaymentDetails = {
                 Acknowledge: "SUCCESS",
-                Transactionreference: paymentCallBack.transactionreference
+                Transactionreference: paymentCallBack.transactionreference,
+                PaymentMethodID: "1",
+                RegularAmount: finalPaySCAmount * additionalParams.RecurringMonths,
+                ValidFor: additionalParams.RecurringMonths,
+                noOfPayments: additionalParams.RecurringMonths,
+                perMonthPrice: finalPaySCAmount,
+                ...data
             }
         }
         
         var authKey = getAuthKeyUnencrypt();
         var portalKey = getPortalKeyUnencrypt();
-        var additionalParams = resetParams();
+        
         var TAPsDetailsforPopUp = TAPsDetails.split("-");
         additionalParams.TAPID = TAPsDetailsforPopUp[6];
         additionalParams.PaymentMethodId = "1";
@@ -9545,7 +9560,7 @@ function assessmentPackage() {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='assessmentPackage08' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='assessmentPackage08' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#assessmentPackage08");
@@ -9774,7 +9789,7 @@ function prevModulesIncomplete(event, returnFunction) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='prevModulesIncomplete7643' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='prevModulesIncomplete7643' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#prevModulesIncomplete7643");
@@ -9844,7 +9859,7 @@ function showModulePracticumInaccessible(event, returnFunction) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='showModulePracticumInaccessible90' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='showModulePracticumInaccessible90' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#showModulePracticumInaccessible90");
@@ -10257,7 +10272,7 @@ function showModuleRequiresBooking(event, returnFunction) {
             $("#addbutton").empty();
             $("#boxTitle").html(msgTitle);
             $("#box-string").html(msgStr);
-            $("#addbutton").html("<div id='showModuleRequiresBooking97' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+            $("#addbutton").html("<div id='showModuleRequiresBooking97' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
             modal.style.display = "block";
             $(document).off("vclick", "#showModuleRequiresBooking97");
@@ -10448,7 +10463,7 @@ function showModulePaymentInaccessible(event, returnFunction) {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='showModulePaymentInaccessible37' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                    $("#addbutton").html("<div id='showModulePaymentInaccessible37' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#showModulePaymentInaccessible37");
@@ -10490,7 +10505,7 @@ function showModuleExemptInaccessible(event, returnFunction) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='showModuleExemptInaccessible76' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='showModuleExemptInaccessible76' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#showModuleExemptInaccessible76");
@@ -10535,7 +10550,7 @@ function displayModuleCertificate(returnFunction) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='displayModuleCertificate16' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='displayModuleCertificate16' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#displayModuleCertificate16");
@@ -10575,7 +10590,7 @@ function requestModuleCertificate(returnFunction) {
             $("#addbutton").empty();
             $("#boxTitle").html(msgTitle);
             $("#box-string").html(msgStr);
-            $("#addbutton").html("<div id='requestModuleCertificate55' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+            $("#addbutton").html("<div id='requestModuleCertificate55' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
             modal.style.display = "block";
             $(document).off("vclick", "#requestModuleCertificate55");
@@ -10673,7 +10688,7 @@ function coursePaymentRequired() {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='coursePaymentRequired49' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='coursePaymentRequired49' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#coursePaymentRequired49");
@@ -10780,7 +10795,7 @@ function showModuleBook(event, returnFunction) {
                                 $("#addbutton").empty();
                                 $("#boxTitle").html(msgTitle);
                                 $("#box-string").html(msgStr);
-                                $("#addbutton").html("<div id='showModuleBook55' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                                $("#addbutton").html("<div id='showModuleBook55' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                                 modal.style.display = "block";
                                 $(document).off("vclick", "#showModuleBook55");
@@ -10873,7 +10888,7 @@ function showModuleBook(event, returnFunction) {
                                 $("#addbutton").empty();
                                 $("#boxTitle").html(msgTitle);
                                 $("#box-string").html(msgStr);
-                                $("#addbutton").html("<div id='showModuleBook50' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                                $("#addbutton").html("<div id='showModuleBook50' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                                 modal.style.display = "block";
                                 $(document).off("vclick", "#showModuleBook50");
@@ -11003,7 +11018,7 @@ function showModuleBook(event, returnFunction) {
                                                                 $("#addbutton").empty();
                                                                 $("#boxTitle").html(msgTitle);
                                                                 $("#box-string").html(msgStr);
-                                                                $("#addbutton").html("<div id='bookingdate79' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                                                                $("#addbutton").html("<div id='bookingdate79' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                                                                 modal.style.display = "block";
                                                                 $(document).off("vclick", "#bookingdate79");
@@ -11023,7 +11038,7 @@ function showModuleBook(event, returnFunction) {
                                                                     $("#addbutton").empty();
                                                                     $("#boxTitle").html(msgTitle);
                                                                     $("#box-string").html(msgStr);
-                                                                    $("#addbutton").html("<div id='bookingdate95' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                                                                    $("#addbutton").html("<div id='bookingdate95' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                                                                     modal.style.display = "block";
                                                                     $(document).off("vclick", "#bookingdate95");
@@ -11196,7 +11211,7 @@ function bookSchedule(event) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='bookSchedule67' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='bookSchedule67' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#bookSchedule67");
@@ -11219,7 +11234,7 @@ function bookSchedule(event) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='bookSchedule89' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='bookSchedule89' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#bookSchedule89");
@@ -11244,7 +11259,7 @@ function bookSchedule(event) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='paynbookYes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>Proceed</div><div id='paynbookNo' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
+                $("#addbutton").html("<div id='paynbookYes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width:auto;' data-dismiss='modal'>Proceed</div><div id='paynbookNo' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
 
                 modal12.style.display = "block";
                 $(document).off("vclick", "#paynbookYes");
@@ -11415,7 +11430,7 @@ function bookSchedule(event) {
                             $("#addbutton").empty();
                             $("#boxTitle").html(msgTitle);
                             $("#box-string").html(msgStr);
-                            $("#addbutton").html("<div id='showModulePaymentInaccessible37' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                            $("#addbutton").html("<div id='showModulePaymentInaccessible37' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                             modal.style.display = "block";
                             $(document).off("vclick", "#showModulePaymentInaccessible37");
@@ -11457,7 +11472,7 @@ function bookSchedule(event) {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='bookSchedule34Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>BOOK</div><div id='bookSchedule34No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
+                    $("#addbutton").html("<div id='bookSchedule34Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width:auto;' data-dismiss='modal'>BOOK</div><div id='bookSchedule34No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#bookSchedule34Yes");
@@ -11476,7 +11491,7 @@ function bookSchedule(event) {
                                 $("#addbutton").empty();
                                 $("#boxTitle").html(msgStrSubmit);
                                 $("#box-string").html(msgStr);
-                                $("#addbutton").html("<div id='bookingSuccess53' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
+                                $("#addbutton").html("<div id='bookingSuccess53' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
 
                                 modal.style.display = "block";
                                 $(document).off("vclick", "#bookingSuccess53");
@@ -11499,7 +11514,7 @@ function bookSchedule(event) {
                                 $("#addbutton").empty();
                                 $("#boxTitle").html(msgStrSubmit);
                                 $("#box-string").html(msgStr);
-                                $("#addbutton").html("<div id='bookingSuccess76' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
+                                $("#addbutton").html("<div id='bookingSuccess76' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
 
                                 modal.style.display = "block";
                                 $(document).off("vclick", "#bookingSuccess76");
@@ -11557,7 +11572,7 @@ function bookSchedule(event) {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='bookSchedule6934Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>BOOK</div><div id='bookSchedule6934No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
+                    $("#addbutton").html("<div id='bookSchedule6934Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width:auto;' data-dismiss='modal'>BOOK</div><div id='bookSchedule6934No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#bookSchedule6934Yes");
@@ -11576,7 +11591,7 @@ function bookSchedule(event) {
                                 $("#addbutton").empty();
                                 $("#boxTitle").html(msgStrSubmit);
                                 $("#box-string").html(msgStr);
-                                $("#addbutton").html("<div id='bookSchedule6953' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
+                                $("#addbutton").html("<div id='bookSchedule6953' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
 
                                 modal.style.display = "block";
                                 $(document).off("vclick", "#bookSchedule6953");
@@ -11599,7 +11614,7 @@ function bookSchedule(event) {
                                 $("#addbutton").empty();
                                 $("#boxTitle").html(msgStrSubmit);
                                 $("#box-string").html(msgStr);
-                                $("#addbutton").html("<div id='bookSchedule6978' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
+                                $("#addbutton").html("<div id='bookSchedule6978' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
 
                                 modal.style.display = "block";
                                 $(document).off("vclick", "#bookSchedule6978");
@@ -11690,7 +11705,7 @@ function bookSchedule(event) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='bookSchedule7067Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>BOOK</div><div id='bookSchedule7067No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
+                $("#addbutton").html("<div id='bookSchedule7067Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width:auto;' data-dismiss='modal'>BOOK</div><div id='bookSchedule7067No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>Cancel</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#bookSchedule7067Yes");
@@ -11709,7 +11724,7 @@ function bookSchedule(event) {
                             $("#addbutton").empty();
                             $("#boxTitle").html(msgStrSubmit);
                             $("#box-string").html(msgStr);
-                            $("#addbutton").html("<div id='bookSchedule7086' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
+                            $("#addbutton").html("<div id='bookSchedule7086' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
 
                             modal.style.display = "block";
                             $(document).off("vclick", "#bookSchedule7086");
@@ -11732,7 +11747,7 @@ function bookSchedule(event) {
                             $("#addbutton").empty();
                             $("#boxTitle").html(msgStrSubmit);
                             $("#box-string").html(msgStr);
-                            $("#addbutton").html("<div id='bookSchedule7109' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
+                            $("#addbutton").html("<div id='bookSchedule7109' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnOk + "</div>");
 
                             modal.style.display = "block";
                             $(document).off("vclick", "#bookSchedule7109");
@@ -11830,7 +11845,7 @@ function cancelBookSchedule(event) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='cancelBookSchedule07' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                $("#addbutton").html("<div id='cancelBookSchedule07' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#cancelBookSchedule07");
@@ -11853,7 +11868,7 @@ function cancelBookSchedule(event) {
                 $("#addbutton").empty();
                 $("#boxTitle").html(msgTitle);
                 $("#box-string").html(msgStr);
-                $("#addbutton").html("<div id='cancelBookSchedule31Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width:auto;' data-dismiss='modal'>YES</div><div id='cancelBookSchedule31No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>NO</div>");
+                $("#addbutton").html("<div id='cancelBookSchedule31Yes' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width:auto;' data-dismiss='modal'>YES</div><div id='cancelBookSchedule31No' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #A0B6CD !important;color: black;margin: 11px;width: auto;' data-dismiss='modal'>NO</div>");
 
                 modal.style.display = "block";
                 $(document).off("vclick", "#cancelBookSchedule31Yes");
@@ -11871,7 +11886,7 @@ function cancelBookSchedule(event) {
                             $("#addbutton").empty();
                             $("#boxTitle").html(msgTitle);
                             $("#box-string").html(msgStr);
-                            $("#addbutton").html("<div id='cancelBookSchedule48' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                            $("#addbutton").html("<div id='cancelBookSchedule48' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                             modal.style.display = "block";
                             $(document).off("vclick", "#cancelBookSchedule48");
@@ -11897,7 +11912,7 @@ function cancelBookSchedule(event) {
                             $("#addbutton").empty();
                             $("#boxTitle").html(msgTitle);
                             $("#box-string").html(msgStr);
-                            $("#addbutton").html("<div id='cancelBookSchedule78' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                            $("#addbutton").html("<div id='cancelBookSchedule78' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                             modal.style.display = "block";
                             $(document).off("vclick", "#cancelBookSchedule78");
@@ -12056,7 +12071,7 @@ function noCancelBookSchedule(event) {
             $("#addbutton").empty();
             $("#boxTitle").html(msgTitle);
             $("#box-string").html(msgStr);
-            $("#addbutton").html("<div id='noCancelBookSchedule742334' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+            $("#addbutton").html("<div id='noCancelBookSchedule742334' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
             modal.style.display = "block";
             $(document).off("vclick", "#noCancelBookSchedule742334");
@@ -12394,7 +12409,7 @@ function populateSectionsList(moduleType, refresh, returnFunction) {
                     $("#addbutton").empty();
                     $("#boxTitle").html(msgTitle);
                     $("#box-string").html(msgStr);
-                    $("#addbutton").html("<div id='populateSectionsList72' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: black;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
+                    $("#addbutton").html("<div id='populateSectionsList72' class='closeTAPs' style='padding: 10px;text-align: center;background-color: #55c7a6 !important;color: white;margin: 11px;width: 17%;margin-left: 36%;' data-dismiss='modal'>" + msgBtnValue + "</div>");
 
                     modal.style.display = "block";
                     $(document).off("vclick", "#populateSectionsList72");
