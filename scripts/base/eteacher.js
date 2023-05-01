@@ -6875,12 +6875,16 @@ function submitTermAndCndition() {
                     installMonthValue = "2";
                 }*/
 
-                var totalAmount = AmountToPaid * installMonthValue;
+                var totalAmount = (AmountToPaid * installMonthValue).toFixed(2).replace(/\.00$/, "");
                 var urlMethod = getBaseUrl();
                 urlMethod += configs.getCustom("CS_TERMS_ACCEPT_CREDIT_CONDITION");
                 var authKey = getAuthKeyUnencrypt();
                 var portalKey = getPortalKeyUnencrypt();
-                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"policyVersionID":"' + policyVersionIDField + '", "RecurringMonths": ' + installMonthValue + ', "Amount":' + totalAmount + ',"RecurringAmount":' + AmountToPaid + ',"FirstName":"' + learnerSignature + '","DepositAmount":' + TAPsDetailsforPopUp[13] +'}';
+                var D_Amoount = 0;
+                if (TAPsDetailsforPopUp[13] != undefined || TAPsDetailsforPopUp[13] != null) {
+                    D_Amoount = TAPsDetailsforPopUp[13];
+                }
+                var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + '&param={"policyVersionID":"' + policyVersionIDField + '", "RecurringMonths": ' + installMonthValue + ', "Amount":' + totalAmount + ',"RecurringAmount":' + AmountToPaid + ',"FirstName":"' + learnerSignature + '","DepositAmount":' + D_Amoount +'}';
                 urlMethod += params;
                 $.ajax({
                     url: urlMethod,
@@ -9312,6 +9316,9 @@ function stSubmitCallbackCredit(data) {
         var STPaymentDetails;
         var TAPsDetailsforPopUp = TAPsDetails.split("-");
         var selectedExnValue = $('#extentionop').val();
+        var authKey = getAuthKeyUnencrypt();
+        var portalKey = getPortalKeyUnencrypt();
+        var additionalParams = resetParams();
         if (selectedExnValue == null || selectedExnValue == 0 || selectedExnValue == "0") {
             selectedExnValue = "0"
         }
@@ -9323,36 +9330,55 @@ function stSubmitCallbackCredit(data) {
                 selectedInstallValue = "2"
             }
             delete data.jwt;
+
+            additionalParams.TAPID = TAPsDetailsforPopUp[0];
+            additionalParams.PaymentMethodId = "1";
+            additionalParams.Amount = TAPsDetailsforPopUp[7];
+            
+            //additionalParams.PaymentInfoObj = encodeURIComponent(JSON.stringify(STPaymentDetails));
+            additionalParams.ACID = TAPsDetailsforPopUp[4];
+            additionalParams.coursestatus = TAPsDetailsforPopUp[5];
+            additionalParams.courseid = TAPsDetailsforPopUp[6];
+            additionalParams.ValidFor = TAPsDetailsforPopUp[8];
+            additionalParams.assessmentitemid = "0";
+
             STPaymentDetails = {
+
                 PaymentMethodID: "1",
                 RegularAmount: TAPsDetailsforPopUp[7],
-                ValidFor: selectedExnValue,
+                ValidFor: TAPsDetailsforPopUp[8],
                 noOfPayments: selectedInstallValue,
                 perMonthPrice: parseFloat(TAPsDetailsforPopUp[7] / selectedInstallValue).toFixed(2),
                 ...data
             }
         } else {
+            additionalParams.TAPID = TAPsDetailsforPopUp[6];
+            additionalParams.PaymentMethodId = "1";
+            additionalParams.Amount = TAPsDetailsforPopUp[3];
+            //var infoObjectSuccess = JSON.stringify(STPaymentDetails);
+            //additionalParams.PaymentInfoObj = encodeURIComponent(JSON.stringify(STPaymentDetails));
+            additionalParams.ACID = TAPsDetailsforPopUp[4];
+            additionalParams.coursestatus = TAPsDetailsforPopUp[9];
+            additionalParams.courseid = TAPsDetailsforPopUp[2];
+            additionalParams.ValidFor = TAPsDetailsforPopUp[7];
+            additionalParams.assessmentitemid = "0";
             STPaymentDetails = {
                 //Acknowledge: "SUCCESS",
                 //Transactionreference: paymentCallBack.transactionreference
                 Acknowledge: "SUCCESS",
                 Transactionreference: paymentCallBack.transactionreference,
                 PaymentMethodID: "1",
-                RegularAmount: finalPaySCAmount * additionalParams.RecurringMonths,
-                ValidFor: additionalParams.RecurringMonths,
-                noOfPayments: additionalParams.RecurringMonths,
-                perMonthPrice: finalPaySCAmount,
+                RegularAmount: TAPsDetailsforPopUp[3] * TAPsDetailsforPopUp[7],
+                ValidFor: TAPsDetailsforPopUp[7],
+                noOfPayments: TAPsDetailsforPopUp[7],
+                perMonthPrice: TAPsDetailsforPopUp[3],
                 ...data
             }
         }
 
-        var authKey = getAuthKeyUnencrypt();
-        var portalKey = getPortalKeyUnencrypt();
-        var additionalParams = resetParams();
-
-        additionalParams.TAPID = TAPsDetailsforPopUp[0];
-        additionalParams.PaymentMethodId = "1";
-        additionalParams.Amount = TAPsDetailsforPopUp[1];
+        
+        var infoObjectSuccess = JSON.stringify(STPaymentDetails);
+        
         /*var STPaymentDetails = {
             Acknowledge: "SUCCESS",
             Transactionreference: paymentCallBack.transactionreference
@@ -9365,13 +9391,7 @@ function stSubmitCallbackCredit(data) {
             perMonthPrice: parseFloat(TAPsDetailsforPopUp[7] / selectedInstallValue).toFixed(2),
             ...data
         } */
-        var infoObjectSuccess  = JSON.stringify(STPaymentDetails);
-        //additionalParams.PaymentInfoObj = encodeURIComponent(JSON.stringify(STPaymentDetails));
-        additionalParams.ACID = TAPsDetailsforPopUp[4];
-        additionalParams.coursestatus = TAPsDetailsforPopUp[5];
-        additionalParams.courseid = TAPsDetailsforPopUp[6];
-        additionalParams.ValidFor = selectedExnValue;
-        additionalParams.assessmentitemid = "0";
+        
         //console.log("acid=" + TAPsDetailsforPopUp[4] + "amount=" + TAPsDetailsforPopUp[1] + "courseid=" + TAPsDetailsforPopUp[6] + "coursestatus=" + TAPsDetailsforPopUp[5] + "userid=" + activeUser.userId);
 
         var params = "?auth=" + JSON.stringify(authKey) + '&key=' + JSON.stringify(portalKey) + "&param=" + JSON.stringify(additionalParams);
@@ -9410,6 +9430,8 @@ function stSubmitCallbackCredit(data) {
         location.reload();
     }
 }
+
+
 function stSubmitCallbackExtnCredit(data) {
     var paymentCallBack = data;
     console.log(paymentCallBack);

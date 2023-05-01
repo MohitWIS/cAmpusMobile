@@ -5,21 +5,39 @@
     <meta charset="utf-8" />
     <meta name=viewport content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 " />
     <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'  https://webservices.securetrading.net https://songbirdstag.cardinalcommerce.com https://songbird.cardinalcommerce.com https://*.googleapis.com https://maps.googleapis.com https://maps.gstatic.com www.google-analytics.com ajax.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'  https://webservices.securetrading.net https://www.googletagmanager.com https://songbirdstag.cardinalcommerce.com https://songbird.cardinalcommerce.com https://*.googleapis.com https://maps.googleapis.com https://maps.gstatic.com www.google-analytics.com ajax.googleapis.com;">
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery.mobile.theme.css" />
     <link rel="stylesheet" type="text/css" href="css/base/mediaelementplayer.min.css" />
     <link rel="stylesheet" type="text/css" href="css/base/datebox.css" />
-    
+
     <link rel="stylesheet" type="text/css" href="css/base/eteacher.css" />
     <link rel="stylesheet" type="text/css" href="css/base/eteacher.mobile.css" />
     <link rel="stylesheet" type="text/css" href="css/client/client.css" />
     <link rel="stylesheet" type="text/css" href="css/base/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" href="css/base/google_icon.css" />
+    <script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
 
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+
+        })(window, document, 'script', 'dataLayer', 'GTM-MB4WMDT');
+    </script>
 </head>
 <body class="ui-body-h">
+    <noscript>
+        <iframe src=https://www.googletagmanager.com/ns.html?id=GTM-MB4WMDT
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
     <script type="text/javascript" src="scripts/base/jquery.js"></script>
     <script type="text/javascript" src="scripts/base/jquery-migrate.js"></script>
     <script type="text/javascript">
@@ -40,6 +58,8 @@
 
         }
     </script>
+    <!-- Google Tag Manager (noscript) -->
+    <!-- End Google Tag Manager (noscript) -->
     <div id="mainhomepage" data-role="page" data-theme="h" data-title="Home Page" class="retinamain ui-page-theme-h">
         <img src="css/base/images/splash-screenNew.gif" id="splashscreen" style="height:auto;width:100%;display:none;margin-top:30%;" />
         <div class="ui-content" role="main">
@@ -742,7 +762,7 @@
                                 </div> <!-- input-group.// -->
                             </div>
                         </div>
-                        
+
                         <div class="col-sm-6">
                             <div>
                                 <label style="font-size: 11px;"> City :</label>
@@ -778,7 +798,7 @@
                         </div>
 
                         <br />
-                        
+
 
 
                     </div>
@@ -1456,13 +1476,13 @@
     <script type="text/javascript" src="https://webservices.securetrading.net/js/v3/st.js"></script>
 
     <script type="text/javascript">
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             // true for mobile device
             console.log("mobile");
-        }else{
-          // false for not mobile device
+        } else {
+            // false for not mobile device
             alert("This is a Mobile website open it in Mobile phones instead.")
-            window.open("https://campus.eteacher.pro/","_self")
+            window.open("https://campus.eteacher.pro/", "_self")
             console.log("not mobile");
         }
 
@@ -1482,7 +1502,7 @@
         }
         var query = getQueryParams(document.location.search);
         var encData = query.encData;
-        
+
         //alert(encData);
         if (encData != undefined) {
             deviceReadyInit();
@@ -1500,7 +1520,7 @@
             initStart();
         }
 
-                                            //document.addEventListener('deviceready', deviceReady, false);
+                                                    //document.addEventListener('deviceready', deviceReady, false);
 
     </script>
 </body>
